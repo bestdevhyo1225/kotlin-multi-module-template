@@ -49,6 +49,12 @@
 $ docker compose -f docker/mysql/docker-compose.yml up -d
 ```
 
+### Redis
+
+```shell
+$ docker compose -f docker/redis/docker-compose.yml up -d
+```
+
 ## :round_pushpin: 애플리케이션 실행
 
 ### Prod 프로필로 실행
