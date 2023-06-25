@@ -1,0 +1,83 @@
+package kr.co.hyo.domain.member.entity
+
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.Index
+import jakarta.persistence.Table
+import kr.co.hyo.common.util.bcrpyt.BCryptHelper
+import kr.co.hyo.domain.common.entity.BaseEntity
+import org.hibernate.annotations.DynamicUpdate
+import java.time.LocalDateTime
+
+@Entity
+@DynamicUpdate
+@Table(
+    name = "member",
+    indexes = [Index(name = "uidx_member_01", columnList = "loginId", unique = true)]
+)
+class Member private constructor(
+    name: String,
+    loginId: String,
+    password: String,
+    email: String,
+) : BaseEntity() {
+
+    @Column(nullable = false)
+    var name: String = name
+        protected set
+
+    @Column(nullable = false)
+    var loginId: String = loginId
+        protected set
+
+    @Column(nullable = false)
+    var password: String = password
+        protected set
+
+    @Column(nullable = false)
+    var email: String = email
+        protected set
+
+    override fun toString(): String = "Post(id=$id, name=$name, loginId=$loginId, password=$password, email=$email)"
+
+    companion object {
+        private const val MEMBER_ID = "memberId"
+
+        operator fun invoke(name: String, loginId: String, password: String, email: String) =
+            Member(
+                name = name,
+                loginId = loginId,
+                password = BCryptHelper.encrypt(password = password),
+                email = email,
+            )
+    }
+
+    fun changePassword(oldPassword: String, newPassword: String) {
+        verifyPassword(password = oldPassword)
+
+        val encryptedNewPassword = BCryptHelper.encrypt(newPassword)
+        if (encryptedNewPassword == this.password) {
+            return
+        }
+
+        this.password = encryptedNewPassword
+        this.updatedAt = LocalDateTime.now()
+    }
+
+    fun verifyPassword(password: String) {
+        if (BCryptHelper.isNotMatch(password = password, encryptedPassword = this.password)) {
+            throw IllegalArgumentException("비밀번호가 일치하지 않습니다.")
+        }
+    }
+
+    fun changeEmail(email: String) {
+        if (this.email == email) {
+            return
+        }
+
+        this.email = email
+        this.updatedAt = LocalDateTime.now()
+    }
+
+    fun getJwtClaims(): Map<String, Any> = mapOf(MEMBER_ID to this.id!!)
+}
