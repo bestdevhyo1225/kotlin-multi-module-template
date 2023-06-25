@@ -1,9 +1,9 @@
 version: '3.8'
 
 services:
-  hyo-tile38:
+  tile38:
     image: tile38/tile38
-    container_name: hyo-tile38
+    container_name: tile38
     ports:
-      - '19851:19851'
+      - '9851:9851'
     restart: unless-stopped
