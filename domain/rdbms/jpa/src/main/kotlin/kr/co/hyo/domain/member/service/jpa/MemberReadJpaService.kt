@@ -22,6 +22,7 @@ class MemberReadJpaService(
 
     override fun verify(loginId: String, password: String): MemberVerifyDto {
         val member: Member = memberJpaRepositorySupport.findByLoginId(loginId = loginId)
+            ?: throw NoSuchElementException("회원이 존재하지 않습니다.")
         member.verifyPassword(password = password)
         return MemberVerifyDto(id = member.id!!, jwtClaims = member.getJwtClaims())
     }

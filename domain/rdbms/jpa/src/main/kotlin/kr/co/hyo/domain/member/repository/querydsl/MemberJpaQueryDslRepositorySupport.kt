@@ -24,14 +24,14 @@ class MemberJpaQueryDslRepositorySupport(
             .fetchOne() ?: throw NoSuchElementException("회원이 존재하지 않습니다.")
     }
 
-    override fun findByLoginId(loginId: String): Member {
+    override fun findByLoginId(loginId: String): Member? {
         return queryFactory
             .selectFrom(member)
             .where(
                 memberLoginIdEq(loginId = loginId),
                 memberDeletedAtIsNull(),
             )
-            .fetchOne() ?: throw NoSuchElementException("회원이 존재하지 않습니다.")
+            .fetchOne()
     }
 
     private fun memberIdEq(id: Long): BooleanExpression = member.id.eq(id)
