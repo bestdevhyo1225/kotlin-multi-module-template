@@ -1,0 +1,77 @@
+spring:
+  profiles:
+    active: prod
+
+  batch:
+    chunk-size: 1000
+    # program arguments로 job name이 넘어오면, 해당 값과 일치하는 job만 실행하겠다는 의미
+    job:
+      # job.name이 있으면, job.name 값을 할당하고, 없으면 NONE을 할당하겠다는 의미
+      # NONE이 할당되면, 어떤 배치도 실행하지 않겠다는 의미이다.
+      # 즉, 혹시라도 값이 없을때 모든 배치가 실행되지 않도록 막는 역할이다.
+      names: ${job.name:NONE}
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        show_sql: false
+        highlight_sql: true # SQL 출력을 ANSI escape codes를 사용하여 색을 부여한다.
+        default_batch_fetch_size: 10
+        query:
+          plan_cache_max_size: 1024 # 쿼리 계획 캐시의 최대 갯수 (Default 값은 2048)
+          plan_parameter_metadata_max_size: 64 # Native Query ParameterMetadata 최대 갯수 (Default 값은 128)
+          in_clause_parameter_padding: true # Where In절 Padding Cache 사용
+    open-in-view: false
+
+  output:
+    ansi:
+      enabled: always
+
+task-executor:
+  pool-size: 5
+
+logging:
+  level:
+    #    com.zaxxer.hikari: trace
+    com.zaxxer.hikari.HikariConfig: debug
+    org:
+      springframework:
+        orm.jpa: debug
+      hibernate:
+        SQL: debug
+#        orm.jdbc.bind: trace # Spring Boot 3.x 이상 부터는 'orm.jdbc.bind' 를 사용해야 바인딩 된 쿼리 파라미터를 볼 수 있다.
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  datasource:
+    hikari:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      # useSSL, allowPublicKeyRetrieval, characterEncoding, serverTimezone 옵션 설정
+      jdbc-url: jdbc:mysql://hyo_api:hyo_api_password@localhost:23306/hyo?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+      minimum-idle: 10
+      maximum-pool-size: 10
+      max-lifetime: 18000000 # 5 hour
+      connection-timeout: 5000 # 5 second
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  datasource:
+    hikari:
+      driver-class-name: org.h2.Driver
+      jdbc-url: jdbc:h2:mem:hyo
+      username: sa
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+
