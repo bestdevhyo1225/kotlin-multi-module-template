@@ -1,4 +1,4 @@
-package kr.co.hyo.domain.member.service.v1
+package kr.co.hyo.domain.member.service.jpa
 
 import kr.co.hyo.domain.member.dto.MemberDto
 import kr.co.hyo.domain.member.dto.MemberVerifyDto
@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional(readOnly = true)
-class MemberReadServiceV1(
+class MemberReadJpaService(
     private val memberRepositorySupport: MemberRepositorySupport,
 ) : MemberReadService {
 

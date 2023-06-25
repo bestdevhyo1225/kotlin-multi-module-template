@@ -1,4 +1,4 @@
-package kr.co.hyo.domain.member.service.v1
+package kr.co.hyo.domain.member.service.jpa
 
 import kr.co.hyo.domain.member.dto.MemberCreateDto
 import kr.co.hyo.domain.member.dto.MemberDto
@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-class MemberWriteServiceV1(
+class MemberWriteJpaService(
     private val memberRepository: MemberRepository,
 ) : MemberWriteService {
 
