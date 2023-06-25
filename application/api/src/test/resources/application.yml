@@ -35,6 +35,14 @@ jwt:
   expiration-time-ms: 3600000 # 1시간 (1000 * 60 * 60)
   refresh-expiration-time-ms: 604800000 # 7일 (1000 * 60 * 60 * 24 * 7)
 
+tile38:
+  host: localhost
+  port: 19851
+  pool:
+    min-idle: 0 # 풀(Pool)에 커넥션이 반환될 때 최소로 유지될 수 있는 커넥션의 수를 설정합니다. 기본적으로 '0' 입니다
+    max-idle: 8 # 풀(Pool)에 커넥션이 반환될 때 최대로, 유지될 수 있는 커넥션의 수를 설정합니다. 기본적으로 '8' 입니다.
+    max-total: 8 # 풀(Pool)에서 동시에 사용할 수 있는 최대 커넥션의 수를 설정합니다. 기본적으로 '8' 입니다
+
 logging:
   level:
     org:

@@ -5,5 +5,6 @@ include(
     "application:batch",
     "common",
     "domain:nosql:redis",
+    "domain:nosql:tile38",
     "domain:rdbms:jpa",
 )

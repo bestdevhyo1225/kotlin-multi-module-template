@@ -91,6 +91,14 @@ spring:
     host: localhost
     port: 26379
 
+tile38:
+  host: localhost
+  port: 9851
+  pool:
+    min-idle: 20 # 풀(Pool)에 커넥션이 반환될 때 최소로 유지될 수 있는 커넥션의 수를 설정합니다. 기본적으로 '0' 입니다
+    max-idle: 50 # 풀(Pool)에 커넥션이 반환될 때 최대로, 유지될 수 있는 커넥션의 수를 설정합니다. 기본적으로 '8' 입니다.
+    max-total: 50 # 풀(Pool)에서 동시에 사용할 수 있는 최대 커넥션의 수를 설정합니다. 기본적으로 '8' 입니다
+
 ---
 spring:
   config:
@@ -110,3 +118,11 @@ spring:
   redis:
     host: localhost
     port: 6379
+
+tile38:
+  host: localhost
+  port: 9851
+  pool:
+    min-idle: 5 # 풀(Pool)에 커넥션이 반환될 때 최소로 유지될 수 있는 커넥션의 수를 설정합니다. 기본적으로 '0' 입니다
+    max-idle: 10 # 풀(Pool)에 커넥션이 반환될 때 최대로, 유지될 수 있는 커넥션의 수를 설정합니다. 기본적으로 '8' 입니다.
+    max-total: 10 # 풀(Pool)에서 동시에 사용할 수 있는 최대 커넥션의 수를 설정합니다. 기본적으로 '8' 입니다
