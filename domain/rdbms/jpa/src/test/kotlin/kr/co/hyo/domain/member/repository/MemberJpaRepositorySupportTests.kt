@@ -40,9 +40,10 @@ class MemberJpaRepositorySupportTests {
         entityManager.clear()
 
         // when
-        val findMember: Member = memberJpaRepositorySupport.findByLoginId(member.loginId)
+        val findMember: Member? = memberJpaRepositorySupport.findByLoginId(loginId = member.loginId)
 
         // then
+        assertThat(findMember).isNotNull
         assertThat(findMember).isEqualTo(member)
     }
 }
