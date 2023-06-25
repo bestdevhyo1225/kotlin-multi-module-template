@@ -38,9 +38,9 @@ class MemberJpaRepositoryTests {
         entityManager.clear()
 
         // then
-        val findMember: Member = memberJpaRepository.findByIdOrNull(member.id)
-            ?: throw NoSuchElementException("findMember entity is null")
+        val findMember: Member? = memberJpaRepository.findByIdOrNull(member.id)
 
+        assertThat(findMember).isNotNull
         assertThat(findMember).isEqualTo(member)
     }
 }
