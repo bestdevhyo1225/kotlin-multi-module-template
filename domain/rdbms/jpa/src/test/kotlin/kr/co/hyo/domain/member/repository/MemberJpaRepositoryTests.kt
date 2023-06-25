@@ -13,14 +13,14 @@ import org.springframework.test.context.ContextConfiguration
 
 @DataJpaTest
 @ContextConfiguration(classes = [JpaConfig::class])
-@DisplayName("MemberRepository 단위 테스트")
-class MemberRepositoryTests {
+@DisplayName("MemberJpaRepository 단위 테스트")
+class MemberJpaRepositoryTests {
 
     @Autowired
     lateinit var entityManager: EntityManager
 
     @Autowired
-    lateinit var memberRepository: MemberRepository
+    lateinit var memberJpaRepository: MemberJpaRepository
 
     @Test
     fun `회원을 저장한다`() {
@@ -33,12 +33,12 @@ class MemberRepositoryTests {
         )
 
         // when
-        memberRepository.save(member)
+        memberJpaRepository.save(member)
         entityManager.flush()
         entityManager.clear()
 
         // then
-        val findMember: Member = memberRepository.findByIdOrNull(member.id)
+        val findMember: Member = memberJpaRepository.findByIdOrNull(member.id)
             ?: throw NoSuchElementException("findMember entity is null")
 
         assertThat(findMember).isEqualTo(member)

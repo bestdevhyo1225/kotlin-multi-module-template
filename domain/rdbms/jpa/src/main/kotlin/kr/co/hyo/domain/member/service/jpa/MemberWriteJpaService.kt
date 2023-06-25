@@ -5,7 +5,7 @@ import kr.co.hyo.domain.member.dto.MemberDto
 import kr.co.hyo.domain.member.entity.Member
 import kr.co.hyo.domain.member.mapper.MemberDtoMapper
 import kr.co.hyo.domain.member.mapper.MemberEntityMapper
-import kr.co.hyo.domain.member.repository.MemberRepository
+import kr.co.hyo.domain.member.repository.MemberJpaRepository
 import kr.co.hyo.domain.member.service.MemberWriteService
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -14,12 +14,12 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional
 class MemberWriteJpaService(
-    private val memberRepository: MemberRepository,
+    private val memberJpaRepository: MemberJpaRepository,
 ) : MemberWriteService {
 
     override fun createMember(dto: MemberCreateDto): MemberDto {
         val member: Member = MemberEntityMapper.toEntity(dto = dto)
-        memberRepository.save(member)
+        memberJpaRepository.save(member)
         return MemberDtoMapper.toDto(member = member)
     }
 
@@ -34,5 +34,5 @@ class MemberWriteJpaService(
     }
 
     private fun findById(id: Long): Member =
-        memberRepository.findByIdOrNull(id = id) ?: throw NoSuchElementException("회원이 존재하지 않습니다.")
+        memberJpaRepository.findByIdOrNull(id = id) ?: throw NoSuchElementException("회원이 존재하지 않습니다.")
 }
