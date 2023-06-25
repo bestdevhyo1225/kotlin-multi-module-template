@@ -1,0 +1,112 @@
+server:
+  port: 9090
+  tomcat:
+    threads:
+      min-spare: 50
+      max: 150
+    mbeanregistry:
+      enabled: true # tomcat 과 관련된 메트릭 정보를 상세하게 알 수 있다.
+
+spring:
+  profiles:
+    active: prod
+
+  datasource:
+    hikari:
+      auto-commit: false # auto commit 상태가 'false' 인 상태에서 트랜잭션을 시작하겠다.
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        connection:
+          # provider_disables_autocommit: true
+          # - spring.datasource.hikari.auto-commit 에서 설정 상태를 신뢰한다.
+          # - DB 커넥션을 통해 getAutoCommit(), setAutoCommit() 호출할 필요가 없으므로 '처리율' 을 높일 수 있다.
+          # provider_disables_autocommit: false
+          # - spring.datasource.hikari.auto-commit 에서 설정 상태를 신뢰하지 않기 때문에 DB 커넥션을 얻는다.
+          # - 얻은 DB 커넥션을 통해 getAutoCommit(), setAutoCommit() 호출한다.
+          # 참고
+          # - LogicalConnectionManagedImpl.java 에서 begin() 메소드 참고
+          # - AbstractLogicalConnectionImplementor.jav 에서 begin() 메소드 참고
+          provider_disables_autocommit: true
+        show_sql: false
+        highlight_sql: true # SQL 출력을 ANSI escape codes를 사용하여 색을 부여한다.
+        default_batch_fetch_size: 1000
+        query:
+          plan_cache_max_size: 1024 # 쿼리 계획 캐시의 최대 갯수 (Default 값은 2048)
+          plan_parameter_metadata_max_size: 64 # Native Query ParameterMetadata 최대 갯수 (Default 값은 128)
+          in_clause_parameter_padding: true # Where In절 Padding Cache 사용
+    open-in-view: false
+
+  output:
+    ansi:
+      enabled: always
+
+management:
+  endpoint:
+    health:
+      show-details: always # 상세하게 보고 싶을때
+  #      show-components: always # UP, DOWN 상태만 보고 싶을때
+  endpoints:
+    web:
+      exposure:
+        include: health,prometheus
+
+jwt:
+  secret-key: kotlinMultiModuleTemplateBackendJsonWebToken
+  expiration-time-ms: 3600000 # 1시간 (1000 * 60 * 60)
+  refresh-expiration-time-ms: 604800000 # 7일 (1000 * 60 * 60 * 24 * 7)
+
+logging:
+  level:
+#    com.zaxxer.hikari: trace
+    com.zaxxer.hikari.HikariConfig: debug
+    org:
+      springframework:
+        orm.jpa: debug
+      hibernate:
+        SQL: debug
+#        orm.jdbc.bind: trace # Spring Boot 3.x 이상 부터는 'orm.jdbc.bind' 를 사용해야 바인딩 된 쿼리 파라미터를 볼 수 있다.
+    io.lettuce.core.protocol.CommandHandler: debug
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  datasource:
+    hikari:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      # useSSL, allowPublicKeyRetrieval, characterEncoding, serverTimezone, profileSQL, logger, maxQuerySizeToLog 옵션 설정
+      jdbc-url: jdbc:mysql://hyo_api:hyo_api_password@localhost:23306/hyo?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&profileSQL=true&logger=Slf4JLogger&maxQuerySizeToLog=200
+      minimum-idle: 10
+      maximum-pool-size: 10
+      max-lifetime: 18000000 # 5 hour
+      connection-timeout: 5000 # 5 second
+
+  redis:
+    host: localhost
+    port: 26379
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  datasource:
+    hikari:
+      driver-class-name: org.h2.Driver
+      jdbc-url: jdbc:h2:mem:hyo
+      username: sa
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+
+  redis:
+    host: localhost
+    port: 6379
