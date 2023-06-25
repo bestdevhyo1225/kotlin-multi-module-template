@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  hyo-redis:
+    image: redis:latest
+    container_name: hyo-redis
+    ports:
+      - '26379:26379'
+    command: redis-server --port 26379
+    restart: always

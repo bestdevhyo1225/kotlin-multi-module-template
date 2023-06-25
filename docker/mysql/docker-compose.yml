@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  hyo-mysql:
+    image: mysql:latest
+    container_name: hyo-mysql
+    ports:
+      - '23306:3306'
+    environment:
+      MYSQL_DATABASE: hyo
+      MYSQL_USER: hyo_api
+      MYSQL_PASSWORD: hyo_api_password
+      MYSQL_ROOT_PASSWORD: example
+      TZ: Asia/Seoul
+    restart: always
