@@ -2,7 +2,7 @@ package kr.co.hyo.domain.member.repository
 
 import kr.co.hyo.config.RedisEmbbededConfig
 import kr.co.hyo.domain.member.entity.MemberAuth
-import kr.co.hyo.domain.member.repository.v1.MemberAuthRepositoryV1
+import kr.co.hyo.domain.member.repository.redistemplate.MemberAuthRedisTemplateRepositoryImpl
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.DisplayName
@@ -17,12 +17,12 @@ import org.springframework.test.context.ContextConfiguration
 @DataRedisTest(properties = ["spring.profiles.active=test"])
 @DirtiesContext
 @EnableAutoConfiguration
-@ContextConfiguration(classes = [RedisEmbbededConfig::class, MemberAuthRepositoryV1::class])
-@DisplayName("MemberAuthRepository 단위 테스트")
-class MemberAuthRepositoryTests {
+@ContextConfiguration(classes = [RedisEmbbededConfig::class, MemberAuthRedisTemplateRepositoryImpl::class])
+@DisplayName("MemberAuthRedisTemplateRepository 단위 테스트")
+class MemberAuthRedisTemplateRepositoryTests {
 
     @Autowired
-    lateinit var memberAuthRepository: MemberAuthRepository
+    lateinit var memberAuthRedisTemplateRepository: MemberAuthRedisTemplateRepository
 
     @Autowired
     lateinit var redisTemplate: RedisTemplate<String, String>
@@ -41,10 +41,10 @@ class MemberAuthRepositoryTests {
         val expirationTimeMs = 1000 * 60L
 
         // when
-        memberAuthRepository.create(key = key, value = blackListToken, expirationTimeMs = expirationTimeMs)
+        memberAuthRedisTemplateRepository.create(key = key, value = blackListToken, expirationTimeMs = expirationTimeMs)
 
         // then
-        val findBlackListToken: String? = memberAuthRepository.find(key = key)
+        val findBlackListToken: String? = memberAuthRedisTemplateRepository.find(key = key)
 
         assertThat(findBlackListToken).isNotNull()
         assertThat(findBlackListToken).isEqualTo(blackListToken)
@@ -59,10 +59,10 @@ class MemberAuthRepositoryTests {
         val expirationTimeMs = 1000 * 60L
 
         // when
-        memberAuthRepository.create(key = key, value = refreshToken, expirationTimeMs = expirationTimeMs)
+        memberAuthRedisTemplateRepository.create(key = key, value = refreshToken, expirationTimeMs = expirationTimeMs)
 
         // then
-        val findRefreshToken: String? = memberAuthRepository.find(key = key)
+        val findRefreshToken: String? = memberAuthRedisTemplateRepository.find(key = key)
 
         assertThat(findRefreshToken).isNotNull()
         assertThat(findRefreshToken).isEqualTo(refreshToken)
