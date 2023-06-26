@@ -39,7 +39,7 @@ class JwtAuthenticationFilter(
         try {
             val accessToken: String = authorizationHeader.substring(startIndex = ACCESS_TOKEN_START_INDEX)
             val authentication: UsernamePasswordAuthenticationToken =
-                memberAuthenticateService.create(accessToken = accessToken)
+                memberAuthenticateService.createAuthentication(accessToken = accessToken)
 
             authentication.details = WebAuthenticationDetailsSource().buildDetails(request)
 

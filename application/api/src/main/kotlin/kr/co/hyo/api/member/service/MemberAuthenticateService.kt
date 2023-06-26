@@ -16,7 +16,7 @@ class MemberAuthenticateService(
         private const val MEMBER_ID = "memberId"
     }
 
-    fun create(accessToken: String): UsernamePasswordAuthenticationToken {
+    fun createAuthentication(accessToken: String): UsernamePasswordAuthenticationToken {
         jwtParseHelper.verify(accessToken = accessToken)
         val memberId: Long = jwtParseHelper.getValue(accessToken, MEMBER_ID).toLong()
         val authorities: List<GrantedAuthority> = listOf()
