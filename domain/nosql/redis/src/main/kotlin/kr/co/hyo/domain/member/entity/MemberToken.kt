@@ -1,6 +1,6 @@
 package kr.co.hyo.domain.member.entity
 
-class MemberAuth(
+class MemberToken(
     private val memberId: Long,
 ) {
 

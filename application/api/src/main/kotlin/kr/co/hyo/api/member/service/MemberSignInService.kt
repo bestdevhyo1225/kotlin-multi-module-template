@@ -2,15 +2,15 @@ package kr.co.hyo.api.member.service
 
 import kr.co.hyo.common.util.jwt.JwtCreateHelper
 import kr.co.hyo.domain.member.dto.MemberVerifyDto
-import kr.co.hyo.domain.member.service.MemberAuthReadService
-import kr.co.hyo.domain.member.service.MemberAuthWriteService
+import kr.co.hyo.domain.member.service.MemberTokenReadService
+import kr.co.hyo.domain.member.service.MemberTokenWriteService
 import kr.co.hyo.domain.member.service.MemberReadService
 import org.springframework.stereotype.Service
 
 @Service
 class MemberSignInService(
-    private val memberAuthReadService: MemberAuthReadService,
-    private val memberAuthWriteService: MemberAuthWriteService,
+    private val memberTokenReadService: MemberTokenReadService,
+    private val memberTokenWriteService: MemberTokenWriteService,
     private val memberReadService: MemberReadService,
     private val jwtCreateHelper: JwtCreateHelper,
 ) {
@@ -19,7 +19,7 @@ class MemberSignInService(
         val dto: MemberVerifyDto = memberReadService.verify(loginId, password)
         val accessToken: String = jwtCreateHelper.createAccessToken(claims = dto.jwtClaims)
         val refreshToken: String = jwtCreateHelper.createRefreshToken(claims = dto.jwtClaims)
-        memberAuthWriteService.createRefreshToken(
+        memberTokenWriteService.createRefreshToken(
             memberId = dto.id,
             refreshToken = refreshToken,
             expirationTimeMs = jwtCreateHelper.getRefreshExpirationTimeMs(),
@@ -28,7 +28,7 @@ class MemberSignInService(
     }
 
     fun refresh(id: Long, refreshToken: String): Map<String, Any> {
-        memberAuthReadService.verifyRefreshToken(memberId = id, refreshToken = refreshToken)
+        memberTokenReadService.verifyRefreshToken(memberId = id, refreshToken = refreshToken)
         val accessToken: String = jwtCreateHelper.createAccessToken(claims = mapOf("memberId" to id))
         return mapOf("accessToken" to accessToken)
     }

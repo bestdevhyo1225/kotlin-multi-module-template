@@ -1,14 +1,14 @@
 package kr.co.hyo.api.member.service
 
 import kr.co.hyo.common.util.jwt.JwtParseHelper
-import kr.co.hyo.domain.member.service.MemberAuthReadService
+import kr.co.hyo.domain.member.service.MemberTokenReadService
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.stereotype.Service
 
 @Service
 class MemberAuthenticateService(
-    private val memberAuthReadService: MemberAuthReadService,
+    private val memberTokenReadService: MemberTokenReadService,
     private val jwtParseHelper: JwtParseHelper,
 ) {
 
@@ -20,7 +20,7 @@ class MemberAuthenticateService(
         jwtParseHelper.verify(accessToken = accessToken)
         val memberId: Long = jwtParseHelper.getValue(accessToken, MEMBER_ID).toLong()
         val authorities: List<GrantedAuthority> = listOf()
-        memberAuthReadService.verifyBlackListToken(memberId = memberId, accessToken = accessToken)
+        memberTokenReadService.verifyBlackListToken(memberId = memberId, accessToken = accessToken)
         return UsernamePasswordAuthenticationToken(memberId, accessToken, authorities)
     }
 }
