@@ -1,12 +1,12 @@
-package kr.co.hyo.job
+package kr.co.hyo.batch.job
 
 import jakarta.persistence.EntityManagerFactory
-import kr.co.hyo.config.BatchConstants.SPRING_BATCH_JOB_NAME
+import kr.co.hyo.batch.config.BatchConstants.SPRING_BATCH_JOB_NAME
 import kr.co.hyo.domain.member.dto.MemberDto
 import kr.co.hyo.domain.member.entity.Member
-import kr.co.hyo.listener.MemberChunkListener
-import kr.co.hyo.processor.MemberItemProcessor
-import kr.co.hyo.writer.MemberDtoItemWriter
+import kr.co.hyo.batch.listener.MemberChunkListener
+import kr.co.hyo.batch.processor.MemberItemProcessor
+import kr.co.hyo.batch.writer.MemberDtoItemWriter
 import mu.KotlinLogging
 import org.springframework.batch.core.Job
 import org.springframework.batch.core.Step

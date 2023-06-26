@@ -1,4 +1,4 @@
-package kr.co.hyo.processor
+package kr.co.hyo.batch.processor
 
 import kr.co.hyo.domain.member.dto.MemberDto
 import kr.co.hyo.domain.member.entity.Member

@@ -1,8 +1,9 @@
 package kr.co.hyo.job
 
-import kr.co.hyo.config.BatchConstants.SPRING_BATCH_JOB_NAME
+import kr.co.hyo.batch.config.BatchConstants.SPRING_BATCH_JOB_NAME
+import kr.co.hyo.batch.job.MemberBatchJobConfig
 import kr.co.hyo.config.JpaConfig
-import kr.co.hyo.job.MemberBatchJobConfig.Companion.JOB
+import kr.co.hyo.batch.job.MemberBatchJobConfig.Companion.JOB
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test

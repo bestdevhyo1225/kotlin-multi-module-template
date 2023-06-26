@@ -1,4 +1,4 @@
-package kr.co.hyo.writer
+package kr.co.hyo.batch.writer
 
 import kr.co.hyo.domain.member.dto.MemberDto
 import mu.KotlinLogging
