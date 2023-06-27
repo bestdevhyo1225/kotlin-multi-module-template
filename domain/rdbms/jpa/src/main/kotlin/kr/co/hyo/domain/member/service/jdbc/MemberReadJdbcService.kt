@@ -1,10 +1,9 @@
 package kr.co.hyo.domain.member.service.jdbc
 
 import kr.co.hyo.domain.member.dto.MemberDto
-import kr.co.hyo.domain.member.dto.MemberVerifyDto
+import kr.co.hyo.domain.member.dto.MemberAuthDto
 import kr.co.hyo.domain.member.repository.MemberJdbcRepository
 import kr.co.hyo.domain.member.service.MemberReadService
-import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 //@Service
@@ -17,7 +16,7 @@ class MemberReadJdbcService(
         TODO("Not yet implemented")
     }
 
-    override fun verify(loginId: String, password: String): MemberVerifyDto {
+    override fun verify(loginId: String, password: String): MemberAuthDto {
         TODO("Not yet implemented")
     }
 }
