@@ -3,7 +3,7 @@ spring:
     active: prod
 
   batch:
-    chunk-size: 200
+    chunk-size: 200 # MySQL의 eq_range_index_dive_limit 값과 동일하게 설정
     # program arguments로 job name이 넘어오면, 해당 값과 일치하는 job만 실행하겠다는 의미
     job:
       # job.name이 있으면, job.name 값을 할당하고, 없으면 NONE을 할당하겠다는 의미
@@ -18,7 +18,7 @@ spring:
       hibernate:
         show_sql: false
         highlight_sql: true # SQL 출력을 ANSI escape codes를 사용하여 색을 부여한다.
-        default_batch_fetch_size: 10
+        default_batch_fetch_size: 200 # MySQL의 eq_range_index_dive_limit 값과 동일하게 설정
         query:
           plan_cache_max_size: 1024 # 쿼리 계획 캐시의 최대 갯수 (Default 값은 2048)
           plan_parameter_metadata_max_size: 64 # Native Query ParameterMetadata 최대 갯수 (Default 값은 128)
