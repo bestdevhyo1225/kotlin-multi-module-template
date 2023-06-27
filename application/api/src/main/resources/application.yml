@@ -30,6 +30,7 @@ spring:
           # 참고
           # - LogicalConnectionManagedImpl.java 에서 begin() 메소드 참고
           # - AbstractLogicalConnectionImplementor.jav 에서 begin() 메소드 참고
+          # - SpringBoot 2.x 부터는 커넥션 풀의 auto-commit 설정값에 따라 자동으로 provider_disables_autocommit: true 설정을 해준다.
           provider_disables_autocommit: true
         show_sql: false
         highlight_sql: true # SQL 출력을 ANSI escape codes를 사용하여 색을 부여한다.
