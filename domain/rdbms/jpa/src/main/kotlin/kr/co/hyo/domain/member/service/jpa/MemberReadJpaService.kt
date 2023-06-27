@@ -16,8 +16,8 @@ class MemberReadJpaService(
     private val memberJpaRepositorySupport: MemberJpaRepositorySupport,
 ) : MemberReadService {
 
-    override fun find(id: Long): MemberDto {
-        val member: Member = memberJpaRepositorySupport.findById(id = id)
+    override fun find(memberId: Long): MemberDto {
+        val member: Member = memberJpaRepositorySupport.findById(id = memberId)
         return MemberDtoMapper.toDto(member = member)
     }
 
@@ -28,8 +28,8 @@ class MemberReadJpaService(
         return MemberAuthDtoMapper.toDto(member = member)
     }
 
-    override fun verify(id: Long): MemberAuthDto {
-        val member: Member = memberJpaRepositorySupport.findById(id = id)
+    override fun verify(memberId: Long): MemberAuthDto {
+        val member: Member = memberJpaRepositorySupport.findById(id = memberId)
         return MemberAuthDtoMapper.toDto(member = member)
     }
 }

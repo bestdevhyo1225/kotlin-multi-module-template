@@ -17,11 +17,11 @@ class MemberWriteJdbcService(
         TODO("Not yet implemented")
     }
 
-    override fun changePassword(id: Long, oldPassword: String, newPassword: String) {
+    override fun changePassword(memberId: Long, oldPassword: String, newPassword: String) {
         TODO("Not yet implemented")
     }
 
-    override fun changeEmail(id: Long, email: String) {
+    override fun changeEmail(memberId: Long, email: String) {
         TODO("Not yet implemented")
     }
 }

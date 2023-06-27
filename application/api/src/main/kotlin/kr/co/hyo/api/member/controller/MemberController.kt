@@ -66,7 +66,8 @@ class MemberController(
         @Valid @RequestBody request: MemberRefreshTokenRequest,
     ): ResponseEntity<Map<String, Any>> {
         val memberId: Long = authentication.name.toLong()
-        val data: Map<String, Any> = memberSignInService.refresh(id = memberId, refreshToken = request.refreshToken)
+        val data: Map<String, Any> =
+            memberSignInService.refresh(memberId = memberId, refreshToken = request.refreshToken)
         return ResponseEntity.ok(data)
     }
 
@@ -77,11 +78,8 @@ class MemberController(
         @Valid @RequestBody request: MemberRegisterCoordinate,
     ) {
         val memberId: Long = authentication.name.toLong()
-        memberCoordinateService.setgetCoordinate(
-            id = memberId,
-            latitude = request.latitude,
-            longitude = request.longitude,
-        )
+        val (latitude: Double, longitude: Double) = request
+        memberCoordinateService.setCoordinate(memberId = memberId, latitude = latitude, longitude = longitude)
     }
 
     @PatchMapping("/password")
@@ -89,21 +87,21 @@ class MemberController(
     fun password(authentication: Authentication, @Valid @RequestBody request: MemberChangePasswordRequest) {
         val memberId: Long = authentication.name.toLong()
         val (oldPassword: String, newPassword: String) = request
-        memberWriteService.changePassword(id = memberId, oldPassword = oldPassword, newPassword = newPassword)
+        memberWriteService.changePassword(memberId = memberId, oldPassword = oldPassword, newPassword = newPassword)
     }
 
     @PatchMapping("/email")
     @Operation(description = "회원 이메일 변경")
     fun email(authentication: Authentication, @Valid @RequestBody request: MemberChangeEmailRequest) {
         val memberId: Long = authentication.name.toLong()
-        memberWriteService.changeEmail(id = memberId, email = request.email)
+        memberWriteService.changeEmail(memberId = memberId, email = request.email)
     }
 
     @GetMapping("/me")
     @Operation(description = "회원 본인 정보 조회")
     fun me(authentication: Authentication): ResponseEntity<MemberDto> {
         val memberId = authentication.name.toLong()
-        val dto: MemberDto = memberReadService.find(id = memberId)
+        val dto: MemberDto = memberReadService.find(memberId = memberId)
         return ResponseEntity.ok(dto)
     }
 
@@ -111,7 +109,7 @@ class MemberController(
     @Operation(description = "회원 본인 위치정보 조회")
     fun meCoordinate(authentication: Authentication) {
         val memberId = authentication.name.toLong()
-        memberCoordinateService.getCoordinate(id = memberId)
+        memberCoordinateService.getCoordinate(memberId = memberId)
     }
 
     @DeleteMapping("/sign-out")

@@ -14,13 +14,13 @@ class MemberCoordinateServiceImpl(
 
     private val kotlinLogger = KotlinLogging.logger {}
 
-    override fun getCoordinate(id: Long) {
-        val result: String = memberCoordinateTile38Repository.get(Tile38Keys.PERSON, id.toString())
+    override fun getCoordinate(memberId: Long) {
+        val result: String = memberCoordinateTile38Repository.get(Tile38Keys.PERSON, memberId.toString())
         kotlinLogger.info { "result: $result" }
     }
 
-    override fun setgetCoordinate(id: Long, latitude: Double, longitude: Double) {
-        val memberCoordinate = MemberCoordinate(memberId = id, latitude = latitude, longitude = longitude)
+    override fun setCoordinate(memberId: Long, latitude: Double, longitude: Double) {
+        val memberCoordinate = MemberCoordinate(memberId = memberId, latitude = latitude, longitude = longitude)
         memberCoordinateTile38Repository.set(
             Tile38Keys.PERSON,
             memberCoordinate.memberId,

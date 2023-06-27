@@ -5,6 +5,6 @@ import kr.co.hyo.domain.member.dto.MemberDto
 
 interface MemberWriteService {
     fun createMember(dto: MemberCreateDto): MemberDto
-    fun changePassword(id: Long, oldPassword: String, newPassword: String)
-    fun changeEmail(id: Long, email: String)
+    fun changePassword(memberId: Long, oldPassword: String, newPassword: String)
+    fun changeEmail(memberId: Long, email: String)
 }

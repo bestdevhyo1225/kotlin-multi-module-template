@@ -18,7 +18,7 @@ class MemberAuthenticateService(
 
     fun createAuthentication(accessToken: String): UsernamePasswordAuthenticationToken {
         jwtParseHelper.verify(accessToken = accessToken)
-        val memberId: Long = jwtParseHelper.getValue(accessToken, MEMBER_ID).toLong()
+        val memberId: Long = jwtParseHelper.getValue(accessToken = accessToken, key = MEMBER_ID).toLong()
         val authorities: List<GrantedAuthority> = listOf()
         memberTokenReadService.verifyBlackListToken(memberId = memberId, accessToken = accessToken)
         return UsernamePasswordAuthenticationToken(memberId, accessToken, authorities)

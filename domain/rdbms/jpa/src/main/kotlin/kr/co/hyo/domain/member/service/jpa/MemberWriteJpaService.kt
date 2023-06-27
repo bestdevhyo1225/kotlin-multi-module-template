@@ -28,13 +28,13 @@ class MemberWriteJpaService(
         return MemberDtoMapper.toDto(member = member)
     }
 
-    override fun changePassword(id: Long, oldPassword: String, newPassword: String) {
-        val member = findById(id = id)
+    override fun changePassword(memberId: Long, oldPassword: String, newPassword: String) {
+        val member = findById(id = memberId)
         member.changePassword(oldPassword = oldPassword, newPassword = newPassword)
     }
 
-    override fun changeEmail(id: Long, email: String) {
-        val member = findById(id = id)
+    override fun changeEmail(memberId: Long, email: String) {
+        val member = findById(id = memberId)
         member.changeEmail(email = email)
     }
 
