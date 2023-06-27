@@ -27,4 +27,9 @@ class MemberReadJpaService(
         member.verifyPassword(password = password)
         return MemberAuthDtoMapper.toDto(member = member)
     }
+
+    override fun verify(id: Long): MemberAuthDto {
+        val member: Member = memberJpaRepositorySupport.findById(id = id)
+        return MemberAuthDtoMapper.toDto(member = member)
+    }
 }

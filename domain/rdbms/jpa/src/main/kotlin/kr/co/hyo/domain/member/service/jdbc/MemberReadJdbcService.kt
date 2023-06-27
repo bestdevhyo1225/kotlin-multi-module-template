@@ -19,4 +19,8 @@ class MemberReadJdbcService(
     override fun verify(loginId: String, password: String): MemberAuthDto {
         TODO("Not yet implemented")
     }
+
+    override fun verify(id: Long): MemberAuthDto {
+        TODO("Not yet implemented")
+    }
 }

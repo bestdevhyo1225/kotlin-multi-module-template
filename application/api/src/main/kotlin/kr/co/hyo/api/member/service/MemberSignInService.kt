@@ -29,7 +29,8 @@ class MemberSignInService(
 
     fun refresh(id: Long, refreshToken: String): Map<String, Any> {
         memberTokenReadService.verifyRefreshToken(memberId = id, refreshToken = refreshToken)
-        val accessToken: String = jwtCreateHelper.createAccessToken(claims = mapOf("memberId" to id))
+        val dto: MemberAuthDto = memberReadService.verify(id = id)
+        val accessToken: String = jwtCreateHelper.createAccessToken(claims = dto.jwtClaims)
         return mapOf("accessToken" to accessToken)
     }
 }
