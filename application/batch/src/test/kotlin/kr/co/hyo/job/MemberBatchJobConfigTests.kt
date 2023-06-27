@@ -19,10 +19,7 @@ import org.springframework.boot.test.context.SpringBootTest
 @SpringBatchTest
 @SpringBootTest(
     properties = ["$SPRING_BATCH_JOB_NAME=$JOB"],
-    classes = [
-        JpaConfig::class,
-        MemberBatchJobConfig::class,
-    ]
+    classes = [JpaConfig::class, MemberBatchJobConfig::class],
 )
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @DisplayName("MemberBatchJobConfig 통합 테스트")
