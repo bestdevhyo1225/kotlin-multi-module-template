@@ -33,7 +33,7 @@ spring:
           provider_disables_autocommit: true
         show_sql: false
         highlight_sql: true # SQL 출력을 ANSI escape codes를 사용하여 색을 부여한다.
-        default_batch_fetch_size: 1000
+        default_batch_fetch_size: 200
         query:
           plan_cache_max_size: 1024 # 쿼리 계획 캐시의 최대 갯수 (Default 값은 2048)
           plan_parameter_metadata_max_size: 64 # Native Query ParameterMetadata 최대 갯수 (Default 값은 128)
