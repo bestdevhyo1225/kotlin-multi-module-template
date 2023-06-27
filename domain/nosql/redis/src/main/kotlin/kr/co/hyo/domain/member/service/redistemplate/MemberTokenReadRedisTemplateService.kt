@@ -22,7 +22,8 @@ class MemberTokenReadRedisTemplateService(
     override fun verifyRefreshToken(memberId: Long, refreshToken: String) {
         val memberToken = MemberToken(memberId = memberId)
         val key: String = memberToken.getRefreshTokenKey()
-        val value: String = memberTokenRedisTemplateRepository.find(key = key) ?: throw RuntimeException("Refresh 토큰이 존재하지 않습니다")
+        val value: String = memberTokenRedisTemplateRepository.find(key = key)
+            ?: throw RuntimeException("Refresh 토큰이 존재하지 않습니다")
         if (value != refreshToken) {
             throw RuntimeException("Refresh 토큰이 일치하지 않습니다")
         }
