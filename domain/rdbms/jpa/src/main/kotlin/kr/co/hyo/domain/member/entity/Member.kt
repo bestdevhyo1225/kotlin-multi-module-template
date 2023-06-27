@@ -42,6 +42,7 @@ class Member private constructor(
 
     companion object {
         private const val MEMBER_ID = "memberId"
+        private const val MEMBER_EMAIL = "memberEmail"
 
         operator fun invoke(name: String, loginId: String, password: String, email: String) =
             Member(
@@ -79,5 +80,5 @@ class Member private constructor(
         this.updatedAt = LocalDateTime.now()
     }
 
-    fun getJwtClaims(): Map<String, Any> = mapOf(MEMBER_ID to this.id!!)
+    fun getJwtClaims(): Map<String, Any> = mapOf(MEMBER_ID to this.id!!, MEMBER_EMAIL to this.email)
 }
