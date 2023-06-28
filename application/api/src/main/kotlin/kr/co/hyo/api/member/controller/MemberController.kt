@@ -6,12 +6,14 @@ import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import kr.co.hyo.api.member.controller.request.MemberChangeEmailRequest
 import kr.co.hyo.api.member.controller.request.MemberChangePasswordRequest
+import kr.co.hyo.api.member.controller.request.MemberFollowRequest
 import kr.co.hyo.api.member.controller.request.MemberRefreshTokenRequest
 import kr.co.hyo.api.member.controller.request.MemberSignInRequest
 import kr.co.hyo.api.member.controller.request.MemberSignUpRequest
 import kr.co.hyo.api.member.service.MemberSignInService
 import kr.co.hyo.api.member.service.MemberSignOutService
 import kr.co.hyo.domain.member.dto.MemberDto
+import kr.co.hyo.domain.member.service.MemberFollowWriteService
 import kr.co.hyo.domain.member.service.MemberReadService
 import kr.co.hyo.domain.member.service.MemberWriteService
 import org.springframework.http.HttpStatus.CREATED
@@ -33,6 +35,7 @@ import java.net.URI
 class MemberController(
     private val memberReadService: MemberReadService,
     private val memberWriteService: MemberWriteService,
+    private val memberFollowWriteService: MemberFollowWriteService,
     private val memberSignInService: MemberSignInService,
     private val memberSignOutService: MemberSignOutService,
 ) {
@@ -66,6 +69,13 @@ class MemberController(
         val data: Map<String, Any> =
             memberSignInService.refresh(memberId = memberId, refreshToken = request.refreshToken)
         return ResponseEntity.ok(data)
+    }
+
+    @PostMapping("/follow")
+    @Operation(description = "회원 팔로우")
+    fun follow(authentication: Authentication, @Valid @RequestBody request: MemberFollowRequest) {
+        val followerId: Long = authentication.name.toLong()
+        memberFollowWriteService.create(memberId = request.memberId, followerId = followerId)
     }
 
     @PatchMapping("/password")

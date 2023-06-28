@@ -16,8 +16,7 @@ abstract class BaseEntity {
     val id: Long? = null
 
     @Column(name = "created_at", nullable = false, columnDefinition = "DATETIME")
-    var createdAt: LocalDateTime = LocalDateTime.now()
-        protected set
+    val createdAt: LocalDateTime = LocalDateTime.now()
 
     @Column(name = "updated_at", nullable = false, columnDefinition = "DATETIME")
     var updatedAt: LocalDateTime = LocalDateTime.now()
