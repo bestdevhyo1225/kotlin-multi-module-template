@@ -19,7 +19,7 @@ class MemberJpaQueryDslRepositorySupport(
             .selectFrom(member)
             .where(
                 memberIdEq(id = id),
-                memberDeletedAtIsNull(),
+                memberdeletedDateTimeIsNull(),
             )
             .fetchOne() ?: throw NoSuchElementException("회원이 존재하지 않습니다.")
     }
@@ -29,7 +29,7 @@ class MemberJpaQueryDslRepositorySupport(
             .selectFrom(member)
             .where(
                 memberLoginIdEq(loginId = loginId),
-                memberDeletedAtIsNull(),
+                memberdeletedDateTimeIsNull(),
             )
             .fetchOne()
     }
@@ -38,5 +38,5 @@ class MemberJpaQueryDslRepositorySupport(
 
     private fun memberLoginIdEq(loginId: String): BooleanExpression = member.loginId.eq(loginId)
 
-    private fun memberDeletedAtIsNull(): BooleanExpression = member.deletedAt.isNull
+    private fun memberdeletedDateTimeIsNull(): BooleanExpression = member.deletedDateTime.isNull
 }

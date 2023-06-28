@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType.IDENTITY
 import jakarta.persistence.Id
 import jakarta.persistence.MappedSuperclass
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.Objects
 
@@ -15,15 +16,22 @@ abstract class BaseEntity {
     @GeneratedValue(strategy = IDENTITY)
     val id: Long? = null
 
-    @Column(name = "created_at", nullable = false, columnDefinition = "DATETIME")
-    val createdAt: LocalDateTime = LocalDateTime.now()
+    @Column(name = "created_date", nullable = false, columnDefinition = "DATE")
+    val createdDate: LocalDate = LocalDate.now()
 
-    @Column(name = "updated_at", nullable = false, columnDefinition = "DATETIME")
-    var updatedAt: LocalDateTime = LocalDateTime.now()
+    @Column(name = "created_datetime", nullable = false, columnDefinition = "DATETIME")
+    val createdDateTime: LocalDateTime = LocalDateTime.now()
+
+    @Column(name = "updated_date", nullable = false, columnDefinition = "DATE")
+    var updatedDate: LocalDate = LocalDate.now()
         protected set
 
-    @Column(name = "deleted_at", columnDefinition = "DATETIME")
-    var deletedAt: LocalDateTime? = null
+    @Column(name = "updated_datetime", nullable = false, columnDefinition = "DATETIME")
+    var updatedDateTime: LocalDateTime = LocalDateTime.now()
+        protected set
+
+    @Column(name = "deleted_datetime", columnDefinition = "DATETIME")
+    var deletedDateTime: LocalDateTime? = null
         protected set
 
     override fun hashCode(): Int = Objects.hash(id)

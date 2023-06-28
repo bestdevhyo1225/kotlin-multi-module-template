@@ -7,6 +7,7 @@ import jakarta.persistence.Table
 import kr.co.hyo.common.util.bcrpyt.BCryptHelper
 import kr.co.hyo.domain.common.entity.BaseEntity
 import org.hibernate.annotations.DynamicUpdate
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 @Entity
@@ -38,7 +39,10 @@ class Member private constructor(
     var email: String = email
         protected set
 
-    override fun toString(): String = "Post(id=$id, name=$name, loginId=$loginId, password=$password, email=$email)"
+    override fun toString(): String =
+        "Member(id=$id, name=$name, loginId=$loginId, password=$password, email=$email, createdDate=$createdDate, " +
+            "createdDateTime=$createdDateTime, updatedDate=$updatedDate, updatedDateTime=$updatedDateTime, " +
+            "deletedDateTime=$deletedDateTime)"
 
     companion object {
         private const val MEMBER_ID = "memberId"
@@ -62,7 +66,8 @@ class Member private constructor(
         }
 
         this.password = encryptedNewPassword
-        this.updatedAt = LocalDateTime.now()
+        this.updatedDate = LocalDate.now()
+        this.updatedDateTime = LocalDateTime.now()
     }
 
     fun verifyPassword(password: String) {
@@ -77,7 +82,8 @@ class Member private constructor(
         }
 
         this.email = email
-        this.updatedAt = LocalDateTime.now()
+        this.updatedDate = LocalDate.now()
+        this.updatedDateTime = LocalDateTime.now()
     }
 
     fun getJwtClaims(): Map<String, Any> = mapOf(MEMBER_ID to this.id!!, MEMBER_EMAIL to this.email)

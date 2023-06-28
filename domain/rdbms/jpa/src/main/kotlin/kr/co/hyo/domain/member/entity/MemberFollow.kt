@@ -1,8 +1,10 @@
 package kr.co.hyo.domain.member.entity
 
 import jakarta.persistence.Column
+import jakarta.persistence.ConstraintMode.NO_CONSTRAINT
 import jakarta.persistence.Entity
 import jakarta.persistence.FetchType.LAZY
+import jakarta.persistence.ForeignKey
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
@@ -11,6 +13,7 @@ import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 import org.hibernate.annotations.DynamicUpdate
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.Objects
 
@@ -30,16 +33,19 @@ class MemberFollow private constructor(
     val id: Long? = null
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "member_id", nullable = false)
+    @JoinColumn(name = "member_id", foreignKey = ForeignKey(value = NO_CONSTRAINT), nullable = false)
     var member: Member = member
         protected set
 
-    @Column(name= "follower_id", nullable = false)
+    @Column(name = "follower_id", nullable = false)
     var followerId: Long = followerId
         protected set
 
-    @Column(name = "created_at", nullable = false, columnDefinition = "DATETIME")
-    val createdAt: LocalDateTime = LocalDateTime.now()
+    @Column(name = "created_date", nullable = false, columnDefinition = "DATE")
+    val createdDate: LocalDate = LocalDate.now()
+
+    @Column(name = "created_datetime", nullable = false, columnDefinition = "DATETIME")
+    val createdDateTime: LocalDateTime = LocalDateTime.now()
 
     override fun hashCode(): Int = Objects.hash(id)
 
@@ -50,6 +56,10 @@ class MemberFollow private constructor(
         // - 영속성 컨텍스트는 REPEATABLE READ로 동작한다.
         return this.id == otherMemberFollow.id
     }
+
+    override fun toString(): String =
+        "MemberFollow(id=$id, memberId=${member.id}, followerId=$followerId, createdDate=$createdDate, " +
+            "createdDateTime=$createdDateTime)"
 
     companion object {
         operator fun invoke(member: Member, followerId: Long): MemberFollow {
