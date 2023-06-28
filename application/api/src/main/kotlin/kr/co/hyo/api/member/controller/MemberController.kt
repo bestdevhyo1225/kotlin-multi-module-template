@@ -7,7 +7,6 @@ import jakarta.validation.Valid
 import kr.co.hyo.api.member.controller.request.MemberChangeEmailRequest
 import kr.co.hyo.api.member.controller.request.MemberChangePasswordRequest
 import kr.co.hyo.api.member.controller.request.MemberRefreshTokenRequest
-import kr.co.hyo.api.member.controller.request.MemberRegisterCoordinate
 import kr.co.hyo.api.member.controller.request.MemberSignInRequest
 import kr.co.hyo.api.member.controller.request.MemberSignUpRequest
 import kr.co.hyo.api.member.service.MemberSignInService
@@ -15,7 +14,6 @@ import kr.co.hyo.api.member.service.MemberSignOutService
 import kr.co.hyo.domain.member.dto.MemberDto
 import kr.co.hyo.domain.member.service.MemberReadService
 import kr.co.hyo.domain.member.service.MemberWriteService
-import kr.co.hyo.domain.memer.service.MemberCoordinateService
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.Authentication
@@ -33,7 +31,6 @@ import java.net.URI
 @RequestMapping("/members")
 @Tag(name = "회원", description = "API Document")
 class MemberController(
-    private val memberCoordinateService: MemberCoordinateService,
     private val memberReadService: MemberReadService,
     private val memberWriteService: MemberWriteService,
     private val memberSignInService: MemberSignInService,
@@ -71,17 +68,6 @@ class MemberController(
         return ResponseEntity.ok(data)
     }
 
-    @PostMapping("/coordinate")
-    @Operation(description = "회원 위치 등록")
-    fun coordinate(
-        authentication: Authentication,
-        @Valid @RequestBody request: MemberRegisterCoordinate,
-    ) {
-        val memberId: Long = authentication.name.toLong()
-        val (latitude: Double, longitude: Double) = request
-        memberCoordinateService.setCoordinate(memberId = memberId, latitude = latitude, longitude = longitude)
-    }
-
     @PatchMapping("/password")
     @Operation(description = "회원 비밀번호 변경")
     fun password(authentication: Authentication, @Valid @RequestBody request: MemberChangePasswordRequest) {
@@ -103,13 +89,6 @@ class MemberController(
         val memberId = authentication.name.toLong()
         val dto: MemberDto = memberReadService.find(memberId = memberId)
         return ResponseEntity.ok(dto)
-    }
-
-    @GetMapping("/me/coordinate")
-    @Operation(description = "회원 본인 위치정보 조회")
-    fun meCoordinate(authentication: Authentication) {
-        val memberId = authentication.name.toLong()
-        memberCoordinateService.getCoordinate(memberId = memberId)
     }
 
     @DeleteMapping("/sign-out")

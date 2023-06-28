@@ -8,7 +8,6 @@ tasks.getByName<BootJar>("bootJar") {
 dependencies {
     implementation(project(":common"))
     implementation(project(":domain:nosql:redis"))
-    implementation(project(":domain:nosql:tile38"))
     implementation(project(":domain:rdbms:jpa"))
 
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0") {
