@@ -67,7 +67,7 @@ class MemberPatchPasswordTests {
     }
 
     @Test
-    fun `AccessToken 없으면, 상태코드 401을 응답한다`() {
+    fun `AccessToken이 없으면, 상태코드 401을 응답한다`() {
         // given
         val memberChangePasswordRequest = MemberChangePasswordRequest(
             oldPassword = "1@3,9cv$%zxc26dz",
