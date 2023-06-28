@@ -58,8 +58,7 @@ class MemberFollow private constructor(
     }
 
     override fun toString(): String =
-        "MemberFollow(id=$id, memberId=${member.id}, followerId=$followerId, createdDate=$createdDate, " +
-            "createdDateTime=$createdDateTime)"
+        "MemberFollow(id=$id, followerId=$followerId, createdDate=$createdDate, createdDateTime=$createdDateTime)"
 
     companion object {
         operator fun invoke(member: Member, followerId: Long): MemberFollow {
