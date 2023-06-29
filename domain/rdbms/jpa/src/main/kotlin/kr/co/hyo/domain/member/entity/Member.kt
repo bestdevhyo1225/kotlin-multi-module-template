@@ -21,6 +21,8 @@ class Member private constructor(
     loginId: String,
     password: String,
     email: String,
+    followCount: Long,
+    followingCount: Long,
 ) : BaseEntity() {
 
     @Column(nullable = false)
@@ -39,10 +41,18 @@ class Member private constructor(
     var email: String = email
         protected set
 
+    @Column(nullable = false)
+    var followCount: Long = followCount
+        protected set
+
+    @Column(nullable = false)
+    var followingCount: Long = followingCount
+        protected set
+
     override fun toString(): String =
-        "Member(id=$id, name=$name, loginId=$loginId, password=$password, email=$email, createdDate=$createdDate, " +
-            "createdDateTime=$createdDateTime, updatedDate=$updatedDate, updatedDateTime=$updatedDateTime, " +
-            "deletedDateTime=$deletedDateTime)"
+        "Member(id=$id, name=$name, loginId=$loginId, password=$password, email=$email, followCount=$followCount, " +
+            "followingCount=$followingCount, createdDate=$createdDate, createdDatetime=$createdDatetime, " +
+            "updatedDate=$updatedDate, updatedDateTime=$updatedDateTime, deletedDateTime=$deletedDateTime)"
 
     companion object {
         private const val MEMBER_ID = "memberId"
@@ -54,6 +64,8 @@ class Member private constructor(
                 loginId = loginId,
                 password = BCryptHelper.encrypt(password = password),
                 email = email,
+                followCount = 0L,
+                followingCount = 0L,
             )
     }
 
@@ -87,4 +99,12 @@ class Member private constructor(
     }
 
     fun getJwtClaims(): Map<String, Any> = mapOf(MEMBER_ID to this.id!!, MEMBER_EMAIL to this.email)
+
+    fun incrementFollowCount() {
+        this.followCount += 1
+    }
+
+    fun incrementFollowingCount() {
+        this.followingCount += 1
+    }
 }

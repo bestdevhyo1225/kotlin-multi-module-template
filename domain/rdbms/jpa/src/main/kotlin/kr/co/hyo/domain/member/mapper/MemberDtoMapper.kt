@@ -12,6 +12,8 @@ object MemberDtoMapper {
                 name = name,
                 loginId = loginId,
                 email = email,
+                followCount = followCount,
+                followingCount = followingCount,
             )
         }
 }

@@ -5,4 +5,6 @@ data class MemberDto(
     val name: String,
     val loginId: String,
     val email: String,
+    val followCount: Long,
+    val followingCount: Long,
 )

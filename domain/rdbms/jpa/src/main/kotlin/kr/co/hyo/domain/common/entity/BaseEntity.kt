@@ -20,7 +20,7 @@ abstract class BaseEntity {
     val createdDate: LocalDate = LocalDate.now()
 
     @Column(name = "created_datetime", nullable = false, columnDefinition = "DATETIME")
-    val createdDateTime: LocalDateTime = LocalDateTime.now()
+    val createdDatetime: LocalDateTime = LocalDateTime.now()
 
     @Column(name = "updated_date", nullable = false, columnDefinition = "DATE")
     var updatedDate: LocalDate = LocalDate.now()

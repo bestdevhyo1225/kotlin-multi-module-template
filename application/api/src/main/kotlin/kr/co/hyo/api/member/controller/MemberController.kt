@@ -13,6 +13,7 @@ import kr.co.hyo.api.member.controller.request.MemberSignUpRequest
 import kr.co.hyo.api.member.service.MemberSignInService
 import kr.co.hyo.api.member.service.MemberSignOutService
 import kr.co.hyo.domain.member.dto.MemberDto
+import kr.co.hyo.domain.member.dto.MemberFollowDto
 import kr.co.hyo.domain.member.service.MemberFollowWriteService
 import kr.co.hyo.domain.member.service.MemberReadService
 import kr.co.hyo.domain.member.service.MemberWriteService
@@ -73,9 +74,14 @@ class MemberController(
 
     @PostMapping("/follow")
     @Operation(description = "회원 팔로우")
-    fun follow(authentication: Authentication, @Valid @RequestBody request: MemberFollowRequest) {
+    fun follow(
+        authentication: Authentication,
+        @Valid @RequestBody request: MemberFollowRequest,
+    ): ResponseEntity<MemberFollowDto> {
         val followerId: Long = authentication.name.toLong()
-        memberFollowWriteService.create(memberId = request.memberId, followerId = followerId)
+        val dto: MemberFollowDto =
+            memberFollowWriteService.create(followingId = request.followingId, followerId = followerId)
+        return ResponseEntity.ok(dto)
     }
 
     @PatchMapping("/password")

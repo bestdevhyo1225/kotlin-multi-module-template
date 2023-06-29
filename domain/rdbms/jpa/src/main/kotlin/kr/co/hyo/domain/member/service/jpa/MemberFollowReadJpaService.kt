@@ -2,6 +2,7 @@ package kr.co.hyo.domain.member.service.jpa
 
 import kr.co.hyo.domain.member.dto.MemberFollowDto
 import kr.co.hyo.domain.member.entity.MemberFollow
+import kr.co.hyo.domain.member.mapper.MemberFollowDtoMapper
 import kr.co.hyo.domain.member.repository.MemberFollowJpaRepositorySupport
 import kr.co.hyo.domain.member.service.MemberFollowReadService
 import org.springframework.stereotype.Service
@@ -13,17 +14,13 @@ class MemberFollowReadJpaService(
     private val memberFollowJpaRepositorySupport: MemberFollowJpaRepositorySupport,
 ) : MemberFollowReadService {
 
-    override fun findFollowers(memberId: Long, lastFollowerId: Long): List<MemberFollowDto> {
+    override fun findFollowers(followingId: Long, lastFollowerId: Long): List<MemberFollowDto> {
         val limit: Long = 200
-        val memberFollows: List<MemberFollow> = memberFollowJpaRepositorySupport.findAllByMemberId(
-            memberId = memberId,
+        val memberFollows: List<MemberFollow> = memberFollowJpaRepositorySupport.findAllByFollowingId(
+            followingId = followingId,
             lastFollowerId = lastFollowerId,
             limit = limit,
         )
-        return memberFollows.map {
-            with(receiver = it) {
-                MemberFollowDto(memberId = member.id!!, followerId = followerId)
-            }
-        }
+        return memberFollows.map { MemberFollowDtoMapper.toDto(memberFollow = it) }
     }
 }
