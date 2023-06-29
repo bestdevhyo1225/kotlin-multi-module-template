@@ -26,6 +26,21 @@ spring:
     host: localhost
     port: 6379
 
+  kafka:
+    producer:
+      bootstrap-servers: localhost:19092,localhost:19093,localhost:19094
+      acks: 1
+      buffer-memory: 33554432 # 33MB (default)
+      compression-type: lz4
+      retries: 0
+      batch-size: 100000 # 100KB
+      linger-ms: 50
+      request-timeout-ms: 60000 # 60초
+      delivery-timeout-ms: 120000 # 120초
+      instance-id: kafak-producer
+    topics:
+      post-feed: post-feed-topic
+
   output:
     ansi:
       enabled: always
@@ -34,14 +49,6 @@ jwt:
   secret-key: kotlinMultiModuleTemplateBackendJsonWebToken
   expiration-time-ms: 3600000 # 1시간 (1000 * 60 * 60)
   refresh-expiration-time-ms: 604800000 # 7일 (1000 * 60 * 60 * 24 * 7)
-
-tile38:
-  host: localhost
-  port: 9851
-  pool:
-    min-idle: 0 # 풀(Pool)에 커넥션이 반환될 때 최소로 유지될 수 있는 커넥션의 수를 설정합니다. 기본적으로 '0' 입니다
-    max-idle: 8 # 풀(Pool)에 커넥션이 반환될 때 최대로, 유지될 수 있는 커넥션의 수를 설정합니다. 기본적으로 '8' 입니다.
-    max-total: 8 # 풀(Pool)에서 동시에 사용할 수 있는 최대 커넥션의 수를 설정합니다. 기본적으로 '8' 입니다
 
 logging:
   level:

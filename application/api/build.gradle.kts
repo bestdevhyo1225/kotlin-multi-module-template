@@ -6,6 +6,7 @@ tasks.getByName<BootJar>("bootJar") {
 }
 
 dependencies {
+    implementation(project(":client:kafka-publisher"))
     implementation(project(":common"))
     implementation(project(":domain:nosql:redis"))
     implementation(project(":domain:rdbms:jpa"))

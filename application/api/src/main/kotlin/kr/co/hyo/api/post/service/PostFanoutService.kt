@@ -6,24 +6,24 @@ import kr.co.hyo.domain.member.service.MemberReadService
 import kr.co.hyo.domain.post.dto.PostCreateDto
 import kr.co.hyo.domain.post.dto.PostDto
 import kr.co.hyo.domain.post.service.PostWriteService
-import mu.KotlinLogging
+import kr.co.hyo.publisher.post.dto.PostFeedDto
+import kr.co.hyo.publisher.post.producer.PostFeedProducer
 import org.springframework.stereotype.Service
 
 @Service
 class PostFanoutService(
     private val postWriteService: PostWriteService,
+    private val postFeedProducer: PostFeedProducer,
     private val memberReadService: MemberReadService,
     private val memberFollowReadService: MemberFollowReadService,
 ) {
 
-    private val kotlinLogger = KotlinLogging.logger {}
-
     fun createPost(dto: PostCreateDto): PostDto {
         val postDto: PostDto = postWriteService.create(dto = dto)
-        if (memberReadService.isExceededFanoutMaxLimit(memberId = postDto.memberId)) {
-            kotlinLogger.info { "팬아웃 하기위한 팔로우 회원수를 초과했습니다. (memberId: ${postDto.memberId})" }
+        if (memberReadService.isCanNotFanoutMaxLimit(memberId = postDto.memberId)) {
             return postDto
         }
+
         // TODO: 코루틴 처리
         var lastFollowerId: Long = 0
         while (true) {
@@ -36,12 +36,14 @@ class PostFanoutService(
                 break
             }
 
-            kotlinLogger.info { "memberId: ${postDto.memberId}, lastFollowerId: $lastFollowerId" }
-
-            // TODO: Post 생성에 대한 Feed 메시지 발행
+            memberFollowDtos.forEach {
+                val postFeedDto = PostFeedDto(followerId = it.followerId, postId = postDto.id)
+                postFeedProducer.sendAsync(event = postFeedDto)
+            }
 
             lastFollowerId = memberFollowDtos.last().followerId
         }
+
         return postDto
     }
 }
