@@ -67,7 +67,7 @@ class MemberJpaRepositoryTests {
 
         // then
         assertThat(findMember.email).isEqualTo("devhyo7@gmail.com")
-        assertThat(findMember.updatedDateTime).isNotEqualTo(member.updatedDateTime)
+        assertThat(findMember.updatedDatetime).isNotEqualTo(member.updatedDatetime)
     }
 
     @Test
@@ -93,6 +93,6 @@ class MemberJpaRepositoryTests {
 
         // then
         assertThat(findMember.email).isEqualTo(member.email)
-        assertThat(findMember.updatedDateTime).isEqualTo(member.updatedDateTime)
+        assertThat(findMember.updatedDatetime).isEqualTo(member.updatedDatetime)
     }
 }
