@@ -6,7 +6,6 @@ import jakarta.validation.Valid
 import kr.co.hyo.api.post.controller.request.PostCreateRequest
 import kr.co.hyo.api.post.service.PostFanoutService
 import kr.co.hyo.domain.post.dto.PostDto
-import kr.co.hyo.domain.post.service.PostWriteService
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.Authentication
