@@ -36,6 +36,8 @@ class PostFanoutService(
                 break
             }
 
+            kotlinLogger.info { "memberId: ${postDto.memberId}, lastFollowerId: $lastFollowerId" }
+
             // TODO: Post 생성에 대한 Feed 메시지 발행
 
             lastFollowerId = memberFollowDtos.last().followerId
