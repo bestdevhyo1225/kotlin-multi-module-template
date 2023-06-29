@@ -16,21 +16,21 @@ abstract class BaseEntity {
     @GeneratedValue(strategy = IDENTITY)
     val id: Long? = null
 
-    @Column(name = "created_date", nullable = false, columnDefinition = "DATE")
+    @Column(nullable = false, columnDefinition = "DATE")
     val createdDate: LocalDate = LocalDate.now()
 
-    @Column(name = "created_datetime", nullable = false, columnDefinition = "DATETIME")
+    @Column(nullable = false, columnDefinition = "DATETIME")
     val createdDatetime: LocalDateTime = LocalDateTime.now()
 
-    @Column(name = "updated_date", nullable = false, columnDefinition = "DATE")
+    @Column(nullable = false, columnDefinition = "DATE")
     var updatedDate: LocalDate = LocalDate.now()
         protected set
 
-    @Column(name = "updated_datetime", nullable = false, columnDefinition = "DATETIME")
-    var updatedDateTime: LocalDateTime = LocalDateTime.now()
+    @Column(nullable = false, columnDefinition = "DATETIME")
+    var updatedDatetime: LocalDateTime = LocalDateTime.now()
         protected set
 
-    @Column(name = "deleted_datetime", columnDefinition = "DATETIME")
+    @Column(columnDefinition = "DATETIME")
     var deletedDatetime: LocalDateTime? = null
         protected set
 

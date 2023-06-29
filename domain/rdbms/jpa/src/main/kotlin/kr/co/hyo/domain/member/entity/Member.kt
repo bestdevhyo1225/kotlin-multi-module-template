@@ -52,7 +52,7 @@ class Member private constructor(
     override fun toString(): String =
         "Member(id=$id, name=$name, loginId=$loginId, password=$password, email=$email, followCount=$followCount, " +
             "followingCount=$followingCount, createdDate=$createdDate, createdDatetime=$createdDatetime, " +
-            "updatedDate=$updatedDate, updatedDateTime=$updatedDateTime, deletedDatetime=$deletedDatetime)"
+            "updatedDate=$updatedDate, updatedDatetime=$updatedDatetime, deletedDatetime=$deletedDatetime)"
 
     companion object {
         private const val MEMBER_ID = "memberId"
@@ -81,7 +81,7 @@ class Member private constructor(
 
         this.password = encryptedNewPassword
         this.updatedDate = LocalDate.now()
-        this.updatedDateTime = LocalDateTime.now()
+        this.updatedDatetime = LocalDateTime.now()
     }
 
     fun verifyPassword(password: String) {
@@ -97,7 +97,7 @@ class Member private constructor(
 
         this.email = email
         this.updatedDate = LocalDate.now()
-        this.updatedDateTime = LocalDateTime.now()
+        this.updatedDatetime = LocalDateTime.now()
     }
 
     fun getJwtClaims(): Map<String, Any> = mapOf(MEMBER_ID to this.id!!, MEMBER_EMAIL to this.email)
