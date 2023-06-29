@@ -36,6 +36,7 @@ class SecurityConfig(
                 it.requestMatchers("/static/**").permitAll()
                     .requestMatchers("/members/sign-up", "/members/sign-in").permitAll()
                     .requestMatchers("/members/**").authenticated()
+                    .requestMatchers("/posts/**").authenticated()
                     .anyRequest().permitAll()
             }
             .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter::class.java)
