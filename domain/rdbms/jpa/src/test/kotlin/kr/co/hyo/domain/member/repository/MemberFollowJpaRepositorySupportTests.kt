@@ -40,7 +40,7 @@ class MemberFollowJpaRepositorySupportTests {
         // when
         val findMemberFollows: List<MemberFollow> = memberFollowJpaRepositorySupport.findAllByFollowingId(
             followingId = followingId,
-            lastFollowerId = 0L,
+            lastId = 0L,
             limit = 10L,
         )
 
