@@ -21,9 +21,9 @@ class MemberReadJpaService(
         return MemberDtoMapper.toDto(member = member)
     }
 
-    override fun isExceededFanoutMaxLimit(memberId: Long): Boolean {
+    override fun isCanNotFanoutMaxLimit(memberId: Long): Boolean {
         val member: Member = memberJpaRepositorySupport.findById(id = memberId)
-        return member.followCount > Member.MEMBER_FANOUT_MAX_LIMIT
+        return member.followCount == 0L || member.followCount > Member.MEMBER_FANOUT_MAX_LIMIT
     }
 
     override fun verify(loginId: String, password: String): MemberAuthDto {

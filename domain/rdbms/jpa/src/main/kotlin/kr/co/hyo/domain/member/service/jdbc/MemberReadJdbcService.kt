@@ -16,7 +16,7 @@ class MemberReadJdbcService(
         TODO("Not yet implemented")
     }
 
-    override fun isExceededFanoutMaxLimit(memberId: Long): Boolean {
+    override fun isCanNotFanoutMaxLimit(memberId: Long): Boolean {
         TODO("Not yet implemented")
     }
 
