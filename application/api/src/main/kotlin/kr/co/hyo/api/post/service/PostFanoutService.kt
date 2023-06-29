@@ -28,10 +28,10 @@ class PostFanoutService(
         }
 
         // TODO: 코루틴 처리
-        var lastFollowId: Long = 0
+        var lastFollowerId: Long = 0
         while (true) {
             val memberFollowDtos: List<MemberFollowDto> =
-                memberFollowReadService.findFollowers(followingId = postDto.memberId, lastId = lastFollowId)
+                memberFollowReadService.findFollowers(followingId = postDto.memberId, lastFollowerId = lastFollowerId)
 
             if (memberFollowDtos.isEmpty()) {
                 break
@@ -42,7 +42,7 @@ class PostFanoutService(
                 postFeedProducer.sendAsync(event = postFeedDto)
             }
 
-            lastFollowId = memberFollowDtos.last().id
+            lastFollowerId = memberFollowDtos.last().followerId
         }
 
         return postDto

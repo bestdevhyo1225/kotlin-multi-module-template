@@ -16,10 +16,7 @@ import java.util.Objects
 @DynamicUpdate
 @Table(
     name = "member_follow",
-    indexes = [
-        Index(name = "uidx_member_follow_01", columnList = "followingId,followerId", unique = true),
-        Index(name = "idx_member_follow_02", columnList = "followingId,id"),
-    ],
+    indexes = [Index(name = "uidx_member_follow_01", columnList = "followingId,followerId", unique = true)],
 )
 class MemberFollow private constructor(
     followingId: Long,
