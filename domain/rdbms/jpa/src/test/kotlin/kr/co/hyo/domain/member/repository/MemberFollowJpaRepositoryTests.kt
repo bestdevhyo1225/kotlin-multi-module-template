@@ -2,7 +2,6 @@ package kr.co.hyo.domain.member.repository
 
 import jakarta.persistence.EntityManager
 import kr.co.hyo.config.JpaConfig
-import kr.co.hyo.domain.member.entity.Member
 import kr.co.hyo.domain.member.entity.MemberFollow
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.DisplayName
@@ -21,27 +20,14 @@ class MemberFollowJpaRepositoryTests {
     lateinit var entityManager: EntityManager
 
     @Autowired
-    lateinit var memberJpaRepository: MemberJpaRepository
-
-    @Autowired
     lateinit var memberFollowJpaRepository: MemberFollowJpaRepository
 
     @Test
     fun `회원 팔로우를 저장한다`() {
         // given
-        val member = Member(
-            name = "장효석",
-            loginId = "hyo1225",
-            password = "!8fZc92$@9bamcf",
-            email = "devhyo@gmail.com",
-        )
-
-        memberJpaRepository.save(member)
-        entityManager.flush()
-        entityManager.clear()
-
+        val followingId = 1L
         val followerId = 2L
-        val memberFollow = MemberFollow(member = member, followerId = followerId)
+        val memberFollow = MemberFollow(followingId = followingId, followerId = followerId)
 
         // when
         memberFollowJpaRepository.save(memberFollow)

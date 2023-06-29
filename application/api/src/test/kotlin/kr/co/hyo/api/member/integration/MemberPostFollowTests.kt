@@ -68,7 +68,7 @@ class MemberPostFollowTests {
             .andExpect(jsonPath("$.loginId").value("devhyo2"))
             .andExpect(jsonPath("$.email").value("devhyo@gmail.com"))
 
-        val memberFollowRequest = MemberFollowRequest(memberId = 2L)
+        val memberFollowRequest = MemberFollowRequest(followingId = 2L)
 
         // when, then
         mockMvc
@@ -83,7 +83,7 @@ class MemberPostFollowTests {
     @Test
     fun `AccessToken이 없으면, 상태코드 401을 응답한다`() {
         // given
-        val memberFollowRequest = MemberFollowRequest(memberId = 2L)
+        val memberFollowRequest = MemberFollowRequest(followingId = 2L)
 
         // when, then
         mockMvc
