@@ -14,11 +14,11 @@ class MemberFollowReadJpaService(
     private val memberFollowJpaRepositorySupport: MemberFollowJpaRepositorySupport,
 ) : MemberFollowReadService {
 
-    override fun findFollowers(followingId: Long, lastFollowerId: Long): List<MemberFollowDto> {
+    override fun findFollowers(followingId: Long, lastId: Long): List<MemberFollowDto> {
         val limit: Long = 200
         val memberFollows: List<MemberFollow> = memberFollowJpaRepositorySupport.findAllByFollowingId(
             followingId = followingId,
-            lastFollowerId = lastFollowerId,
+            lastId = lastId,
             limit = limit,
         )
         return memberFollows.map { MemberFollowDtoMapper.toDto(memberFollow = it) }

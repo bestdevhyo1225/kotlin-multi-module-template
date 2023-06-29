@@ -8,6 +8,7 @@ import kr.co.hyo.domain.post.dto.PostDto
 import kr.co.hyo.domain.post.service.PostWriteService
 import kr.co.hyo.publisher.post.dto.PostFeedDto
 import kr.co.hyo.publisher.post.producer.PostFeedProducer
+import mu.KotlinLogging
 import org.springframework.stereotype.Service
 
 @Service
@@ -18,6 +19,8 @@ class PostFanoutService(
     private val memberFollowReadService: MemberFollowReadService,
 ) {
 
+    private val kotlinLogger = KotlinLogging.logger {}
+
     fun createPost(dto: PostCreateDto): PostDto {
         val postDto: PostDto = postWriteService.create(dto = dto)
         if (memberReadService.isCanNotFanoutMaxLimit(memberId = postDto.memberId)) {
@@ -25,12 +28,10 @@ class PostFanoutService(
         }
 
         // TODO: 코루틴 처리
-        var lastFollowerId: Long = 0
+        var lastFollowId: Long = 0
         while (true) {
-            val memberFollowDtos: List<MemberFollowDto> = memberFollowReadService.findFollowers(
-                followingId = postDto.memberId,
-                lastFollowerId = lastFollowerId,
-            )
+            val memberFollowDtos: List<MemberFollowDto> =
+                memberFollowReadService.findFollowers(followingId = postDto.memberId, lastId = lastFollowId)
 
             if (memberFollowDtos.isEmpty()) {
                 break
@@ -41,7 +42,7 @@ class PostFanoutService(
                 postFeedProducer.sendAsync(event = postFeedDto)
             }
 
-            lastFollowerId = memberFollowDtos.last().followerId
+            lastFollowId = memberFollowDtos.last().id
         }
 
         return postDto

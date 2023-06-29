@@ -14,12 +14,12 @@ class MemberFollowJpaQueryDslRepositorySupport(
     private val queryFactory: JPAQueryFactory,
 ) : MemberFollowJpaRepositorySupport {
 
-    override fun findAllByFollowingId(followingId: Long, lastFollowerId: Long, limit: Long): List<MemberFollow> {
+    override fun findAllByFollowingId(followingId: Long, lastId: Long, limit: Long): List<MemberFollow> {
         return queryFactory
             .selectFrom(memberFollow)
             .where(
                 memberFollowFollowingIdEq(followingId = followingId),
-                memberFollowFollowerIdGt(followerId = lastFollowerId),
+                memberFollowIdGt(id = lastId),
             )
             .limit(limit)
             .fetch()
@@ -28,6 +28,6 @@ class MemberFollowJpaQueryDslRepositorySupport(
     private fun memberFollowFollowingIdEq(followingId: Long): BooleanExpression =
         memberFollow.followingId.eq(followingId)
 
-    private fun memberFollowFollowerIdGt(followerId: Long): BooleanExpression =
-        memberFollow.followerId.gt(followerId)
+    private fun memberFollowIdGt(id: Long): BooleanExpression =
+        memberFollow.id.gt(id)
 }

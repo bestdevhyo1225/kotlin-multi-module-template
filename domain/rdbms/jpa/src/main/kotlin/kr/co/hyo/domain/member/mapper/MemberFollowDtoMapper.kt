@@ -8,6 +8,7 @@ object MemberFollowDtoMapper {
     fun toDto(memberFollow: MemberFollow): MemberFollowDto =
         with(receiver = memberFollow) {
             MemberFollowDto(
+                id = id !!,
                 followingId = followingId,
                 followerId = followerId,
                 createdDate = createdDate,
