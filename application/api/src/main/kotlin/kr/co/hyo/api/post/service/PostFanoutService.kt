@@ -8,7 +8,6 @@ import kr.co.hyo.domain.post.dto.PostDto
 import kr.co.hyo.domain.post.service.PostWriteService
 import kr.co.hyo.publisher.post.dto.PostFeedDto
 import kr.co.hyo.publisher.post.producer.PostFeedProducer
-import mu.KotlinLogging
 import org.springframework.stereotype.Service
 
 @Service
@@ -18,8 +17,6 @@ class PostFanoutService(
     private val memberReadService: MemberReadService,
     private val memberFollowReadService: MemberFollowReadService,
 ) {
-
-    private val kotlinLogger = KotlinLogging.logger {}
 
     fun createPost(dto: PostCreateDto): PostDto {
         val postDto: PostDto = postWriteService.create(dto = dto)
