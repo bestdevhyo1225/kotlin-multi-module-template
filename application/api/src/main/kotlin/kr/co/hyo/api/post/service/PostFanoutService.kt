@@ -5,8 +5,8 @@ import kr.co.hyo.domain.member.service.MemberFollowReadService
 import kr.co.hyo.domain.member.service.MemberReadService
 import kr.co.hyo.domain.post.dto.PostCreateDto
 import kr.co.hyo.domain.post.dto.PostDto
+import kr.co.hyo.domain.post.service.PostFeedWriteService
 import kr.co.hyo.domain.post.service.PostWriteService
-import kr.co.hyo.publisher.post.dto.PostFeedDto
 import kr.co.hyo.publisher.post.producer.PostFeedProducer
 import org.springframework.stereotype.Service
 
@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service
 class PostFanoutService(
     private val postWriteService: PostWriteService,
     private val postFeedProducer: PostFeedProducer,
+    private val postFeedWriteService: PostFeedWriteService,
     private val memberReadService: MemberReadService,
     private val memberFollowReadService: MemberFollowReadService,
 ) {
@@ -35,8 +36,9 @@ class PostFanoutService(
             }
 
             memberFollowDtos.forEach {
-                val postFeedDto = PostFeedDto(followerId = it.followerId, postId = postDto.id)
-                postFeedProducer.sendAsync(event = postFeedDto)
+//                val postFeedDto = PostFeedDto(followerId = it.followerId, postId = postDto.id)
+//                postFeedProducer.sendAsync(event = postFeedDto)
+                postFeedWriteService.create(memberId = it.followerId, postId = postDto.id)
             }
 
             lastFollowerId = memberFollowDtos.last().followerId

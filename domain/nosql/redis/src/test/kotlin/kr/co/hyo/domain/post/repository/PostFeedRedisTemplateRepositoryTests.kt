@@ -40,7 +40,7 @@ class PostFeedRedisTemplateRepositoryTests {
         val memberId = 1L
         val postId = 92783L
         val postFeed = PostFeed(memberId = memberId)
-        val key: String = postFeed.getMemberIdFeedsKey()
+        val key: String = postFeed.getMemberIdPostFeedsKey()
         val score: Double = Timestamp.valueOf(LocalDateTime.now()).time.toDouble()
 
         // when

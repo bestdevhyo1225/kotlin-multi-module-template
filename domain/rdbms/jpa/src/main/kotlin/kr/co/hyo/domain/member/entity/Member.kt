@@ -49,10 +49,15 @@ class Member private constructor(
     var followingCount: Long = followingCount
         protected set
 
+    @Column(columnDefinition = "DATETIME")
+    var timelineUpdatedDatetime: LocalDateTime? = null
+        protected set
+
     override fun toString(): String =
         "Member(id=$id, name=$name, loginId=$loginId, password=$password, email=$email, followCount=$followCount, " +
-            "followingCount=$followingCount, createdDate=$createdDate, createdDatetime=$createdDatetime, " +
-            "updatedDate=$updatedDate, updatedDatetime=$updatedDatetime, deletedDatetime=$deletedDatetime)"
+            "followingCount=$followingCount, timelineUpdatedDatetime=$timelineUpdatedDatetime, " +
+            "createdDate=$createdDate, createdDatetime=$createdDatetime, updatedDate=$updatedDate, " +
+            "updatedDatetime=$updatedDatetime, deletedDatetime=$deletedDatetime)"
 
     companion object {
         private const val MEMBER_ID = "memberId"
@@ -108,5 +113,9 @@ class Member private constructor(
 
     fun incrementFollowingCount() {
         this.followingCount += 1
+    }
+
+    fun changeTimelineUpdatedDatetime() {
+        this.timelineUpdatedDatetime = LocalDateTime.now()
     }
 }

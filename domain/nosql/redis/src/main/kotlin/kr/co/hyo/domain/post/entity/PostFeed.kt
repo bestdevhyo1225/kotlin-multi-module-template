@@ -8,8 +8,8 @@ class PostFeed(
         const val ZSET_POST_FEED_MAX_LIMIT = -501L
     }
 
-    fun getMemberIdFeedsKey(): String = "member:$memberId:feeds"
+    fun getMemberIdPostFeedsKey(): String = "member:$memberId:post:feeds"
 
-    fun getMemberIdFeedsKeyAndExpireTime(): Pair<String, Long> =
-        Pair(first = getMemberIdFeedsKey(), second = 60 * 60 * 24L) // 24시간
+    fun getMemberIdPostFeedsKeyAndExpireTime(): Pair<String, Long> =
+        Pair(first = getMemberIdPostFeedsKey(), second = 60 * 60 * 24L) // 24시간
 }

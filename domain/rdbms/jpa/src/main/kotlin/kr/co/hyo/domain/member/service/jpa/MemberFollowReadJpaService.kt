@@ -1,6 +1,7 @@
 package kr.co.hyo.domain.member.service.jpa
 
 import kr.co.hyo.domain.member.dto.MemberFollowDto
+import kr.co.hyo.domain.member.entity.Member
 import kr.co.hyo.domain.member.entity.MemberFollow
 import kr.co.hyo.domain.member.mapper.MemberFollowDtoMapper
 import kr.co.hyo.domain.member.repository.MemberFollowJpaRepositorySupport
@@ -23,4 +24,10 @@ class MemberFollowReadJpaService(
         )
         return memberFollows.map { MemberFollowDtoMapper.toDto(memberFollow = it) }
     }
+
+    override fun findFollowings(followerId: Long): List<MemberFollowDto> =
+        memberFollowJpaRepositorySupport.findAllByFollowerId(
+            followerId = followerId,
+            followCount = Member.MEMBER_FANOUT_MAX_LIMIT,
+        )
 }

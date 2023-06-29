@@ -2,7 +2,6 @@ package kr.co.hyo.domain.post.entity
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
-import jakarta.persistence.Index
 import jakarta.persistence.Table
 import kr.co.hyo.domain.common.entity.BaseEntity
 import org.hibernate.annotations.DynamicUpdate
@@ -11,7 +10,7 @@ import org.hibernate.annotations.DynamicUpdate
 @DynamicUpdate
 @Table(
     name = "post",
-    indexes = [Index(name = "idx_post_01", columnList = "memberId,id,deletedDatetime")]
+    indexes = [],
 )
 class Post private constructor(
     memberId: Long,

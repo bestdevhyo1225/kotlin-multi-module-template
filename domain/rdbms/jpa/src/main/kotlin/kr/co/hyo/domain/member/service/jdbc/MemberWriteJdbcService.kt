@@ -24,4 +24,8 @@ class MemberWriteJdbcService(
     override fun changeEmail(memberId: Long, email: String) {
         TODO("Not yet implemented")
     }
+
+    override fun changeTimelineUpdatedDatetime(memberId: Long) {
+        TODO("Not yet implemented")
+    }
 }

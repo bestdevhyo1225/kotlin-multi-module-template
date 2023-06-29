@@ -4,6 +4,7 @@ import kr.co.hyo.domain.post.entity.PostFeed
 import kr.co.hyo.domain.post.entity.PostFeed.Companion.ZSET_POST_FEED_MAX_LIMIT
 import kr.co.hyo.domain.post.repository.PostFeedRedisTemplateRepository
 import kr.co.hyo.domain.post.service.PostFeedWriteService
+import mu.KotlinLogging
 import org.springframework.stereotype.Service
 import java.sql.Timestamp
 import java.time.LocalDateTime
@@ -13,10 +14,13 @@ class PostFeedWriteRedisTemplateService(
     private val postFeedRedisTemplateRepository: PostFeedRedisTemplateRepository,
 ) : PostFeedWriteService {
 
+    private val kotlinLogger = KotlinLogging.logger {}
+
     override fun create(memberId: Long, postId: Long) {
         val postFeed = PostFeed(memberId = memberId)
-        val key: String = postFeed.getMemberIdFeedsKey()
+        val key: String = postFeed.getMemberIdPostFeedsKey()
         val score: Double = Timestamp.valueOf(LocalDateTime.now()).time.toDouble()
+        kotlinLogger.info { "key: $key, postId:$postId, score: $score" }
         postFeedRedisTemplateRepository.zadd(key = key, value = postId, score = score)
         postFeedRedisTemplateRepository.zremRangeByRank(
             key = key,

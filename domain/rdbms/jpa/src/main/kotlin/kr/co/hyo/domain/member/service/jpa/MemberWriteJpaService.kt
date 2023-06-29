@@ -38,6 +38,11 @@ class MemberWriteJpaService(
         member.changeEmail(email = email)
     }
 
+    override fun changeTimelineUpdatedDatetime(memberId: Long) {
+        val member = findById(id = memberId)
+        member.changeTimelineUpdatedDatetime()
+    }
+
     private fun findById(id: Long): Member =
         memberJpaRepository.findByIdOrNull(id = id) ?: throw NoSuchElementException("회원이 존재하지 않습니다.")
 }
