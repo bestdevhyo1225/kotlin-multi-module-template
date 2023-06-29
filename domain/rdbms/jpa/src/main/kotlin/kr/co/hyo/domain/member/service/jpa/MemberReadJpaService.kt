@@ -21,6 +21,11 @@ class MemberReadJpaService(
         return MemberDtoMapper.toDto(member = member)
     }
 
+    override fun isExceededFanoutMaxLimit(memberId: Long): Boolean {
+        val member: Member = memberJpaRepositorySupport.findById(id = memberId)
+        return member.followCount > Member.MEMBER_FANOUT_MAX_LIMIT
+    }
+
     override fun verify(loginId: String, password: String): MemberAuthDto {
         val member: Member = memberJpaRepositorySupport.findByLoginId(loginId = loginId)
             ?: throw NoSuchElementException("회원이 존재하지 않습니다.")

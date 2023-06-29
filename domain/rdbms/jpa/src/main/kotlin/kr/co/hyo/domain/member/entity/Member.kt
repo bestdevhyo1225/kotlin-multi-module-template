@@ -58,6 +58,8 @@ class Member private constructor(
         private const val MEMBER_ID = "memberId"
         private const val MEMBER_EMAIL = "memberEmail"
 
+        const val MEMBER_FANOUT_MAX_LIMIT = 1_000_000L
+
         operator fun invoke(name: String, loginId: String, password: String, email: String) =
             Member(
                 name = name,
