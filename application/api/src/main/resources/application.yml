@@ -1,5 +1,5 @@
 server:
-  port: 9090
+  port: 9001
   tomcat:
     threads:
       min-spare: 50
