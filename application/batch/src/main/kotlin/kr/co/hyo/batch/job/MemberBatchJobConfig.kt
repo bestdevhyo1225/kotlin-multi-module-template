@@ -74,7 +74,7 @@ class MemberBatchJobConfig(
         return JpaPagingItemReaderBuilder<Member>()
             .name(READER)
             .entityManagerFactory(entityManagerFactory)
-            .queryString("""SELECT m FROM Member m WHERE m.deletedDateTime IS NULL""")
+            .queryString("""SELECT m FROM Member m WHERE m.deletedDatetime IS NULL""")
             .pageSize(chunkSize)
             .build()
     }

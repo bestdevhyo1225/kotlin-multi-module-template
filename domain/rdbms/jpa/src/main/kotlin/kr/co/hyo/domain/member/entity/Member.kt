@@ -52,7 +52,7 @@ class Member private constructor(
     override fun toString(): String =
         "Member(id=$id, name=$name, loginId=$loginId, password=$password, email=$email, followCount=$followCount, " +
             "followingCount=$followingCount, createdDate=$createdDate, createdDatetime=$createdDatetime, " +
-            "updatedDate=$updatedDate, updatedDateTime=$updatedDateTime, deletedDateTime=$deletedDateTime)"
+            "updatedDate=$updatedDate, updatedDateTime=$updatedDateTime, deletedDatetime=$deletedDatetime)"
 
     companion object {
         private const val MEMBER_ID = "memberId"

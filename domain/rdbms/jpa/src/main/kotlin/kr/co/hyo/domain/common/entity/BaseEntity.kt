@@ -31,7 +31,7 @@ abstract class BaseEntity {
         protected set
 
     @Column(name = "deleted_datetime", columnDefinition = "DATETIME")
-    var deletedDateTime: LocalDateTime? = null
+    var deletedDatetime: LocalDateTime? = null
         protected set
 
     override fun hashCode(): Int = Objects.hash(id)
