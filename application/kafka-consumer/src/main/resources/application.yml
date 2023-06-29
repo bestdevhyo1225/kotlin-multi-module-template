@@ -1,0 +1,72 @@
+server:
+  port: 9002
+  tomcat:
+    mbeanregistry:
+      enabled: true # tomcat 과 관련된 메트릭 정보를 상세하게 알 수 있다.
+    threads:
+      min-spare: 10
+      max: 10
+
+spring:
+  profiles:
+    active: prod
+
+  kafka:
+    consumer:
+      group-id: kafka-consumer
+    topics:
+      post-feed: post-feed-topic
+
+  output:
+    ansi:
+      enabled: always
+
+management:
+  endpoint:
+    health:
+      show-details: always # 상세하게 보고 싶을때
+  #      show-components: always # UP, DOWN 상태만 보고 싶을때
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  redis:
+    host: localhost
+    port: 26379
+
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:19092,localhost:19093,localhost:19094
+      auto-offset-reset: latest # 가장 마지막 오프셋 값
+      session-timeout: 120000 # 2분 (120초)
+      heartbeat-interval: 40000 # 40초, 그룹 코디네이터와 하트비트 인터벌 시간이며, session.timeout.ms보다 낮게 설정해야 함 (1/3 수준으로)
+      max-poll-interval: 600000 # 10분 (600초)
+      max-poll-records: 250 # 최대 250개
+      allow-auto-create-topics: false # 토픽 자동 생성 X
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  redis:
+    host: localhost
+    port: 6379
+
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:19092,localhost:19093,localhost:19094
+      auto-offset-reset: latest # 가장 마지막 오프셋 값
+      session-timeout: 30000 # 30초
+      heartbeat-interval: 10000 # 10초
+      max-poll-interval: 600000 # 10분
+      max-poll-records: 250 # 최대 250개
+      allow-auto-create-topics: false # 토픽 자동 생성 X
