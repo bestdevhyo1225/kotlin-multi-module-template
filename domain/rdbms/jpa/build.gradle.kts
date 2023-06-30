@@ -13,10 +13,9 @@ allOpen {
 }
 
 dependencies {
-    implementation(project(":common"))
-
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("com.querydsl:querydsl-jpa:5.0.0:jakarta")
+    implementation("org.mindrot:jbcrypt:0.4")
 
     kapt("com.querydsl:querydsl-apt:5.0.0:jakarta")
     kapt("jakarta.persistence:jakarta.persistence-api")
