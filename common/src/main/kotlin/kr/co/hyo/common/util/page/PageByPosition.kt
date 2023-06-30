@@ -5,7 +5,7 @@ import jakarta.validation.constraints.PositiveOrZero
 
 class PageByPosition<T>(
     val items: List<T>,
-    val nextPageRequest: PageRequestByPosition,
+    val nextPageRequestByPosition: PageRequestByPosition,
 )
 
 data class PageRequestByPosition(

@@ -34,10 +34,15 @@ class PostTimelineService(
         memberWriteService.changeTimelineUpdatedDatetime(memberId = memberId)
     }
 
-    fun findPosts(memberId: Long, pageRequest: PageRequestByPosition): PageByPosition<PostDto> {
-        val postIds: List<Long> = postFeedReadService.findPostIds(memberId = memberId, pageRequest = pageRequest)
+    fun findPosts(memberId: Long, pageRequestByPosition: PageRequestByPosition): PageByPosition<PostDto> {
+        val (start: Long, size: Long) = pageRequestByPosition
+        val end: Long = start.plus(other = size).minus(other = 1)
+        val postIds: List<Long> = postFeedReadService.findPostIds(memberId = memberId, start = start, end = end)
         val postDtos: List<PostDto> = postReadService.findPosts(postIds = postIds)
-        return PageByPosition(items = postDtos, nextPageRequest = pageRequest.next(itemSize = postDtos.size))
+        return PageByPosition(
+            items = postDtos,
+            nextPageRequestByPosition = pageRequestByPosition.next(itemSize = postDtos.size)
+        )
     }
 
     fun findPost(id: Long): PostDto {

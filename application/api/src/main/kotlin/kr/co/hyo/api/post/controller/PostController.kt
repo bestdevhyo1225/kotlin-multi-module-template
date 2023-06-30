@@ -57,11 +57,11 @@ class PostController(
     @Operation(description = "게시글 타임라인 조회")
     fun postsMembersTimeline(
         authentication: Authentication,
-        pageRequest: PageRequestByPosition,
+        pageRequestByPosition: PageRequestByPosition,
     ): ResponseEntity<PageByPosition<PostDto>> {
         val memberId: Long = authentication.name.toLong()
         val pagePostDto: PageByPosition<PostDto> =
-            postTimelineService.findPosts(memberId = memberId, pageRequest = pageRequest)
+            postTimelineService.findPosts(memberId = memberId, pageRequestByPosition = pageRequestByPosition)
         return ResponseEntity.ok(pagePostDto)
     }
 
