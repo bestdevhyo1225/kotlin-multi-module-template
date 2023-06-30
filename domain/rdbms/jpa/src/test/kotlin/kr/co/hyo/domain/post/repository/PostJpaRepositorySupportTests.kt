@@ -60,7 +60,7 @@ class PostJpaRepositorySupportTests {
 
         // when
         val findPosts: List<Post> =
-            postJpaRepositorySupport.findAllByIds(postIds = posts.map { it.id!! })
+            postJpaRepositorySupport.findAllByIds(ids = posts.map { it.id!! })
 
         // then
         assertThat(findPosts).isNotEmpty
@@ -99,5 +99,37 @@ class PostJpaRepositorySupportTests {
         // then
         assertThat(findPosts).isNotEmpty
         assertThat(findPosts.size).isEqualTo(posts.size)
+    }
+
+    @Test
+    fun `게시글의 좋아요 수를 조회한다`() {
+        // given
+        val post = Post(memberId = 1L, title = "title", contents = "contents")
+
+        postJpaRepository.save(post)
+        entityManager.flush()
+        entityManager.clear()
+
+        // when
+        val postLikeCount: Long = postJpaRepositorySupport.findLikeCount(id = post.id!!)
+
+        // then
+        assertThat(postLikeCount).isZero()
+    }
+
+    @Test
+    fun `게시글의 조회 수를 조회한다`() {
+        // given
+        val post = Post(memberId = 1L, title = "title", contents = "contents")
+
+        postJpaRepository.save(post)
+        entityManager.flush()
+        entityManager.clear()
+
+        // when
+        val postViewCount: Long = postJpaRepositorySupport.findViewCount(id = post.id!!)
+
+        // then
+        assertThat(postViewCount).isZero()
     }
 }

@@ -15,8 +15,8 @@ class PostReadJpaService(
     private val postJpaRepositorySupport: PostJpaRepositorySupport,
 ) : PostReadService {
 
-    override fun findPost(id: Long): PostDto {
-        val post: Post = postJpaRepositorySupport.findById(id = id)
+    override fun findPost(postId: Long): PostDto {
+        val post: Post = postJpaRepositorySupport.findById(id = postId)
         return PostDtoMapper.toDto(post = post)
     }
 
@@ -24,7 +24,7 @@ class PostReadJpaService(
         if (postIds.isEmpty()) {
             return emptyList()
         }
-        val posts: List<Post> = postJpaRepositorySupport.findAllByIds(postIds = postIds)
+        val posts: List<Post> = postJpaRepositorySupport.findAllByIds(ids = postIds)
         return posts.map { PostDtoMapper.toDto(post = it) }
     }
 
@@ -38,4 +38,8 @@ class PostReadJpaService(
         )
         return posts.map { PostDtoMapper.toDto(post = it) }
     }
+
+    override fun findPostLikeCount(postId: Long): Long = postJpaRepositorySupport.findLikeCount(id = postId)
+
+    override fun findPostViewCount(postId: Long): Long = postJpaRepositorySupport.findViewCount(id = postId)
 }

@@ -44,8 +44,4 @@ class PostTimelineService(
             nextPageRequestByPosition = pageRequestByPosition.next(itemSize = postIds.size)
         )
     }
-
-    fun findPost(id: Long): PostDto {
-        return postReadService.findPost(id = id)
-    }
 }

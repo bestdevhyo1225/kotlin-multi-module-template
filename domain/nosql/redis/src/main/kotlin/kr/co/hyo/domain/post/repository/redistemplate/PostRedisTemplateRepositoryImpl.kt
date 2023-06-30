@@ -2,16 +2,26 @@ package kr.co.hyo.domain.post.repository.redistemplate
 
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import kr.co.hyo.domain.post.repository.PostFeedRedisTemplateRepository
+import kr.co.hyo.domain.post.repository.PostRedisTemplateRepository
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Repository
+import java.util.concurrent.TimeUnit.SECONDS
 
 @Repository
-class PostFeedRedisTemplateRepositoryImpl(
+class PostRedisTemplateRepositoryImpl(
     private val redisTemplate: RedisTemplate<String, String>,
-) : PostFeedRedisTemplateRepository {
+) : PostRedisTemplateRepository {
 
     private val jacksonObjectMapper = jacksonObjectMapper().registerModule(JavaTimeModule())
+
+    override fun <T : Any> get(key: String, clazz: Class<T>): T? {
+        return redisTemplate.opsForValue().get(key)?.let { jacksonObjectMapper.readValue(it, clazz) }
+    }
+
+    override fun <T : Any> set(key: String, value: T, expirationTimeMs: Long) {
+        redisTemplate.opsForValue()
+            .set(key, jacksonObjectMapper.writeValueAsString(value), expirationTimeMs, SECONDS)
+    }
 
     override fun <T : Any> zadd(key: String, value: T, score: Double) {
         redisTemplate.opsForZSet().add(key, jacksonObjectMapper.writeValueAsString(value), score)

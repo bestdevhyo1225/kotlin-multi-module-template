@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirements
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import kr.co.hyo.api.post.controller.request.PostCreateRequest
+import kr.co.hyo.api.post.service.PostDetailService
 import kr.co.hyo.api.post.service.PostFanoutService
 import kr.co.hyo.api.post.service.PostTimelineService
 import kr.co.hyo.common.util.page.PageByPosition
@@ -28,6 +29,7 @@ import java.net.URI
 @RequestMapping("/posts")
 @Tag(name = "게시글", description = "API Document")
 class PostController(
+    private val postDetailService: PostDetailService,
     private val postFanoutService: PostFanoutService,
     private val postTimelineService: PostTimelineService,
 ) {
@@ -73,7 +75,7 @@ class PostController(
         @Parameter(schema = Schema(description = "게시글 번호", example = "1"))
         id: Long,
     ): ResponseEntity<PostDto> {
-        val postDto: PostDto = postTimelineService.findPost(id = id)
+        val postDto: PostDto = postDetailService.findPost(id = id)
         return ResponseEntity.ok(postDto)
     }
 }

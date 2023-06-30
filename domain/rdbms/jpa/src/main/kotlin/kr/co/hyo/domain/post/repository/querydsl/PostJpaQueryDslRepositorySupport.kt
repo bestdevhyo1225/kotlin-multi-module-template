@@ -27,14 +27,14 @@ class PostJpaQueryDslRepositorySupport(
             .fetchOne() ?: throw NoSuchElementException("게시글이 존재하지 않습니다.")
     }
 
-    override fun findAllByIds(postIds: List<Long>): List<Post> {
-        if (postIds.isEmpty()) {
+    override fun findAllByIds(ids: List<Long>): List<Post> {
+        if (ids.isEmpty()) {
             return emptyList()
         }
         return queryFactory
             .selectFrom(post)
             .where(
-                postIdIn(ids = postIds),
+                postIdIn(ids = ids),
                 postDeletedDatetimeIsNull(),
             )
             .orderBy(postIdDesc())
@@ -59,6 +59,28 @@ class PostJpaQueryDslRepositorySupport(
             .selectFrom(post)
             .where(booleanBuilder)
             .fetch()
+    }
+
+    override fun findLikeCount(id: Long): Long {
+        return queryFactory
+            .select(post.likeCount)
+            .from(post)
+            .where(
+                postIdEq(id = id),
+                postDeletedDatetimeIsNull(),
+            )
+            .fetchOne() ?: 0L
+    }
+
+    override fun findViewCount(id: Long): Long {
+        return queryFactory
+            .select(post.viewCount)
+            .from(post)
+            .where(
+                postIdEq(id = id),
+                postDeletedDatetimeIsNull(),
+            )
+            .fetchOne() ?: 0L
     }
 
     private fun postIdEq(id: Long): BooleanExpression = post.id.eq(id)
