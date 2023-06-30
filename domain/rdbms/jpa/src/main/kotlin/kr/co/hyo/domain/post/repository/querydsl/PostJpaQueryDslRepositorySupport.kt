@@ -26,17 +26,6 @@ class PostJpaQueryDslRepositorySupport(
             .fetchOne() ?: throw NoSuchElementException("게시글이 존재하지 않습니다.")
     }
 
-    override fun findByMemberIdAndId(memberId: Long, id: Long): Post {
-        return queryFactory
-            .selectFrom(post)
-            .where(
-                postMemberIdEq(memberId = memberId),
-                postIdEq(id = id),
-                postDeletedDatetimeIsNull(),
-            )
-            .fetchOne() ?: throw NoSuchElementException("게시글이 존재하지 않습니다.")
-    }
-
     override fun findAllByIds(postIds: List<Long>): List<Post> {
         if (postIds.isEmpty()) {
             return emptyList()
@@ -73,8 +62,6 @@ class PostJpaQueryDslRepositorySupport(
     private fun postIdEq(id: Long): BooleanExpression = post.id.eq(id)
 
     private fun postIdIn(ids: List<Long>): BooleanExpression = post.id.`in`(ids)
-
-    private fun postMemberIdEq(memberId: Long): BooleanExpression = post.memberId.eq(memberId)
 
     private fun postMemberIdIn(memberIds: List<Long>): BooleanExpression = post.memberId.`in`(memberIds)
 

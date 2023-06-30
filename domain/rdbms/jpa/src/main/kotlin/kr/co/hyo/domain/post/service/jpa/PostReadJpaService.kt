@@ -20,11 +20,6 @@ class PostReadJpaService(
         return PostDtoMapper.toDto(post = post)
     }
 
-    override fun findPost(memberId: Long, id: Long): PostDto {
-        val post: Post = postJpaRepositorySupport.findByMemberIdAndId(memberId = memberId, id = id)
-        return PostDtoMapper.toDto(post = post)
-    }
-
     override fun findPosts(postIds: List<Long>): List<PostDto> {
         if (postIds.isEmpty()) {
             return emptyList()

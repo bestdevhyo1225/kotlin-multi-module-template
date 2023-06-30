@@ -27,22 +27,6 @@ class PostJpaRepositorySupportTests {
     lateinit var postJpaRepositorySupport: PostJpaRepositorySupport
 
     @Test
-    fun `회원 번호와 게시글 번호로 게시글을 조회한다`() {
-        // given
-        val post = Post(memberId = 1L, title = "title", contents = "contents")
-
-        postJpaRepository.save(post)
-        entityManager.flush()
-        entityManager.clear()
-
-        // when
-        val findPost: Post = postJpaRepositorySupport.findByMemberIdAndId(memberId = post.memberId, id = post.id!!)
-
-        // then
-        assertThat(findPost).isEqualTo(post)
-    }
-
-    @Test
     fun `게시글 번호로 게시글을 조회한다`() {
         // given
         val post = Post(memberId = 1L, title = "title", contents = "contents")
