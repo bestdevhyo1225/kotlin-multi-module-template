@@ -82,18 +82,6 @@ class PostController(
         return ResponseEntity.ok(postDto)
     }
 
-    @PatchMapping("/{id}/increment/like-count")
-    @Operation(description = "게시글 좋아요 수 증가")
-    fun postsIdIncrementLikeCount(
-        authentication: Authentication,
-        @PathVariable
-        @Parameter(schema = Schema(description = "게시글 번호", example = "1"))
-        id: Long,
-    ) {
-        val memberId: Long = authentication.name.toLong()
-        postIncrementService.incrementLikeCount(memberId = memberId, postId = id)
-    }
-
     @PatchMapping("/{id}/increment/view-count")
     @Operation(description = "게시글 조회 수 증가")
     fun postsIdIncrementViewCount(
