@@ -38,4 +38,8 @@ class PostRedisTemplateRepositoryImpl(
         }
         return values.map { jacksonObjectMapper.readValue(it, clazz) }
     }
+
+    override fun increment(key: String) {
+        redisTemplate.opsForValue().increment(key)
+    }
 }

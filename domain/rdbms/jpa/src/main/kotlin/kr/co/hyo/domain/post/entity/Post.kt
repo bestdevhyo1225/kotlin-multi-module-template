@@ -58,11 +58,17 @@ class Post private constructor(
         }
     }
 
-    fun incrementLikeCount() {
+    fun incrementLikeCount(memberId: Long) {
+        if (this.memberId == memberId) {
+            return
+        }
         this.likeCount += 1
     }
 
-    fun incrementViewCount() {
+    fun incrementViewCount(memberId: Long) {
+        if (this.memberId == memberId) {
+            return
+        }
         this.viewCount += 1
     }
 }

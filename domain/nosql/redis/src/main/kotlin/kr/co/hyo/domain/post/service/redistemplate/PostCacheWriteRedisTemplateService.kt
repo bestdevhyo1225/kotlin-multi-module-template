@@ -44,4 +44,14 @@ class PostCacheWriteRedisTemplateService(
         val expirationTimeMs: Long = postCache.getExpirationTimeMs()
         postRedisTemplateRepository.set(key = key, value = postViewCount, expirationTimeMs = expirationTimeMs)
     }
+
+    override fun incrementLikeCount(postId: Long) {
+        val key: String = PostCache(postId = postId).getPostLikeCountKey()
+        postRedisTemplateRepository.increment(key = key)
+    }
+
+    override fun incrementViewCount(postId: Long) {
+        val key: String = PostCache(postId = postId).getPostViewCountKey()
+        postRedisTemplateRepository.increment(key = key)
+    }
 }

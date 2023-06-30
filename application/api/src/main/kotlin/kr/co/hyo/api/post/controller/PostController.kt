@@ -9,6 +9,7 @@ import jakarta.validation.Valid
 import kr.co.hyo.api.post.controller.request.PostCreateRequest
 import kr.co.hyo.api.post.service.PostDetailService
 import kr.co.hyo.api.post.service.PostFanoutService
+import kr.co.hyo.api.post.service.PostIncrementService
 import kr.co.hyo.api.post.service.PostTimelineService
 import kr.co.hyo.common.util.page.PageByPosition
 import kr.co.hyo.common.util.page.PageRequestByPosition
@@ -17,6 +18,7 @@ import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -31,6 +33,7 @@ import java.net.URI
 class PostController(
     private val postDetailService: PostDetailService,
     private val postFanoutService: PostFanoutService,
+    private val postIncrementService: PostIncrementService,
     private val postTimelineService: PostTimelineService,
 ) {
 
@@ -70,12 +73,36 @@ class PostController(
     @GetMapping("/{id}")
     @Operation(description = "게시글 상세 조회")
     @SecurityRequirements
-    fun post(
+    fun postsId(
         @PathVariable
         @Parameter(schema = Schema(description = "게시글 번호", example = "1"))
         id: Long,
     ): ResponseEntity<PostDto> {
-        val postDto: PostDto = postDetailService.findPost(id = id)
+        val postDto: PostDto = postDetailService.findPost(postId = id)
         return ResponseEntity.ok(postDto)
+    }
+
+    @PatchMapping("/{id}/increment/like-count")
+    @Operation(description = "게시글 좋아요 수 증가")
+    fun postsIdIncrementLikeCount(
+        authentication: Authentication,
+        @PathVariable
+        @Parameter(schema = Schema(description = "게시글 번호", example = "1"))
+        id: Long,
+    ) {
+        val memberId: Long = authentication.name.toLong()
+        postIncrementService.incrementLikeCount(memberId = memberId, postId = id)
+    }
+
+    @PatchMapping("/{id}/increment/view-count")
+    @Operation(description = "게시글 조회 수 증가")
+    fun postsIdIncrementViewCount(
+        authentication: Authentication,
+        @PathVariable
+        @Parameter(schema = Schema(description = "게시글 번호", example = "1"))
+        id: Long,
+    ) {
+        val memberId: Long = authentication.name.toLong()
+        postIncrementService.incrementViewCount(memberId = memberId, postId = id)
     }
 }

@@ -31,7 +31,7 @@ class PostTests {
         val post = Post(memberId = 1L, title = "title", contents = "contents")
 
         // when
-        post.incrementLikeCount()
+        post.incrementLikeCount(memberId = 2L)
 
         // then
         assertThat(post.likeCount).isOne()
@@ -41,7 +41,7 @@ class PostTests {
     fun `게시물의 좋아요를 감소시킨다`() {
         // given
         val post = Post(memberId = 1L, title = "title", contents = "contents")
-        post.incrementLikeCount()
+        post.incrementLikeCount(memberId = 2L)
 
         // when
         post.decrementLikeCount()
@@ -56,7 +56,7 @@ class PostTests {
         val post = Post(memberId = 1L, title = "title", contents = "contents")
 
         // when
-        post.incrementViewCount()
+        post.incrementViewCount(memberId = 2L)
 
         // then
         assertThat(post.viewCount).isOne()

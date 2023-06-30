@@ -15,20 +15,20 @@ class PostDetailService(
     private val postReadService: PostReadService,
 ) {
 
-    fun findPost(id: Long): PostDto {
-        val postCacheDto: PostCacheDto? = postCacheReadService.findPostCache(postId = id)
+    fun findPost(postId: Long): PostDto {
+        val postCacheDto: PostCacheDto? = postCacheReadService.findPostCache(postId = postId)
         if (postCacheDto == null) {
-            val postDto: PostDto = postReadService.findPost(postId = id)
+            val postDto: PostDto = postReadService.findPost(postId = postId)
             postCacheWriteService.create(dto = toPostCacheCreateDto(postDto = postDto))
             return postDto
         }
-        val postCacheLikeCount: Long? = postCacheReadService.findPostCacheLikeCount(postId = id)
-        val postCacheViewCount: Long? = postCacheReadService.findPostCacheViewCount(postId = id)
+        val postCacheLikeCount: Long? = postCacheReadService.findPostCacheLikeCount(postId = postId)
+        val postCacheViewCount: Long? = postCacheReadService.findPostCacheViewCount(postId = postId)
         if (postCacheLikeCount == null || postCacheViewCount == null) {
-            val postLikeCount: Long = postReadService.findPostLikeCount(postId = id)
-            val postViewCount: Long = postReadService.findPostViewCount(postId = id)
-            postCacheWriteService.createLikeCount(postId = id, postLikeCount = postLikeCount)
-            postCacheWriteService.createViewCount(postId = id, postViewCount = postViewCount)
+            val postLikeCount: Long = postReadService.findPostLikeCount(postId = postId)
+            val postViewCount: Long = postReadService.findPostViewCount(postId = postId)
+            postCacheWriteService.createLikeCount(postId = postId, postLikeCount = postLikeCount)
+            postCacheWriteService.createViewCount(postId = postId, postViewCount = postViewCount)
             return toPostDto(
                 postCacheDto = postCacheDto,
                 postLikeCount = postLikeCount,

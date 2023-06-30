@@ -6,4 +6,6 @@ interface PostCacheWriteService {
     fun create(dto: PostCacheCreateDto)
     fun createLikeCount(postId: Long, postLikeCount: Long)
     fun createViewCount(postId: Long, postViewCount: Long)
+    fun incrementLikeCount(postId: Long)
+    fun incrementViewCount(postId: Long)
 }
