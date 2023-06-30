@@ -1,6 +1,7 @@
 package kr.co.hyo.domain.post.repository.querydsl
 
 import com.querydsl.core.BooleanBuilder
+import com.querydsl.core.types.OrderSpecifier
 import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.jpa.impl.JPAQueryFactory
 import kr.co.hyo.domain.post.entity.Post
@@ -36,6 +37,7 @@ class PostJpaQueryDslRepositorySupport(
                 postIdIn(ids = postIds),
                 postDeletedDatetimeIsNull(),
             )
+            .orderBy(postIdDesc())
             .fetch()
     }
 
@@ -69,4 +71,6 @@ class PostJpaQueryDslRepositorySupport(
         post.createdDatetime.goe(createdDatetime)
 
     private fun postDeletedDatetimeIsNull(): BooleanExpression = post.deletedDatetime.isNull
+
+    private fun postIdDesc(): OrderSpecifier<Long> = post.id.desc()
 }
