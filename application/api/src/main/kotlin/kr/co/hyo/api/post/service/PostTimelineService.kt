@@ -41,7 +41,7 @@ class PostTimelineService(
         val postDtos: List<PostDto> = postReadService.findPosts(postIds = postIds)
         return PageByPosition(
             items = postDtos,
-            nextPageRequestByPosition = pageRequestByPosition.next(itemSize = postDtos.size)
+            nextPageRequestByPosition = pageRequestByPosition.next(itemSize = postIds.size)
         )
     }
 
