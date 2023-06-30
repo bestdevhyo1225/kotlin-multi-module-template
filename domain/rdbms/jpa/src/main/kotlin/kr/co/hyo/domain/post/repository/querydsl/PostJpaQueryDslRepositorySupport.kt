@@ -74,8 +74,6 @@ class PostJpaQueryDslRepositorySupport(
 
     private fun postIdIn(ids: List<Long>): BooleanExpression = post.id.`in`(ids)
 
-    private fun postIdGt(id: Long): BooleanExpression = post.id.gt(id)
-
     private fun postMemberIdEq(memberId: Long): BooleanExpression = post.memberId.eq(memberId)
 
     private fun postMemberIdIn(memberIds: List<Long>): BooleanExpression = post.memberId.`in`(memberIds)
