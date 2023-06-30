@@ -4,8 +4,6 @@ tasks.getByName<Jar>("jar") {
 }
 
 dependencies {
-    implementation(project(":common"))
-
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
     implementation("it.ozimov:embedded-redis:0.7.3") {
