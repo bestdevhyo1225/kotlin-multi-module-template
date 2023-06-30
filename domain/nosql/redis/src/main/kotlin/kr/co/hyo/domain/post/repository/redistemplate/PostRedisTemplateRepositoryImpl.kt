@@ -18,9 +18,19 @@ class PostRedisTemplateRepositoryImpl(
         return redisTemplate.opsForValue().get(key)?.let { jacksonObjectMapper.readValue(it, clazz) }
     }
 
+    override fun <T : Any> sadd(key: String, value: T) {
+        redisTemplate.opsForSet().add(key, jacksonObjectMapper.writeValueAsString(value))
+    }
+
+    override fun scard(key: String): Long = redisTemplate.opsForSet().size(key) ?: 0L
+
     override fun <T : Any> set(key: String, value: T, expirationTimeMs: Long) {
         redisTemplate.opsForValue()
             .set(key, jacksonObjectMapper.writeValueAsString(value), expirationTimeMs, SECONDS)
+    }
+
+    override fun <T : Any> srem(key: String, value: T) {
+        redisTemplate.opsForSet().remove(key, jacksonObjectMapper.writeValueAsString(value))
     }
 
     override fun <T : Any> zadd(key: String, value: T, score: Double) {

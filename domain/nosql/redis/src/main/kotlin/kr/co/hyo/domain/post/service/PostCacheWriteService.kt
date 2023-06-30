@@ -1,11 +1,8 @@
 package kr.co.hyo.domain.post.service
 
 import kr.co.hyo.domain.post.dto.PostCacheCreateDto
+import kr.co.hyo.domain.post.dto.PostCacheDto
 
 interface PostCacheWriteService {
-    fun create(dto: PostCacheCreateDto)
-    fun createLikeCount(postId: Long, postLikeCount: Long)
-    fun createViewCount(postId: Long, postViewCount: Long)
-    fun incrementLikeCount(postId: Long)
-    fun incrementViewCount(postId: Long)
+    fun create(dto: PostCacheCreateDto): PostCacheDto
 }

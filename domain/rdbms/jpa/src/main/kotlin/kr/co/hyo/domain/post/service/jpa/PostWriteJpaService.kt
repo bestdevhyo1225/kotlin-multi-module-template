@@ -23,16 +23,6 @@ class PostWriteJpaService(
         return PostDtoMapper.toDto(post = post)
     }
 
-    override fun incrementLikeCount(memberId: Long, postId: Long) {
-        val post: Post = findPost(id = postId)
-        post.incrementLikeCount(memberId = memberId)
-    }
-
-    override fun incrementViewCount(memberId: Long, postId: Long) {
-        val post: Post = findPost(id = postId)
-        post.incrementViewCount(memberId = memberId)
-    }
-
     private fun findPost(id: Long): Post =
         postJpaRepository.findByIdOrNull(id = id) ?: throw NoSuchElementException("게시글이 존재하지 않습니다.")
 }

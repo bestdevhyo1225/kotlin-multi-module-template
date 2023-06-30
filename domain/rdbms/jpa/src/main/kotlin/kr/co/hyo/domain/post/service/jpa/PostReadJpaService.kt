@@ -38,8 +38,4 @@ class PostReadJpaService(
         )
         return posts.map { PostDtoMapper.toDto(post = it) }
     }
-
-    override fun findPostLikeCount(postId: Long): Long = postJpaRepositorySupport.findLikeCount(id = postId)
-
-    override fun findPostViewCount(postId: Long): Long = postJpaRepositorySupport.findViewCount(id = postId)
 }

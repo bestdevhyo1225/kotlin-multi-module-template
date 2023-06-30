@@ -1,4 +1,4 @@
-package kr.co.hyo.domain.post.service.redistemplate
+package kr.co.hyo.domain.post.service.impl
 
 import kr.co.hyo.domain.post.entity.PostFeed
 import kr.co.hyo.domain.post.repository.PostRedisTemplateRepository
@@ -6,7 +6,7 @@ import kr.co.hyo.domain.post.service.PostFeedReadService
 import org.springframework.stereotype.Service
 
 @Service
-class PostFeedReadRedisTemplateService(
+class PostFeedReadServiceImpl(
     private val postRedisTemplateRepository: PostRedisTemplateRepository,
 ) : PostFeedReadService {
 

@@ -12,8 +12,6 @@ object PostDtoMapper {
                 memberId = memberId,
                 title = title,
                 contents = contents,
-                likeCount = likeCount,
-                viewCount = viewCount,
                 createdDate = createdDate,
                 createdDatetime = createdDatetime,
             )

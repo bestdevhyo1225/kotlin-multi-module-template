@@ -30,18 +30,10 @@ class Post private constructor(
     var contents: String = contents
         protected set
 
-    @Column(nullable = false)
-    var likeCount: Long = 0L
-        protected set
-
-    @Column(nullable = false)
-    var viewCount: Long = 0L
-        protected set
-
     override fun toString(): String =
-        "POST(id=$id, memberId=$memberId, title=$title, contents=$contents, likeCount=$likeCount, " +
-            "viewCount=$viewCount, createdDate=$createdDate, createdDatetime=$createdDatetime, " +
-            "updatedDate=$updatedDate, updatedDatetime=$updatedDatetime, deletedDatetime=$deletedDatetime)"
+        "POST(id=$id, memberId=$memberId, title=$title, contents=$contents, createdDate=$createdDate, " +
+            "createdDatetime=$createdDatetime, updatedDate=$updatedDate, updatedDatetime=$updatedDatetime, " +
+            "deletedDatetime=$deletedDatetime)"
 
     companion object {
         operator fun invoke(memberId: Long, title: String, contents: String): Post =
@@ -50,25 +42,5 @@ class Post private constructor(
                 title = title,
                 contents = contents,
             )
-    }
-
-    fun decrementLikeCount() {
-        if (this.likeCount > 0) {
-            this.likeCount -= 1
-        }
-    }
-
-    fun incrementLikeCount(memberId: Long) {
-        if (this.memberId == memberId) {
-            return
-        }
-        this.likeCount += 1
-    }
-
-    fun incrementViewCount(memberId: Long) {
-        if (this.memberId == memberId) {
-            return
-        }
-        this.viewCount += 1
     }
 }

@@ -5,6 +5,7 @@ import kr.co.hyo.domain.post.dto.PostCacheDto
 import kr.co.hyo.domain.post.dto.PostDto
 import kr.co.hyo.domain.post.service.PostCacheReadService
 import kr.co.hyo.domain.post.service.PostCacheWriteService
+import kr.co.hyo.domain.post.service.PostLikeReadService
 import kr.co.hyo.domain.post.service.PostReadService
 import org.springframework.stereotype.Service
 
@@ -12,33 +13,21 @@ import org.springframework.stereotype.Service
 class PostDetailService(
     private val postCacheReadService: PostCacheReadService,
     private val postCacheWriteService: PostCacheWriteService,
+    private val postLikeReadService: PostLikeReadService,
     private val postReadService: PostReadService,
 ) {
 
-    fun findPost(postId: Long): PostDto {
-        val postCacheDto: PostCacheDto? = postCacheReadService.findPostCache(postId = postId)
+    fun findPost(postId: Long, memberId: Long): PostDto {
+        var postCacheDto: PostCacheDto? = postCacheReadService.findPostCache(postId = postId)
+        val postLikeCount: Long = postLikeReadService.count(postId = postId)
         if (postCacheDto == null) {
             val postDto: PostDto = postReadService.findPost(postId = postId)
-            postCacheWriteService.create(dto = toPostCacheCreateDto(postDto = postDto))
-            return postDto
-        }
-        val postCacheLikeCount: Long? = postCacheReadService.findPostCacheLikeCount(postId = postId)
-        val postCacheViewCount: Long? = postCacheReadService.findPostCacheViewCount(postId = postId)
-        if (postCacheLikeCount == null || postCacheViewCount == null) {
-            val postLikeCount: Long = postReadService.findPostLikeCount(postId = postId)
-            val postViewCount: Long = postReadService.findPostViewCount(postId = postId)
-            postCacheWriteService.createLikeCount(postId = postId, postLikeCount = postLikeCount)
-            postCacheWriteService.createViewCount(postId = postId, postViewCount = postViewCount)
-            return toPostDto(
-                postCacheDto = postCacheDto,
-                postLikeCount = postLikeCount,
-                postViewCount = postViewCount,
-            )
+            postCacheDto = postCacheWriteService.create(dto = toPostCacheCreateDto(postDto = postDto))
         }
         return toPostDto(
             postCacheDto = postCacheDto,
-            postLikeCount = postCacheLikeCount,
-            postViewCount = postCacheViewCount,
+            postLikeCount = postLikeCount,
+            postViewCount = 0,
         )
     }
 

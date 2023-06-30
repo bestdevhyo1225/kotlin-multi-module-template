@@ -8,8 +8,8 @@ data class PostDto(
     val memberId: Long,
     val title: String,
     val contents: String,
-    val likeCount: Long,
-    val viewCount: Long,
+    val likeCount: Long = 0,
+    val viewCount: Long = 0,
     val createdDate: LocalDate,
     val createdDatetime: LocalDateTime,
 )

@@ -61,10 +61,9 @@ class PostRedisTemplateRepositoryTests {
     fun `게시물 캐시를 저장한다`() {
         // given
         val postId: Long = 1
-        val postLikeCount: Long = 0
-        val postViewCount: Long = 0
         val postCache = PostCache(postId = postId)
-        val (postKey: String, expirationTimeMs: Long) = postCache.getPostKeyAndExpirationTimeMs()
+        val postKey: String = postCache.getPostKey()
+        val expirationTimeMs: Long = postCache.getExpirationTimeMs()
         val value = PostCacheDto(
             postId = postId,
             memberId = 1L,
@@ -73,35 +72,15 @@ class PostRedisTemplateRepositoryTests {
             createdDate = LocalDate.now(),
             createdDatetime = LocalDateTime.now(),
         )
-        val postLikeCountKey: String = postCache.getPostLikeCountKey()
-        val postViewCountKey: String = postCache.getPostViewCountKey()
 
         // when
         postRedisTemplateRepository.set(key = postKey, value = value, expirationTimeMs = expirationTimeMs)
-        postRedisTemplateRepository.set(
-            key = postLikeCountKey,
-            value = postLikeCount,
-            expirationTimeMs = expirationTimeMs,
-        )
-        postRedisTemplateRepository.set(
-            key = postViewCountKey,
-            value = postViewCount,
-            expirationTimeMs = expirationTimeMs,
-        )
 
         // then
         val postCacheDto: PostCacheDto? =
             postRedisTemplateRepository.get(key = postKey, clazz = PostCacheDto::class.java)
-        val postCacheLikeCount: Long? =
-            postRedisTemplateRepository.get(key = postLikeCountKey, clazz = Long::class.java)
-        val postCacheViewCount: Long? =
-            postRedisTemplateRepository.get(key = postViewCountKey, clazz = Long::class.java)
 
         assertThat(postCacheDto).isNotNull
         assertThat(postCacheDto).isEqualTo(value)
-        assertThat(postCacheLikeCount).isNotNull
-        assertThat(postCacheLikeCount).isEqualTo(postLikeCount)
-        assertThat(postCacheViewCount).isNotNull
-        assertThat(postCacheViewCount).isEqualTo(postViewCount)
     }
 }

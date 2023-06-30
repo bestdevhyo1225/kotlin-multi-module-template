@@ -61,28 +61,6 @@ class PostJpaQueryDslRepositorySupport(
             .fetch()
     }
 
-    override fun findLikeCount(id: Long): Long {
-        return queryFactory
-            .select(post.likeCount)
-            .from(post)
-            .where(
-                postIdEq(id = id),
-                postDeletedDatetimeIsNull(),
-            )
-            .fetchOne() ?: 0L
-    }
-
-    override fun findViewCount(id: Long): Long {
-        return queryFactory
-            .select(post.viewCount)
-            .from(post)
-            .where(
-                postIdEq(id = id),
-                postDeletedDatetimeIsNull(),
-            )
-            .fetchOne() ?: 0L
-    }
-
     private fun postIdEq(id: Long): BooleanExpression = post.id.eq(id)
 
     private fun postIdIn(ids: List<Long>): BooleanExpression = post.id.`in`(ids)

@@ -1,4 +1,4 @@
-package kr.co.hyo.domain.post.service.redistemplate
+package kr.co.hyo.domain.post.service.impl
 
 import kr.co.hyo.domain.post.entity.PostFeed
 import kr.co.hyo.domain.post.entity.PostFeed.Companion.ZSET_POST_FEED_MAX_LIMIT
@@ -10,7 +10,7 @@ import java.sql.Timestamp
 import java.time.LocalDateTime
 
 @Service
-class PostFeedWriteRedisTemplateService(
+class PostFeedWriteServiceImpl(
     private val postRedisTemplateRepository: PostRedisTemplateRepository,
 ) : PostFeedWriteService {
 
