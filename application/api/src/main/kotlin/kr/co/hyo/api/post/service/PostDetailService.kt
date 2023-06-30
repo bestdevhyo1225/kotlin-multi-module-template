@@ -1,6 +1,6 @@
 package kr.co.hyo.api.post.service
 
-import kr.co.hyo.domain.post.dto.PostCacheCreateDto
+import kr.co.hyo.api.post.service.mapper.PostDomainDtoMapper
 import kr.co.hyo.domain.post.dto.PostCacheDto
 import kr.co.hyo.domain.post.dto.PostDto
 import kr.co.hyo.domain.post.service.PostCacheReadService
@@ -23,7 +23,7 @@ class PostDetailService(
         val postCacheDto: PostCacheDto = postCacheReadService.findPostCache(postId = postId)
             ?: let {
                 val postDto: PostDto = postReadService.findPost(postId = postId)
-                postCacheWriteService.create(dto = toPostCacheCreateDto(postDto = postDto))
+                postCacheWriteService.create(dto = PostDomainDtoMapper.toPostCacheCreateDto(postDto = postDto))
             }
         val postLikeCount: Long = postLikeReadService.count(postId = postId)
         val postViewCount: Long = postViewWriteService.increment(
@@ -31,38 +31,10 @@ class PostDetailService(
             postOwnMemberId = postCacheDto.memberId,
             memberId = memberId,
         )
-        return toPostDto(
+        return PostDomainDtoMapper.toPostDto(
             postCacheDto = postCacheDto,
             postLikeCount = postLikeCount,
             postViewCount = postViewCount,
         )
-    }
-
-    private fun toPostCacheCreateDto(postDto: PostDto): PostCacheCreateDto {
-        return with(receiver = postDto) {
-            PostCacheCreateDto(
-                postId = id,
-                memberId = memberId,
-                title = title,
-                contents = contents,
-                createdDate = createdDate,
-                createdDatetime = createdDatetime,
-            )
-        }
-    }
-
-    private fun toPostDto(postCacheDto: PostCacheDto, postLikeCount: Long, postViewCount: Long): PostDto {
-        return with(receiver = postCacheDto) {
-            PostDto(
-                id = postId,
-                memberId = memberId,
-                title = title,
-                contents = contents,
-                likeCount = postLikeCount,
-                viewCount = postViewCount,
-                createdDate = createdDate,
-                createdDatetime = createdDatetime,
-            )
-        }
     }
 }
