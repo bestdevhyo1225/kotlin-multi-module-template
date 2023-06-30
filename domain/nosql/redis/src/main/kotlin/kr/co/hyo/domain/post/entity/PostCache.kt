@@ -1,7 +1,7 @@
 package kr.co.hyo.domain.post.entity
 
 class PostCache(
-    val postId: Long,
+    private val postId: Long,
 ) {
 
     fun getPostKey(): String = "post:$postId"

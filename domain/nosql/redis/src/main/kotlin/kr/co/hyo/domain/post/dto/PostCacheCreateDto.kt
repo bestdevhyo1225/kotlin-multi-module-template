@@ -8,8 +8,6 @@ data class PostCacheCreateDto(
     val memberId: Long,
     val title: String,
     val contents: String,
-    val likeCount: Long,
-    val viewCount: Long,
     val createdDate: LocalDate,
     val createdDatetime: LocalDateTime,
 ) {

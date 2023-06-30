@@ -9,5 +9,5 @@ interface PostRedisTemplateRepository {
     fun <T : Any> zadd(key: String, value: T, score: Double)
     fun zremRangeByRank(key: String, start: Long, end: Long)
     fun <T : Any> zrevRange(key: String, start: Long, end: Long, clazz: Class<T>): List<T>
-    fun increment(key: String)
+    fun increment(key: String): Long
 }

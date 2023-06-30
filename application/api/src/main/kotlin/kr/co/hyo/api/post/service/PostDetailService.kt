@@ -7,6 +7,7 @@ import kr.co.hyo.domain.post.service.PostCacheReadService
 import kr.co.hyo.domain.post.service.PostCacheWriteService
 import kr.co.hyo.domain.post.service.PostLikeReadService
 import kr.co.hyo.domain.post.service.PostReadService
+import kr.co.hyo.domain.post.service.PostViewWriteService
 import org.springframework.stereotype.Service
 
 @Service
@@ -14,20 +15,26 @@ class PostDetailService(
     private val postCacheReadService: PostCacheReadService,
     private val postCacheWriteService: PostCacheWriteService,
     private val postLikeReadService: PostLikeReadService,
+    private val postViewWriteService: PostViewWriteService,
     private val postReadService: PostReadService,
 ) {
 
     fun findPost(postId: Long, memberId: Long): PostDto {
-        var postCacheDto: PostCacheDto? = postCacheReadService.findPostCache(postId = postId)
+        val postCacheDto: PostCacheDto = postCacheReadService.findPostCache(postId = postId)
+            ?: let {
+                val postDto: PostDto = postReadService.findPost(postId = postId)
+                postCacheWriteService.create(dto = toPostCacheCreateDto(postDto = postDto))
+            }
         val postLikeCount: Long = postLikeReadService.count(postId = postId)
-        if (postCacheDto == null) {
-            val postDto: PostDto = postReadService.findPost(postId = postId)
-            postCacheDto = postCacheWriteService.create(dto = toPostCacheCreateDto(postDto = postDto))
-        }
+        val postViewCount: Long = postViewWriteService.increment(
+            postId = postId,
+            postOwnMemberId = postCacheDto.memberId,
+            memberId = memberId,
+        )
         return toPostDto(
             postCacheDto = postCacheDto,
             postLikeCount = postLikeCount,
-            postViewCount = 0,
+            postViewCount = postViewCount,
         )
     }
 
@@ -38,8 +45,6 @@ class PostDetailService(
                 memberId = memberId,
                 title = title,
                 contents = contents,
-                likeCount = likeCount,
-                viewCount = viewCount,
                 createdDate = createdDate,
                 createdDatetime = createdDatetime,
             )

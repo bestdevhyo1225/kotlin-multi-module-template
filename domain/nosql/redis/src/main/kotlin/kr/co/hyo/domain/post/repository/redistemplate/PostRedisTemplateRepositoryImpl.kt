@@ -49,7 +49,6 @@ class PostRedisTemplateRepositoryImpl(
         return values.map { jacksonObjectMapper.readValue(it, clazz) }
     }
 
-    override fun increment(key: String) {
-        redisTemplate.opsForValue().increment(key)
-    }
+    override fun increment(key: String): Long =
+        redisTemplate.opsForValue().increment(key) ?: throw RuntimeException("increment 결과 값이 null입니다.")
 }
