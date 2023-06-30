@@ -4,9 +4,9 @@ import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Index
 import jakarta.persistence.Table
-import kr.co.hyo.common.util.bcrpyt.BCryptHelper
 import kr.co.hyo.domain.common.entity.BaseEntity
 import org.hibernate.annotations.DynamicUpdate
+import org.mindrot.jbcrypt.BCrypt
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -69,7 +69,7 @@ class Member private constructor(
             Member(
                 name = name,
                 loginId = loginId,
-                password = BCryptHelper.encrypt(password = password),
+                password = BCrypt.hashpw(password, BCrypt.gensalt()),
                 email = email,
                 followCount = 0L,
                 followingCount = 0L,
@@ -79,7 +79,7 @@ class Member private constructor(
     fun changePassword(oldPassword: String, newPassword: String) {
         verifyPassword(password = oldPassword)
 
-        val encryptedNewPassword = BCryptHelper.encrypt(newPassword)
+        val encryptedNewPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt())
         if (encryptedNewPassword == this.password) {
             return
         }
@@ -90,7 +90,7 @@ class Member private constructor(
     }
 
     fun verifyPassword(password: String) {
-        if (BCryptHelper.isNotMatch(password = password, encryptedPassword = this.password)) {
+        if (!BCrypt.checkpw(password, this.password)) {
             throw IllegalArgumentException("비밀번호가 일치하지 않습니다.")
         }
     }
