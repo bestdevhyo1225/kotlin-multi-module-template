@@ -3,6 +3,7 @@ package kr.co.hyo.api.post.service
 import kr.co.hyo.common.util.page.PageByPosition
 import kr.co.hyo.common.util.page.PageRequestByPosition
 import kr.co.hyo.domain.member.dto.MemberDto
+import kr.co.hyo.domain.member.dto.MemberFollowDto
 import kr.co.hyo.domain.member.service.MemberFollowReadService
 import kr.co.hyo.domain.member.service.MemberReadService
 import kr.co.hyo.domain.member.service.MemberWriteService
@@ -23,11 +24,10 @@ class PostTimelineService(
 ) {
 
     fun refreshPosts(memberId: Long) {
-        val followingIds: List<Long> = memberFollowReadService.findFollowings(followerId = memberId)
-            .map { it.followingId }
+        val memberFollowDtos: List<MemberFollowDto> = memberFollowReadService.findFollowings(followerId = memberId)
         val memberDto: MemberDto = memberReadService.find(memberId = memberId)
         val postDtos: List<PostDto> = postReadService.findPosts(
-            memberIds = followingIds,
+            memberIds = memberFollowDtos.map { it.followingId },
             timelineUpdatedDatetime = memberDto.timelineUpdatedDatetime,
         )
         postDtos.forEach { postFeedWriteService.create(memberId = memberId, postId = it.id) }
