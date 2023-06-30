@@ -38,6 +38,9 @@ class PostJpaQueryDslRepositorySupport(
     }
 
     override fun findAllByIds(postIds: List<Long>): List<Post> {
+        if (postIds.isEmpty()) {
+            return emptyList()
+        }
         return queryFactory
             .selectFrom(post)
             .where(
@@ -51,12 +54,15 @@ class PostJpaQueryDslRepositorySupport(
         memberIds: List<Long>,
         timelineUpdatedDatetime: LocalDateTime?,
     ): List<Post> {
+        if (memberIds.isEmpty()) {
+            return emptyList()
+        }
+
         val booleanBuilder = BooleanBuilder()
-
-        timelineUpdatedDatetime?.let { booleanBuilder.and(postCreatedDatetimeGoe(createdDatetime = it)) }
-
         booleanBuilder.and(postMemberIdIn(memberIds = memberIds))
         booleanBuilder.and(postDeletedDatetimeIsNull())
+
+        timelineUpdatedDatetime?.let { booleanBuilder.and(postCreatedDatetimeGoe(createdDatetime = it)) }
 
         return queryFactory
             .selectFrom(post)
