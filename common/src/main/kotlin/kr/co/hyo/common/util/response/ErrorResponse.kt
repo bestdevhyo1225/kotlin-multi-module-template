@@ -1,4 +1,4 @@
-package com.hyoseok.response
+package kr.co.hyo.common.util.response
 
 data class ErrorResponse(
     val status: String = "error",

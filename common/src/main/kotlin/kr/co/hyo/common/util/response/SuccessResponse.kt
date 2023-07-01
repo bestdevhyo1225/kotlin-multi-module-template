@@ -1,4 +1,4 @@
-package com.hyoseok.response
+package kr.co.hyo.common.util.response
 
 data class SuccessResponse<T : Any>(
     val status: String = "success",

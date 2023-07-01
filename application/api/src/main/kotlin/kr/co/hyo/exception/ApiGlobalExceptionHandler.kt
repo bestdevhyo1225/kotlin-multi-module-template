@@ -1,7 +1,7 @@
 package kr.co.hyo.exception
 
-import com.hyoseok.response.ErrorResponse
-import com.hyoseok.response.FailResponse
+import kr.co.hyo.common.util.response.ErrorResponse
+import kr.co.hyo.common.util.response.FailResponse
 import jakarta.validation.ConstraintViolationException
 import mu.KotlinLogging
 import org.springframework.http.HttpStatus.BAD_REQUEST
