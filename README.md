@@ -15,7 +15,13 @@
 
 > **batch 모듈**
 
-- `batch`: 배치를 수행하는 스케줄러 로직들이 포함되어 있습니다.
+- `batch` : 배치를 수행하는 스케줄러 로직들이 포함되어 있습니다.
+
+### client 모듈
+
+> **client:kafka-publisher 모듈**
+
+- `publisher` : Kakfa 브로커에 메시지를 발행을 관리합니다.
 
 ### common 모듈
 
