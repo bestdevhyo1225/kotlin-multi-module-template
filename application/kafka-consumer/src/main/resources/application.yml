@@ -16,6 +16,7 @@ spring:
       group-id: kafka-consumer
     topics:
       post-feed: post-feed-topic
+      reservation: reservation-topic
 
   output:
     ansi:

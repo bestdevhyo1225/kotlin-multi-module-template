@@ -61,7 +61,38 @@ class KafkaConsumerConfig(
         return containerFactory
     }
 
+    @Bean
+    fun reservationKafkaListenerContainerFactory(): ConcurrentKafkaListenerContainerFactory<String, String> {
+        val containerFactory = ConcurrentKafkaListenerContainerFactory<String, String>()
+        containerFactory.consumerFactory = DefaultKafkaConsumerFactory(reservationConfigConsumerProps())
+        containerFactory.containerProperties.ackMode = AckMode.MANUAL_IMMEDIATE // 즉시 수동 커밋
+        return containerFactory
+    }
+
     private fun postFeedConfigConsumerProps(): Map<String, Any> {
+        val props: MutableMap<String, Any> = mutableMapOf()
+        props[BOOTSTRAP_SERVERS_CONFIG] = bootstrapServers
+        props[ENABLE_AUTO_COMMIT_CONFIG] = false // 수동 커밋
+        props[AUTO_OFFSET_RESET_CONFIG] = autoOffsetReset
+        props[SESSION_TIMEOUT_MS_CONFIG] = sessionTimeout
+        props[HEARTBEAT_INTERVAL_MS_CONFIG] = heartbeatInterval
+        props[MAX_POLL_INTERVAL_MS_CONFIG] = maxPollInterval
+        props[MAX_POLL_RECORDS_CONFIG] = maxPollRecords
+        props[ALLOW_AUTO_CREATE_TOPICS_CONFIG] = allowAutoCreateTopics
+        /*
+         * 스태틱 멤버십 -> 컨슈머 그룹 내에서 컨슈머가 재시작 등으로 그룹에서 나갔다가 다시 합류하더라도 리밸런싱이 일어나지 않도록 한다.
+         * 스태틱 멤버십 적용을 위해 'GROUP_INSTANCE_ID' 를 설정했음
+         * 다만 session.timeout.ms에 지정된 시간을 넘어가도록 컨슈머가 재실행 되지 않으면 리밸런싱 동작이 발생함
+        * */
+        props[GROUP_INSTANCE_ID_CONFIG] = "${InetAddress.getLocalHost().hostAddress}-${UUID.randomUUID()}"
+        props[GROUP_ID_CONFIG] = groupId
+        props[PARTITION_ASSIGNMENT_STRATEGY_CONFIG] = listOf(CooperativeStickyAssignor::class.java) // 협력적 스티키 파티션 할당 전략
+        props[KEY_DESERIALIZER_CLASS_CONFIG] = StringDeserializer::class.java
+        props[VALUE_DESERIALIZER_CLASS_CONFIG] = StringDeserializer::class.java
+        return props
+    }
+
+    private fun reservationConfigConsumerProps(): Map<String, Any> {
         val props: MutableMap<String, Any> = mutableMapOf()
         props[BOOTSTRAP_SERVERS_CONFIG] = bootstrapServers
         props[ENABLE_AUTO_COMMIT_CONFIG] = false // 수동 커밋

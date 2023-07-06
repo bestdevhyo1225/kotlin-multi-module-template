@@ -7,6 +7,7 @@ tasks.getByName<BootJar>("bootJar") {
 
 dependencies {
     implementation(project(":domain:nosql:redis"))
+    implementation(project(":domain:rdbms:jpa"))
 
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-web")

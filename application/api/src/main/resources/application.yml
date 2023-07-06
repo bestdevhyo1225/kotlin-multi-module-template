@@ -46,6 +46,7 @@ spring:
       instance-id: kafak-producer
     topics:
       post-feed: post-feed-topic
+      reservation: reservation-topic
 
   output:
     ansi:

@@ -11,6 +11,7 @@ dependencies {
     implementation(project(":domain:nosql:redis"))
     implementation(project(":domain:rdbms:jpa"))
 
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0") {
         exclude("org.yaml", "snakeyaml")
     }
