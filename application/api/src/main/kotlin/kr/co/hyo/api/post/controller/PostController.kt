@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
-import kr.co.hyo.api.post.controller.request.PostCreateRequest
+import kr.co.hyo.api.post.request.PostCreateRequest
 import kr.co.hyo.api.post.service.PostDetailService
 import kr.co.hyo.api.post.service.PostFanoutService
 import kr.co.hyo.api.post.service.PostTimelineService

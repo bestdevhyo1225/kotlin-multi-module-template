@@ -1,4 +1,4 @@
-package kr.co.hyo.api.post.controller.request
+package kr.co.hyo.api.post.request
 
 import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.NotBlank

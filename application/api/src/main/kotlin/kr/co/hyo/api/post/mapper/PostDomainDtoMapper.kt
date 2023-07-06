@@ -1,4 +1,4 @@
-package kr.co.hyo.api.post.service.mapper
+package kr.co.hyo.api.post.mapper
 
 import kr.co.hyo.domain.post.dto.PostCacheCreateDto
 import kr.co.hyo.domain.post.dto.PostCacheDto

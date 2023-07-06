@@ -1,6 +1,6 @@
 package kr.co.hyo.api.post.service
 
-import kr.co.hyo.api.post.service.mapper.PostDomainDtoMapper
+import kr.co.hyo.api.post.mapper.PostDomainDtoMapper
 import kr.co.hyo.domain.post.dto.PostCacheDto
 import kr.co.hyo.domain.post.dto.PostDto
 import kr.co.hyo.domain.post.service.PostCacheReadService
