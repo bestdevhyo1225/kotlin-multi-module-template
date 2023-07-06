@@ -9,7 +9,6 @@ object ReservationEntityMapper {
         with(receiver = dto) {
             Reservation(
                 name = name,
-                totalQuantity = totalQuantity,
                 startDatetime = startDatetime,
                 endDatetime = endDatetime,
             )

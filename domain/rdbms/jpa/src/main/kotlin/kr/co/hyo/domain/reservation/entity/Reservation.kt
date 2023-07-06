@@ -15,17 +15,12 @@ import java.time.LocalDateTime
 )
 class Reservation private constructor(
     name: String,
-    totalQuantity: Int,
     startDatetime: LocalDateTime,
     endDatetime: LocalDateTime,
 ) : BaseEntity() {
 
     @Column(nullable = false)
     var name: String = name
-        protected set
-
-    @Column(nullable = false)
-    var totalQuantity: Int = totalQuantity
         protected set
 
     @Column(nullable = false, columnDefinition = "DATETIME")
@@ -37,19 +32,17 @@ class Reservation private constructor(
         protected set
 
     override fun toString(): String =
-        "Reservation(id=$id, totalQuantity=$totalQuantity, createdDate=$createdDate, " +
-            "createdDatetime=$createdDatetime, startDatetime=$startDatetime, endDatetime=$endDatetime, " +
-            "updatedDate=$updatedDate, updatedDatetime=$updatedDatetime, deletedDatetime=$deletedDatetime)"
+        "Reservation(id=$id, createdDate=$createdDate, createdDatetime=$createdDatetime, " +
+            "startDatetime=$startDatetime, endDatetime=$endDatetime, updatedDate=$updatedDate, " +
+            "updatedDatetime=$updatedDatetime, deletedDatetime=$deletedDatetime)"
 
     companion object {
         operator fun invoke(
             name: String,
-            totalQuantity: Int,
             startDatetime: LocalDateTime,
             endDatetime: LocalDateTime,
         ) = Reservation(
             name = name,
-            totalQuantity = totalQuantity,
             startDatetime = startDatetime,
             endDatetime = endDatetime,
         )

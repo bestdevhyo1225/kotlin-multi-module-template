@@ -10,7 +10,6 @@ object ReservationDtoMapper {
             ReservationDto(
                 id = id!!,
                 name = name,
-                totalQuantity = totalQuantity,
                 startDatetime = startDatetime,
                 endDatetime = endDatetime,
                 createdDate = createdDate,

@@ -29,7 +29,6 @@ class ReservationJpaRepositoryTests {
         val nowDatetime = LocalDateTime.now()
         val reservation = Reservation(
             name = "예약1",
-            totalQuantity = 50_000,
             startDatetime = nowDatetime,
             endDatetime = nowDatetime.plusDays(14),
         )

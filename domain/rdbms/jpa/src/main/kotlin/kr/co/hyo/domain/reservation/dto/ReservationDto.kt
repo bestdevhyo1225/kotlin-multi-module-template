@@ -6,7 +6,6 @@ import java.time.LocalDateTime
 data class ReservationDto(
     val id: Long,
     val name: String,
-    val totalQuantity: Int,
     val startDatetime: LocalDateTime,
     val endDatetime: LocalDateTime,
     val createdDate: LocalDate,
