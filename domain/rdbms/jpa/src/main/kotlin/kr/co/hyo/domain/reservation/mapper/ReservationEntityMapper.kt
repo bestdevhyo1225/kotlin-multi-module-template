@@ -8,7 +8,7 @@ object ReservationEntityMapper {
     fun toEntity(dto: ReservationCreateDto): Reservation =
         with(receiver = dto) {
             Reservation(
-                name = name,
+                type = type,
                 startDatetime = startDatetime,
                 endDatetime = endDatetime,
             )

@@ -9,7 +9,7 @@ object ReservationDtoMapper {
         with(receiver = reservation) {
             ReservationDto(
                 id = id!!,
-                name = name,
+                type = type,
                 startDatetime = startDatetime,
                 endDatetime = endDatetime,
                 createdDate = createdDate,
