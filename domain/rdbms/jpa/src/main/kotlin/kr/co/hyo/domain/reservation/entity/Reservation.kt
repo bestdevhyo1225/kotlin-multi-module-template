@@ -15,36 +15,23 @@ import java.time.LocalDateTime
 )
 class Reservation private constructor(
     type: String,
-    startDatetime: LocalDateTime,
-    endDatetime: LocalDateTime,
+    memberId: Long,
 ) : BaseEntity() {
 
     @Column(nullable = false)
     var type: String = type
         protected set
 
-    @Column(nullable = false, columnDefinition = "DATETIME")
-    var startDatetime: LocalDateTime = startDatetime
-        protected set
-
-    @Column(nullable = false, columnDefinition = "DATETIME")
-    var endDatetime: LocalDateTime = endDatetime
+    @Column(nullable = false)
+    var memberId: Long = memberId
         protected set
 
     override fun toString(): String =
-        "Reservation(id=$id, type=$type, createdDate=$createdDate, createdDatetime=$createdDatetime, " +
-            "startDatetime=$startDatetime, endDatetime=$endDatetime, updatedDate=$updatedDate, " +
+        "Reservation(id=$id, type=$type, memberId=$memberId, createdDate=$createdDate, " +
+            "createdDatetime=$createdDatetime, memberId=$memberId, updatedDate=$updatedDate, " +
             "updatedDatetime=$updatedDatetime, deletedDatetime=$deletedDatetime)"
 
     companion object {
-        operator fun invoke(
-            type: String,
-            startDatetime: LocalDateTime,
-            endDatetime: LocalDateTime,
-        ) = Reservation(
-            type = type,
-            startDatetime = startDatetime,
-            endDatetime = endDatetime,
-        )
+        operator fun invoke(type: String, memberId: Long) = Reservation(type = type, memberId = memberId)
     }
 }

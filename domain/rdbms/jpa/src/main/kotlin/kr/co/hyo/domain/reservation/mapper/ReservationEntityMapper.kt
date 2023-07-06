@@ -6,11 +6,5 @@ import kr.co.hyo.domain.reservation.entity.Reservation
 object ReservationEntityMapper {
 
     fun toEntity(dto: ReservationCreateDto): Reservation =
-        with(receiver = dto) {
-            Reservation(
-                type = type,
-                startDatetime = startDatetime,
-                endDatetime = endDatetime,
-            )
-        }
+        with(receiver = dto) { Reservation(type = type, memberId = memberId) }
 }

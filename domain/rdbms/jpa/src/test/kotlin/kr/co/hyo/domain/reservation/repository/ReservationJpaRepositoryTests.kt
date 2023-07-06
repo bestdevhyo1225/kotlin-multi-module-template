@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.test.context.ContextConfiguration
-import java.time.LocalDateTime
 
 @DataJpaTest
 @ContextConfiguration(classes = [JpaConfig::class])
@@ -26,12 +25,7 @@ class ReservationJpaRepositoryTests {
     @Test
     fun `예약을 저장한다`() {
         // given
-        val nowDatetime = LocalDateTime.now()
-        val reservation = Reservation(
-            type = "food",
-            startDatetime = nowDatetime,
-            endDatetime = nowDatetime.plusDays(14),
-        )
+        val reservation = Reservation(type = "food", memberId = 1L)
 
         // when
         reservationJpaRepository.save(reservation)
