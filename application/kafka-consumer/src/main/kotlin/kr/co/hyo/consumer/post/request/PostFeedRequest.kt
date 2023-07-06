@@ -1,4 +1,4 @@
-package kr.co.hyo.consumer.post.listener.request
+package kr.co.hyo.consumer.post.request
 
 data class PostFeedRequest(
     val followerId: Long,

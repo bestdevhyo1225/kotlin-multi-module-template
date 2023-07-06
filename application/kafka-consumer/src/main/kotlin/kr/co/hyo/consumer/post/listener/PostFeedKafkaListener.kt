@@ -3,7 +3,7 @@ package kr.co.hyo.consumer.post.listener
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import kr.co.hyo.consumer.common.exception.ListenerExceptionMessage.ACKNOWLEDGMENT_IS_NULL
-import kr.co.hyo.consumer.post.listener.request.PostFeedRequest
+import kr.co.hyo.consumer.post.request.PostFeedRequest
 import kr.co.hyo.domain.post.service.PostFeedWriteService
 import mu.KotlinLogging
 import org.apache.kafka.clients.consumer.ConsumerRecord
