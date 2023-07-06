@@ -1,5 +1,8 @@
 package kr.co.hyo.api.post.service
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kr.co.hyo.api.post.mapper.PostDomainDtoMapper
 import kr.co.hyo.domain.member.dto.MemberFollowDto
 import kr.co.hyo.domain.member.service.MemberFollowReadService
@@ -26,6 +29,11 @@ class PostFanoutService(
         if (memberReadService.isCanNotFanoutMaxLimit(memberId = postDto.memberId)) {
             return postDto
         }
+        CoroutineScope(context = Dispatchers.IO).launch { sendPostFeedEvent(postDto = postDto) }
+        return postDto
+    }
+
+    private suspend fun sendPostFeedEvent(postDto: PostDto) {
         var lastFollowerId: Long = 0
         while (true) {
             val memberFollowDtos: List<MemberFollowDto> =
@@ -38,6 +46,5 @@ class PostFanoutService(
             }
             lastFollowerId = memberFollowDtos.last().followerId
         }
-        return postDto
     }
 }
