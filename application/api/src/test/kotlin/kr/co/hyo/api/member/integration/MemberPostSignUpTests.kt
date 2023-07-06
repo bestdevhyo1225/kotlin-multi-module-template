@@ -2,7 +2,7 @@ package kr.co.hyo.api.member.integration
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import kr.co.hyo.ApiApplication
-import kr.co.hyo.api.member.controller.request.MemberSignUpRequest
+import kr.co.hyo.api.member.request.MemberSignUpRequest
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
