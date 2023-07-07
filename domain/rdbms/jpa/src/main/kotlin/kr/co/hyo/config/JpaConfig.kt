@@ -1,5 +1,6 @@
 package kr.co.hyo.config
 
+import com.querydsl.jpa.JPQLTemplates.DEFAULT
 import com.querydsl.jpa.impl.JPAQueryFactory
 import jakarta.persistence.EntityManager
 import jakarta.persistence.PersistenceContext
@@ -19,5 +20,5 @@ class JpaConfig {
     private lateinit var entityManager: EntityManager
 
     @Bean
-    fun jPAQueryFactory(): JPAQueryFactory = JPAQueryFactory(entityManager)
+    fun jPAQueryFactory(): JPAQueryFactory = JPAQueryFactory(DEFAULT, entityManager)
 }
