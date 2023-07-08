@@ -14,7 +14,7 @@ class OpenApiConfig {
     @Bean
     fun openAPI(): OpenAPI {
         val info = Info()
-            .version("v1.0.0")
+            .version("v1.1.0.RELEASE")
             .title("API")
             .description("API Description")
 
