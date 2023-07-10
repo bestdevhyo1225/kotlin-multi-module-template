@@ -43,11 +43,13 @@ class MemberFollowJpaQueryDslRepositorySupport(
                 )
             )
             .from(memberFollow)
-            .innerJoin(member).on(memberIdEq(memberId = memberFollow.followingId)).fetchJoin()
-            .where(
-                memberFollowFollowerIdIdEq(followerId = followerId),
+            .innerJoin(member)
+            .on(
+                memberIdEq(memberId = memberFollow.followingId),
                 memberFollowCountGt(followCount = followCount),
             )
+            .fetchJoin()
+            .where(memberFollowFollowerIdIdEq(followerId = followerId))
             .fetch()
     }
 
@@ -60,10 +62,9 @@ class MemberFollowJpaQueryDslRepositorySupport(
     private fun memberFollowFollowerIdGt(followerId: Long): BooleanExpression =
         memberFollow.followerId.gt(followerId)
 
-    private fun memberFollowCountGt(followCount: Long): BooleanExpression =
-        member.followCount.gt(followCount)
-
     private fun memberIdEq(memberId: NumberPath<Long>): BooleanExpression = member.id.eq(memberId)
+
+    private fun memberFollowCountGt(followCount: Long): BooleanExpression = member.followCount.gt(followCount)
 
     private fun memberFollowFollowerIdAsc(): OrderSpecifier<Long> = memberFollow.followerId.asc()
 }
