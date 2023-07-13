@@ -49,15 +49,13 @@ class PostJpaQueryDslRepositorySupport(
             return emptyList()
         }
 
-        val booleanBuilder = BooleanBuilder()
-        booleanBuilder.and(postMemberIdIn(memberIds = memberIds))
-        booleanBuilder.and(postDeletedDatetimeIsNull())
-
-        timelineUpdatedDatetime?.let { booleanBuilder.and(postCreatedDatetimeGoe(createdDatetime = it)) }
-
         return queryFactory
             .selectFrom(post)
-            .where(booleanBuilder)
+            .where(
+                postMemberIdIn(memberIds = memberIds),
+                postDeletedDatetimeIsNull(),
+                postCreatedDatetimeGoe(createdDatetime = timelineUpdatedDatetime),
+            )
             .fetch()
     }
 
@@ -67,8 +65,8 @@ class PostJpaQueryDslRepositorySupport(
 
     private fun postMemberIdIn(memberIds: List<Long>): BooleanExpression = post.memberId.`in`(memberIds)
 
-    private fun postCreatedDatetimeGoe(createdDatetime: LocalDateTime): BooleanExpression =
-        post.createdDatetime.goe(createdDatetime)
+    private fun postCreatedDatetimeGoe(createdDatetime: LocalDateTime?): BooleanExpression? =
+        if (createdDatetime == null) null else post.createdDatetime.goe(createdDatetime)
 
     private fun postDeletedDatetimeIsNull(): BooleanExpression = post.deletedDatetime.isNull
 
