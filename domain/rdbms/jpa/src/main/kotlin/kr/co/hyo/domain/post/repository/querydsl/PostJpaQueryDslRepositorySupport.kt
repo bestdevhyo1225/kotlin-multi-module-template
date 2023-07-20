@@ -1,6 +1,5 @@
 package kr.co.hyo.domain.post.repository.querydsl
 
-import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.types.OrderSpecifier
 import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.jpa.impl.JPAQueryFactory
