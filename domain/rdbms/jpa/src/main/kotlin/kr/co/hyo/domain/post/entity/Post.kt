@@ -11,7 +11,7 @@ import org.hibernate.annotations.DynamicUpdate
 @DynamicUpdate
 @Table(
     name = "post",
-    indexes = [Index(name = "idx_post_01", columnList = "memberId")],
+    indexes = [Index(name = "idx_post_01", columnList = "memberId,deletedDatetime,createdDatetime")],
 )
 class Post private constructor(
     memberId: Long,
