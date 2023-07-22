@@ -96,8 +96,8 @@ spring:
       connection-timeout: 5000 # 5 second
 
   redis:
-    host: localhost
-    port: 26379
+    mode: standalone
+    nodes: localhost:26379
 
   kafka:
     producer:
@@ -128,8 +128,8 @@ spring:
       ddl-auto: create
 
   redis:
-    host: localhost
-    port: 6379
+    mode: standalone
+    nodes: localhost:26379
 
   kafka:
     producer:
