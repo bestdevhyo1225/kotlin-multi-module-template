@@ -73,6 +73,8 @@ class RedisConfig(
     }
 
     private fun lettuceClusterClientConfig(): LettuceClientConfiguration {
+        // ClusterTopology를 설정하면, 정기적으로 토폴로지를 확인하게 된다.
+        // 즉, Cluster Topology 정보가 변경되면, 자동으로 정보를 가져올 수 있는 설정이다.
         val topologyRefreshOptions = ClusterTopologyRefreshOptions.builder()
             .enablePeriodicRefresh(Duration.ofMinutes(10))
             .enableAllAdaptiveRefreshTriggers()
