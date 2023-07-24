@@ -91,13 +91,15 @@ class PostJpaRepositorySupportTests {
         entityManager.clear()
 
         // when
-        val findPosts: List<Post> = postJpaRepositorySupport.findAllByMemberIdsAndCreatedDatetime(
+        val postIds: List<Long> = postJpaRepositorySupport.findIds(
             memberIds = listOf(1L, 2L, 3L, 4L, 5L),
             timelineUpdatedDatetime = LocalDateTime.now().minusDays(3),
+            lastId = 0L,
+            limit = 200L,
         )
 
         // then
-        assertThat(findPosts).isNotEmpty
-        assertThat(findPosts.size).isEqualTo(posts.size)
+        assertThat(postIds).isNotEmpty
+        assertThat(postIds.size).isEqualTo(posts.size)
     }
 }

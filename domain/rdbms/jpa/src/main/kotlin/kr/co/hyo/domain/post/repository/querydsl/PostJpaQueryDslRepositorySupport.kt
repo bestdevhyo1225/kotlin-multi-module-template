@@ -40,25 +40,33 @@ class PostJpaQueryDslRepositorySupport(
             .fetch()
     }
 
-    override fun findAllByMemberIdsAndCreatedDatetime(
+    override fun findIds(
         memberIds: List<Long>,
         timelineUpdatedDatetime: LocalDateTime?,
-    ): List<Post> {
+        lastId: Long,
+        limit: Long,
+    ): List<Long> {
         if (memberIds.isEmpty()) {
             return emptyList()
         }
 
         return queryFactory
-            .selectFrom(post)
+            .select(post.id)
+            .from(post)
             .where(
                 postMemberIdIn(memberIds = memberIds),
                 postDeletedDatetimeIsNull(),
                 postCreatedDatetimeGoe(createdDatetime = timelineUpdatedDatetime),
+                postIdGt(id = lastId),
             )
+            .limit(limit)
+            .orderBy(postIdAsc())
             .fetch()
     }
 
     private fun postIdEq(id: Long): BooleanExpression = post.id.eq(id)
+
+    private fun postIdGt(id: Long): BooleanExpression = post.id.gt(id)
 
     private fun postIdIn(ids: List<Long>): BooleanExpression = post.id.`in`(ids)
 
@@ -68,6 +76,8 @@ class PostJpaQueryDslRepositorySupport(
         if (createdDatetime == null) null else post.createdDatetime.goe(createdDatetime)
 
     private fun postDeletedDatetimeIsNull(): BooleanExpression = post.deletedDatetime.isNull
+
+    private fun postIdAsc(): OrderSpecifier<Long> = post.id.asc()
 
     private fun postIdDesc(): OrderSpecifier<Long> = post.id.desc()
 }

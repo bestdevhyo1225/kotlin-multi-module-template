@@ -28,14 +28,20 @@ class PostReadJpaService(
         return posts.map { PostDtoMapper.toDto(post = it) }
     }
 
-    override fun findPosts(memberIds: List<Long>, timelineUpdatedDatetime: LocalDateTime?): List<PostDto> {
+    override fun findPostIds(
+        memberIds: List<Long>,
+        timelineUpdatedDatetime: LocalDateTime?,
+        lastPostId: Long,
+        limit: Long,
+    ): List<Long> {
         if (memberIds.isEmpty()) {
             return emptyList()
         }
-        val posts: List<Post> = postJpaRepositorySupport.findAllByMemberIdsAndCreatedDatetime(
+        return postJpaRepositorySupport.findIds(
             memberIds = memberIds,
             timelineUpdatedDatetime = timelineUpdatedDatetime,
+            lastId = lastPostId,
+            limit = limit,
         )
-        return posts.map { PostDtoMapper.toDto(post = it) }
     }
 }

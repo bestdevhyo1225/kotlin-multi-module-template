@@ -6,5 +6,10 @@ import java.time.LocalDateTime
 interface PostReadService {
     fun findPost(postId: Long): PostDto
     fun findPosts(postIds: List<Long>): List<PostDto>
-    fun findPosts(memberIds: List<Long>, timelineUpdatedDatetime: LocalDateTime?): List<PostDto>
+    fun findPostIds(
+        memberIds: List<Long>,
+        timelineUpdatedDatetime: LocalDateTime?,
+        lastPostId: Long,
+        limit: Long,
+    ): List<Long>
 }
