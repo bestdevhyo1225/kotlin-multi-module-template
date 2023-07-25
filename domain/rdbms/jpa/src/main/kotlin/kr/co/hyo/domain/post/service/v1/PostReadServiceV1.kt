@@ -1,9 +1,9 @@
-package kr.co.hyo.domain.post.service.jpa
+package kr.co.hyo.domain.post.service.v1
 
 import kr.co.hyo.domain.post.dto.PostDto
 import kr.co.hyo.domain.post.entity.Post
 import kr.co.hyo.domain.post.mapper.PostDtoMapper
-import kr.co.hyo.domain.post.repository.PostJpaRepositorySupport
+import kr.co.hyo.domain.post.repository.PostRepositorySupport
 import kr.co.hyo.domain.post.service.PostReadService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -11,12 +11,12 @@ import java.time.LocalDateTime
 
 @Service
 @Transactional(readOnly = true)
-class PostReadJpaService(
-    private val postJpaRepositorySupport: PostJpaRepositorySupport,
+class PostReadServiceV1(
+    private val postRepositorySupport: PostRepositorySupport,
 ) : PostReadService {
 
     override fun findPost(postId: Long): PostDto {
-        val post: Post = postJpaRepositorySupport.find(id = postId)
+        val post: Post = postRepositorySupport.find(id = postId)
         return PostDtoMapper.toDto(post = post)
     }
 
@@ -24,7 +24,7 @@ class PostReadJpaService(
         if (postIds.isEmpty()) {
             return emptyList()
         }
-        val posts: List<Post> = postJpaRepositorySupport.findAll(ids = postIds)
+        val posts: List<Post> = postRepositorySupport.findAll(ids = postIds)
         return posts.map { PostDtoMapper.toDto(post = it) }
     }
 
@@ -37,7 +37,7 @@ class PostReadJpaService(
         if (memberIds.isEmpty()) {
             return emptyList()
         }
-        return postJpaRepositorySupport.findIds(
+        return postRepositorySupport.findIds(
             memberIds = memberIds,
             timelineUpdatedDatetime = timelineUpdatedDatetime,
             lastId = lastPostId,

@@ -3,7 +3,7 @@ package kr.co.hyo.domain.post.repository
 import jakarta.persistence.EntityManager
 import kr.co.hyo.config.JpaConfig
 import kr.co.hyo.domain.post.entity.Post
-import kr.co.hyo.domain.post.repository.querydsl.PostJpaQueryDslRepositorySupport
+import kr.co.hyo.domain.post.repository.querydsl.PostRepositoryQueryDslSupport
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -13,30 +13,30 @@ import org.springframework.test.context.ContextConfiguration
 import java.time.LocalDateTime
 
 @DataJpaTest
-@ContextConfiguration(classes = [JpaConfig::class, PostJpaQueryDslRepositorySupport::class])
-@DisplayName("PostJpaRepositorySupport 단위 테스트")
-class PostJpaRepositorySupportTests {
+@ContextConfiguration(classes = [JpaConfig::class, PostRepositoryQueryDslSupport::class])
+@DisplayName("PostRepositorySupport 단위 테스트")
+class PostRepositorySupportTests {
 
     @Autowired
     lateinit var entityManager: EntityManager
 
     @Autowired
-    lateinit var postJpaRepository: PostJpaRepository
+    lateinit var postRepository: PostRepository
 
     @Autowired
-    lateinit var postJpaRepositorySupport: PostJpaRepositorySupport
+    lateinit var postRepositorySupport: PostRepositorySupport
 
     @Test
     fun `게시글 번호로 게시글을 조회한다`() {
         // given
         val post = Post(memberId = 1L, title = "title", contents = "contents")
 
-        postJpaRepository.save(post)
+        postRepository.save(post)
         entityManager.flush()
         entityManager.clear()
 
         // when
-        val findPost: Post = postJpaRepositorySupport.find(id = post.id!!)
+        val findPost: Post = postRepositorySupport.find(id = post.id!!)
 
         // then
         assertThat(findPost).isEqualTo(post)
@@ -54,13 +54,13 @@ class PostJpaRepositorySupportTests {
             Post(memberId = memberId, title = "title5", contents = "contents5"),
         )
 
-        postJpaRepository.saveAll(posts)
+        postRepository.saveAll(posts)
         entityManager.flush()
         entityManager.clear()
 
         // when
         val findPosts: List<Post> =
-            postJpaRepositorySupport.findAll(ids = posts.map { it.id!! })
+            postRepositorySupport.findAll(ids = posts.map { it.id!! })
 
         // then
         assertThat(findPosts).isNotEmpty
@@ -86,12 +86,12 @@ class PostJpaRepositorySupportTests {
             Post(memberId = 5L, title = "title13", contents = "contents13"),
         )
 
-        postJpaRepository.saveAll(posts)
+        postRepository.saveAll(posts)
         entityManager.flush()
         entityManager.clear()
 
         // when
-        val postIds: List<Long> = postJpaRepositorySupport.findIds(
+        val postIds: List<Long> = postRepositorySupport.findIds(
             memberIds = listOf(1L, 2L, 3L, 4L, 5L),
             timelineUpdatedDatetime = LocalDateTime.now().minusDays(3),
             lastId = 0L,

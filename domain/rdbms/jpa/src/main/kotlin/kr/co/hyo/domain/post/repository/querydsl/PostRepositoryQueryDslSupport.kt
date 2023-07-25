@@ -5,16 +5,16 @@ import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.jpa.impl.JPAQueryFactory
 import kr.co.hyo.domain.post.entity.Post
 import kr.co.hyo.domain.post.entity.QPost.post
-import kr.co.hyo.domain.post.repository.PostJpaRepositorySupport
+import kr.co.hyo.domain.post.repository.PostRepositorySupport
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
 
 @Repository
 @Transactional(readOnly = true)
-class PostJpaQueryDslRepositorySupport(
+class PostRepositoryQueryDslSupport(
     private val queryFactory: JPAQueryFactory,
-) : PostJpaRepositorySupport {
+) : PostRepositorySupport {
 
     override fun find(id: Long): Post {
         return queryFactory

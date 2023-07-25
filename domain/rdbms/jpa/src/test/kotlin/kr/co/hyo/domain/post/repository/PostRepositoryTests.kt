@@ -13,14 +13,14 @@ import org.springframework.test.context.ContextConfiguration
 
 @DataJpaTest
 @ContextConfiguration(classes = [JpaConfig::class])
-@DisplayName("PostJpaRepository 단위 테스트")
-class PostJpaRepositoryTests {
+@DisplayName("PostRepository 단위 테스트")
+class PostRepositoryTests {
 
     @Autowired
     lateinit var entityManager: EntityManager
 
     @Autowired
-    lateinit var postJpaRepository: PostJpaRepository
+    lateinit var postRepository: PostRepository
 
     @Test
     fun `게시글을 저장한다`() {
@@ -28,12 +28,12 @@ class PostJpaRepositoryTests {
         val post = Post(memberId = 1L, title = "title", contents = "contents")
 
         // when
-        postJpaRepository.save(post)
+        postRepository.save(post)
         entityManager.flush()
         entityManager.clear()
 
         // then
-        val findPost: Post? = postJpaRepository.findByIdOrNull(id = post.id!!)
+        val findPost: Post? = postRepository.findByIdOrNull(id = post.id!!)
 
         assertThat(findPost).isNotNull
         assertThat(findPost).isEqualTo(post)
