@@ -5,7 +5,7 @@ import kr.co.hyo.config.JpaConfig
 import kr.co.hyo.domain.member.dto.MemberFollowDto
 import kr.co.hyo.domain.member.entity.Member
 import kr.co.hyo.domain.member.entity.MemberFollow
-import kr.co.hyo.domain.member.repository.querydsl.MemberFollowJpaQueryDslRepositorySupport
+import kr.co.hyo.domain.member.repository.querydsl.MemberFollowRepositoryQueryDslSupport
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -14,21 +14,21 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.test.context.ContextConfiguration
 
 @DataJpaTest
-@ContextConfiguration(classes = [JpaConfig::class, MemberFollowJpaQueryDslRepositorySupport::class])
-@DisplayName("MemberFollowJpaRepositorySupport 단위 테스트")
-class MemberFollowJpaRepositorySupportTests {
+@ContextConfiguration(classes = [JpaConfig::class, MemberFollowRepositoryQueryDslSupport::class])
+@DisplayName("MemberFollowRepositorySupport 단위 테스트")
+class MemberFollowRepositorySupportTests {
 
     @Autowired
     lateinit var entityManager: EntityManager
 
     @Autowired
-    lateinit var memberJpaRepository: MemberJpaRepository
+    lateinit var memberRepository: MemberRepository
 
     @Autowired
-    lateinit var memberFollowJpaRepository: MemberFollowJpaRepository
+    lateinit var memberFollowRepository: MemberFollowRepository
 
     @Autowired
-    lateinit var memberFollowJpaRepositorySupport: MemberFollowJpaRepositorySupport
+    lateinit var memberFollowRepositorySupport: MemberFollowRepositorySupport
 
     @Test
     fun `회원의 팔로우 회원번호를 조회한다`() {
@@ -38,12 +38,12 @@ class MemberFollowJpaRepositorySupportTests {
             MemberFollow(followingId = followingId, followerId = it)
         }
 
-        memberFollowJpaRepository.saveAll(memberFollows)
+        memberFollowRepository.saveAll(memberFollows)
         entityManager.flush()
         entityManager.clear()
 
         // when
-        val findMemberFollows: List<MemberFollow> = memberFollowJpaRepositorySupport.findAll(
+        val findMemberFollows: List<MemberFollow> = memberFollowRepositorySupport.findAll(
             followingId = followingId,
             lastFollowerId = 0L,
             limit = 10L,
@@ -97,8 +97,8 @@ class MemberFollowJpaRepositorySupportTests {
             ),
         )
 
-        memberJpaRepository.save(followerMember)
-        memberJpaRepository.saveAll(followingMembers)
+        memberRepository.save(followerMember)
+        memberRepository.saveAll(followingMembers)
 
         val memberFollows: List<MemberFollow> = followingMembers.map {
             it.incrementFollowCount()
@@ -106,13 +106,13 @@ class MemberFollowJpaRepositorySupportTests {
             MemberFollow(followingId = it.id!!, followerId = followerMember.id!!)
         }
 
-        memberFollowJpaRepository.saveAll(memberFollows)
+        memberFollowRepository.saveAll(memberFollows)
         entityManager.flush()
         entityManager.clear()
 
         // when
         val memberFollowDtos: List<MemberFollowDto> =
-            memberFollowJpaRepositorySupport.findAll(followerId = followerMember.id!!, followCount = 0L)
+            memberFollowRepositorySupport.findAll(followerId = followerMember.id!!, followCount = 0L)
 
         // then
         assertThat(memberFollowDtos).isNotEmpty

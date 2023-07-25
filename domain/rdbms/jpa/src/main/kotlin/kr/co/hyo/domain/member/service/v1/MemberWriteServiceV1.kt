@@ -1,12 +1,12 @@
-package kr.co.hyo.domain.member.service.jpa
+package kr.co.hyo.domain.member.service.v1
 
 import kr.co.hyo.domain.member.dto.MemberCreateDto
 import kr.co.hyo.domain.member.dto.MemberDto
 import kr.co.hyo.domain.member.entity.Member
 import kr.co.hyo.domain.member.mapper.MemberDtoMapper
 import kr.co.hyo.domain.member.mapper.MemberEntityMapper
-import kr.co.hyo.domain.member.repository.MemberJpaRepository
-import kr.co.hyo.domain.member.repository.MemberJpaRepositorySupport
+import kr.co.hyo.domain.member.repository.MemberRepository
+import kr.co.hyo.domain.member.repository.MemberRepositorySupport
 import kr.co.hyo.domain.member.service.MemberWriteService
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -14,17 +14,17 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-class MemberWriteJpaService(
-    private val memberJpaRepository: MemberJpaRepository,
-    private val memberJpaRepositorySupport: MemberJpaRepositorySupport,
+class MemberWriteServiceV1(
+    private val memberRepository: MemberRepository,
+    private val memberRepositorySupport: MemberRepositorySupport,
 ) : MemberWriteService {
 
     override fun createMember(dto: MemberCreateDto): MemberDto {
-        memberJpaRepositorySupport.find(loginId = dto.loginId)
+        memberRepositorySupport.find(loginId = dto.loginId)
             ?.let { throw IllegalArgumentException("로그인 아이디 '${it.loginId}' 는 이미 사용중입니다") }
 
         val member: Member = MemberEntityMapper.toEntity(dto = dto)
-        memberJpaRepository.save(member)
+        memberRepository.save(member)
         return MemberDtoMapper.toDto(member = member)
     }
 
@@ -44,5 +44,5 @@ class MemberWriteJpaService(
     }
 
     private fun findById(id: Long): Member =
-        memberJpaRepository.findByIdOrNull(id = id) ?: throw NoSuchElementException("회원이 존재하지 않습니다.")
+        memberRepository.findByIdOrNull(id = id) ?: throw NoSuchElementException("회원이 존재하지 않습니다.")
 }

@@ -13,14 +13,14 @@ import org.springframework.test.context.ContextConfiguration
 
 @DataJpaTest
 @ContextConfiguration(classes = [JpaConfig::class])
-@DisplayName("MemberFollowJpaRepository 단위 테스트")
-class MemberFollowJpaRepositoryTests {
+@DisplayName("MemberFollowRepository 단위 테스트")
+class MemberFollowRepositoryTests {
 
     @Autowired
     lateinit var entityManager: EntityManager
 
     @Autowired
-    lateinit var memberFollowJpaRepository: MemberFollowJpaRepository
+    lateinit var memberFollowRepository: MemberFollowRepository
 
     @Test
     fun `회원 팔로우를 저장한다`() {
@@ -30,12 +30,12 @@ class MemberFollowJpaRepositoryTests {
         val memberFollow = MemberFollow(followingId = followingId, followerId = followerId)
 
         // when
-        memberFollowJpaRepository.save(memberFollow)
+        memberFollowRepository.save(memberFollow)
         entityManager.flush()
         entityManager.clear()
 
         // then
-        val findMemberFollow: MemberFollow? = memberFollowJpaRepository.findByIdOrNull(id = memberFollow.id)
+        val findMemberFollow: MemberFollow? = memberFollowRepository.findByIdOrNull(id = memberFollow.id)
 
         assertThat(findMemberFollow).isNotNull
         assertThat(findMemberFollow).isEqualTo(memberFollow)

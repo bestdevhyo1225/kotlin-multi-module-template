@@ -9,15 +9,15 @@ import kr.co.hyo.domain.member.dto.MemberFollowDto
 import kr.co.hyo.domain.member.entity.MemberFollow
 import kr.co.hyo.domain.member.entity.QMember.member
 import kr.co.hyo.domain.member.entity.QMemberFollow.memberFollow
-import kr.co.hyo.domain.member.repository.MemberFollowJpaRepositorySupport
+import kr.co.hyo.domain.member.repository.MemberFollowRepositorySupport
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 
 @Repository
 @Transactional(readOnly = true)
-class MemberFollowJpaQueryDslRepositorySupport(
+class MemberFollowRepositoryQueryDslSupport(
     private val queryFactory: JPAQueryFactory,
-) : MemberFollowJpaRepositorySupport {
+) : MemberFollowRepositorySupport {
 
     override fun findAll(followingId: Long, lastFollowerId: Long, limit: Long): List<MemberFollow> {
         return queryFactory

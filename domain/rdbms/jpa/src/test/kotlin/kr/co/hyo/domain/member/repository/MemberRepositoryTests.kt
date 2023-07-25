@@ -13,14 +13,14 @@ import org.springframework.test.context.ContextConfiguration
 
 @DataJpaTest
 @ContextConfiguration(classes = [JpaConfig::class])
-@DisplayName("MemberJpaRepository 단위 테스트")
-class MemberJpaRepositoryTests {
+@DisplayName("MemberRepository 단위 테스트")
+class MemberRepositoryTests {
 
     @Autowired
     lateinit var entityManager: EntityManager
 
     @Autowired
-    lateinit var memberJpaRepository: MemberJpaRepository
+    lateinit var memberRepository: MemberRepository
 
     @Test
     fun `회원을 저장한다`() {
@@ -33,12 +33,12 @@ class MemberJpaRepositoryTests {
         )
 
         // when
-        memberJpaRepository.save(member)
+        memberRepository.save(member)
         entityManager.flush()
         entityManager.clear()
 
         // then
-        val findMember: Member? = memberJpaRepository.findByIdOrNull(member.id)
+        val findMember: Member? = memberRepository.findByIdOrNull(member.id)
 
         assertThat(findMember).isNotNull
         assertThat(findMember).isEqualTo(member)
@@ -54,12 +54,12 @@ class MemberJpaRepositoryTests {
             email = "devhyo@gmail.com",
         )
 
-        memberJpaRepository.save(member)
+        memberRepository.save(member)
         entityManager.flush()
         entityManager.clear()
 
         // when
-        val findMember: Member = memberJpaRepository.findByIdOrNull(member.id) ?: throw NoSuchElementException()
+        val findMember: Member = memberRepository.findByIdOrNull(member.id) ?: throw NoSuchElementException()
 
         findMember.changeEmail(email = "devhyo7@gmail.com")
         entityManager.flush()
@@ -80,12 +80,12 @@ class MemberJpaRepositoryTests {
             email = "devhyo@gmail.com",
         )
 
-        memberJpaRepository.save(member)
+        memberRepository.save(member)
         entityManager.flush()
         entityManager.clear()
 
         // when
-        val findMember: Member = memberJpaRepository.findByIdOrNull(member.id) ?: throw NoSuchElementException()
+        val findMember: Member = memberRepository.findByIdOrNull(member.id) ?: throw NoSuchElementException()
 
         findMember.changeEmail(email = member.email)
         entityManager.flush()
