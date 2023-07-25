@@ -16,7 +16,7 @@ class ReservationRequestService(
 ) {
 
     fun createReservation(dto: ReservationRequestCreateDto) {
-        if (reservationRequestWriteService.create(dto = dto)) {
+        if (reservationRequestWriteService.createReservationRequest(dto = dto)) {
             CoroutineScope(context = Dispatchers.IO).launch { sendReservationRequestEvent(dto = dto) }
         }
     }

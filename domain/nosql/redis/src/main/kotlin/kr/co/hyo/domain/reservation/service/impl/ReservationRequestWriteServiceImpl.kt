@@ -16,7 +16,7 @@ class ReservationRequestWriteServiceImpl(
     private val reservationRequestRedisTemplateRepository: ReservationRequestRedisTemplateRepository,
 ) : ReservationRequestWriteService {
 
-    override fun create(dto: ReservationRequestCreateDto): Boolean {
+    override fun createReservationRequest(dto: ReservationRequestCreateDto): Boolean {
         val reservationRequest: ReservationRequest =
             with(receiver = dto) { ReservationRequest(type = type, memberId = memberId, date = LocalDate.now()) }
         return when (reservationRequestRedisTemplateRepository.create(reservationRequest = reservationRequest)) {
