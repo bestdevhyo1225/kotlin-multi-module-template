@@ -13,14 +13,14 @@ import org.springframework.test.context.ContextConfiguration
 
 @DataJpaTest
 @ContextConfiguration(classes = [JpaConfig::class])
-@DisplayName("ReservationJpaRepository 단위 테스트")
-class ReservationJpaRepositoryTests {
+@DisplayName("ReservationRepository 단위 테스트")
+class ReservationRepositoryTests {
 
     @Autowired
     lateinit var entityManager: EntityManager
 
     @Autowired
-    lateinit var reservationJpaRepository: ReservationJpaRepository
+    lateinit var reservationRepository: ReservationRepository
 
     @Test
     fun `예약을 저장한다`() {
@@ -28,12 +28,12 @@ class ReservationJpaRepositoryTests {
         val reservation = Reservation(type = "food", memberId = 1L)
 
         // when
-        reservationJpaRepository.save(reservation)
+        reservationRepository.save(reservation)
         entityManager.flush()
         entityManager.clear()
 
         // then
-        val findReservation: Reservation? = reservationJpaRepository.findByIdOrNull(id = reservation.id!!)
+        val findReservation: Reservation? = reservationRepository.findByIdOrNull(id = reservation.id!!)
 
         assertThat(findReservation).isNotNull
         assertThat(findReservation).isEqualTo(reservation)
