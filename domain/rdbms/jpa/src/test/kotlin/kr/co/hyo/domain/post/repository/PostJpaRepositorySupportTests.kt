@@ -36,7 +36,7 @@ class PostJpaRepositorySupportTests {
         entityManager.clear()
 
         // when
-        val findPost: Post = postJpaRepositorySupport.findById(id = post.id!!)
+        val findPost: Post = postJpaRepositorySupport.find(id = post.id!!)
 
         // then
         assertThat(findPost).isEqualTo(post)
@@ -60,7 +60,7 @@ class PostJpaRepositorySupportTests {
 
         // when
         val findPosts: List<Post> =
-            postJpaRepositorySupport.findAllByIds(ids = posts.map { it.id!! })
+            postJpaRepositorySupport.findAll(ids = posts.map { it.id!! })
 
         // then
         assertThat(findPosts).isNotEmpty

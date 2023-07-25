@@ -18,7 +18,7 @@ class MemberFollowWriteJpaService(
     private val memberJpaRepository: MemberJpaRepository,
 ) : MemberFollowWriteService {
 
-    override fun create(followingId: Long, followerId: Long): MemberFollowDto {
+    override fun createMemberFollow(followingId: Long, followerId: Long): MemberFollowDto {
         val memberFollowing: Member = memberJpaRepository.findByIdOrNull(id = followingId)
             ?: throw NoSuchElementException("팔로잉 회원이 존재하지 않습니다.")
         memberFollowing.incrementFollowCount()

@@ -16,25 +16,25 @@ class MemberReadJpaService(
     private val memberJpaRepositorySupport: MemberJpaRepositorySupport,
 ) : MemberReadService {
 
-    override fun find(memberId: Long): MemberDto {
-        val member: Member = memberJpaRepositorySupport.findById(id = memberId)
+    override fun findMember(memberId: Long): MemberDto {
+        val member: Member = memberJpaRepositorySupport.find(id = memberId)
         return MemberDtoMapper.toDto(member = member)
     }
 
-    override fun isCanNotFanoutMaxLimit(memberId: Long): Boolean {
-        val member: Member = memberJpaRepositorySupport.findById(id = memberId)
+    override fun isCanNotMemberFanoutMaxLimit(memberId: Long): Boolean {
+        val member: Member = memberJpaRepositorySupport.find(id = memberId)
         return member.followCount == 0L || member.followCount > Member.MEMBER_FANOUT_MAX_LIMIT
     }
 
-    override fun verify(loginId: String, password: String): MemberAuthDto {
-        val member: Member = memberJpaRepositorySupport.findByLoginId(loginId = loginId)
+    override fun verifyMember(loginId: String, password: String): MemberAuthDto {
+        val member: Member = memberJpaRepositorySupport.find(loginId = loginId)
             ?: throw NoSuchElementException("회원이 존재하지 않습니다.")
         member.verifyPassword(password = password)
         return MemberAuthDtoMapper.toDto(member = member)
     }
 
-    override fun verify(memberId: Long): MemberAuthDto {
-        val member: Member = memberJpaRepositorySupport.findById(id = memberId)
+    override fun verifyMember(memberId: Long): MemberAuthDto {
+        val member: Member = memberJpaRepositorySupport.find(id = memberId)
         return MemberAuthDtoMapper.toDto(member = member)
     }
 }

@@ -7,7 +7,6 @@ import kr.co.hyo.domain.post.mapper.PostDtoMapper
 import kr.co.hyo.domain.post.mapper.PostEntityMapper
 import kr.co.hyo.domain.post.repository.PostJpaRepository
 import kr.co.hyo.domain.post.service.PostWriteService
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -17,12 +16,9 @@ class PostWriteJpaService(
     private val postJpaRepository: PostJpaRepository,
 ) : PostWriteService {
 
-    override fun create(dto: PostCreateDto): PostDto {
+    override fun createPost(dto: PostCreateDto): PostDto {
         val post: Post = PostEntityMapper.toEntity(dto = dto)
         postJpaRepository.save(post)
         return PostDtoMapper.toDto(post = post)
     }
-
-    private fun findPost(id: Long): Post =
-        postJpaRepository.findByIdOrNull(id = id) ?: throw NoSuchElementException("게시글이 존재하지 않습니다.")
 }

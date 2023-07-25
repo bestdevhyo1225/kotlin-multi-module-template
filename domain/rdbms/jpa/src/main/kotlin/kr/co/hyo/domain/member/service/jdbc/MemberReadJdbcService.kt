@@ -12,19 +12,21 @@ class MemberReadJdbcService(
     private val memberJdbcRepository: MemberJdbcRepository,
 ) : MemberReadService {
 
-    override fun find(memberId: Long): MemberDto {
+    override fun findMember(memberId: Long): MemberDto {
         TODO("Not yet implemented")
     }
 
-    override fun isCanNotFanoutMaxLimit(memberId: Long): Boolean {
+    override fun isCanNotMemberFanoutMaxLimit(memberId: Long): Boolean {
         TODO("Not yet implemented")
     }
 
-    override fun verify(loginId: String, password: String): MemberAuthDto {
+    override fun verifyMember(loginId: String, password: String): MemberAuthDto {
         TODO("Not yet implemented")
     }
 
-    override fun verify(memberId: Long): MemberAuthDto {
+    override fun verifyMember(memberId: Long): MemberAuthDto {
         TODO("Not yet implemented")
     }
+
+
 }

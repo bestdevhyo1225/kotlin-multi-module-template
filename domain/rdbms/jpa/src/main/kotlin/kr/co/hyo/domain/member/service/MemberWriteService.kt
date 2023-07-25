@@ -5,7 +5,7 @@ import kr.co.hyo.domain.member.dto.MemberDto
 
 interface MemberWriteService {
     fun createMember(dto: MemberCreateDto): MemberDto
-    fun changePassword(memberId: Long, oldPassword: String, newPassword: String)
-    fun changeEmail(memberId: Long, email: String)
-    fun changeTimelineUpdatedDatetime(memberId: Long)
+    fun changeMemberPassword(memberId: Long, oldPassword: String, newPassword: String)
+    fun changeMemberEmail(memberId: Long, email: String)
+    fun changeMemberTimelineUpdatedDatetime(memberId: Long)
 }

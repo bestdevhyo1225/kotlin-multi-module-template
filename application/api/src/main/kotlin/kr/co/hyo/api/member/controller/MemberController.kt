@@ -80,7 +80,7 @@ class MemberController(
     ): ResponseEntity<MemberFollowDto> {
         val followerId: Long = authentication.name.toLong()
         val dto: MemberFollowDto =
-            memberFollowWriteService.create(followingId = request.followingId, followerId = followerId)
+            memberFollowWriteService.createMemberFollow(followingId = request.followingId, followerId = followerId)
         return ResponseEntity.ok(dto)
     }
 
@@ -89,21 +89,25 @@ class MemberController(
     fun password(authentication: Authentication, @Valid @RequestBody request: MemberChangePasswordRequest) {
         val memberId: Long = authentication.name.toLong()
         val (oldPassword: String, newPassword: String) = request
-        memberWriteService.changePassword(memberId = memberId, oldPassword = oldPassword, newPassword = newPassword)
+        memberWriteService.changeMemberPassword(
+            memberId = memberId,
+            oldPassword = oldPassword,
+            newPassword = newPassword,
+        )
     }
 
     @PatchMapping("/email")
     @Operation(description = "회원 이메일 변경")
     fun email(authentication: Authentication, @Valid @RequestBody request: MemberChangeEmailRequest) {
         val memberId: Long = authentication.name.toLong()
-        memberWriteService.changeEmail(memberId = memberId, email = request.email)
+        memberWriteService.changeMemberEmail(memberId = memberId, email = request.email)
     }
 
     @GetMapping("/me")
     @Operation(description = "회원 본인 정보 조회")
     fun me(authentication: Authentication): ResponseEntity<MemberDto> {
         val memberId = authentication.name.toLong()
-        val dto: MemberDto = memberReadService.find(memberId = memberId)
+        val dto: MemberDto = memberReadService.findMember(memberId = memberId)
         return ResponseEntity.ok(dto)
     }
 

@@ -20,7 +20,7 @@ class MemberWriteJpaService(
 ) : MemberWriteService {
 
     override fun createMember(dto: MemberCreateDto): MemberDto {
-        memberJpaRepositorySupport.findByLoginId(loginId = dto.loginId)
+        memberJpaRepositorySupport.find(loginId = dto.loginId)
             ?.let { throw IllegalArgumentException("로그인 아이디 '${it.loginId}' 는 이미 사용중입니다") }
 
         val member: Member = MemberEntityMapper.toEntity(dto = dto)
@@ -28,17 +28,17 @@ class MemberWriteJpaService(
         return MemberDtoMapper.toDto(member = member)
     }
 
-    override fun changePassword(memberId: Long, oldPassword: String, newPassword: String) {
+    override fun changeMemberPassword(memberId: Long, oldPassword: String, newPassword: String) {
         val member = findById(id = memberId)
         member.changePassword(oldPassword = oldPassword, newPassword = newPassword)
     }
 
-    override fun changeEmail(memberId: Long, email: String) {
+    override fun changeMemberEmail(memberId: Long, email: String) {
         val member = findById(id = memberId)
         member.changeEmail(email = email)
     }
 
-    override fun changeTimelineUpdatedDatetime(memberId: Long) {
+    override fun changeMemberTimelineUpdatedDatetime(memberId: Long) {
         val member = findById(id = memberId)
         member.changeTimelineUpdatedDatetime()
     }

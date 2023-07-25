@@ -16,7 +16,7 @@ class MemberSignInService(
 ) {
 
     fun verify(loginId: String, password: String): Map<String, Any> {
-        val dto: MemberAuthDto = memberReadService.verify(loginId = loginId, password = password)
+        val dto: MemberAuthDto = memberReadService.verifyMember(loginId = loginId, password = password)
         val accessToken: String = jwtCreateHelper.createAccessToken(claims = dto.jwtClaims)
         val refreshToken: String = jwtCreateHelper.createRefreshToken(claims = dto.jwtClaims)
         memberTokenWriteService.createRefreshToken(
@@ -29,7 +29,7 @@ class MemberSignInService(
 
     fun refresh(memberId: Long, refreshToken: String): Map<String, Any> {
         memberTokenReadService.verifyRefreshToken(memberId = memberId, refreshToken = refreshToken)
-        val dto: MemberAuthDto = memberReadService.verify(memberId = memberId)
+        val dto: MemberAuthDto = memberReadService.verifyMember(memberId = memberId)
         val accessToken: String = jwtCreateHelper.createAccessToken(claims = dto.jwtClaims)
         return mapOf("accessToken" to accessToken)
     }

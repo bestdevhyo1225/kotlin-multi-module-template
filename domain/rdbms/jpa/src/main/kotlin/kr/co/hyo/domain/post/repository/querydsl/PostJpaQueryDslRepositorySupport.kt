@@ -16,7 +16,7 @@ class PostJpaQueryDslRepositorySupport(
     private val queryFactory: JPAQueryFactory,
 ) : PostJpaRepositorySupport {
 
-    override fun findById(id: Long): Post {
+    override fun find(id: Long): Post {
         return queryFactory
             .selectFrom(post)
             .where(
@@ -26,7 +26,7 @@ class PostJpaQueryDslRepositorySupport(
             .fetchOne() ?: throw NoSuchElementException("게시글이 존재하지 않습니다.")
     }
 
-    override fun findAllByIds(ids: List<Long>): List<Post> {
+    override fun findAll(ids: List<Long>): List<Post> {
         if (ids.isEmpty()) {
             return emptyList()
         }

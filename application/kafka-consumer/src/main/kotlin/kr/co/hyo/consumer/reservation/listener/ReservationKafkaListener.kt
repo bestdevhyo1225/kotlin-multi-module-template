@@ -29,7 +29,7 @@ class ReservationKafkaListener(
     override fun onMessage(data: ConsumerRecord<String, String>, acknowledgment: Acknowledgment?) {
         jacksonObjectMapper.readValue(data.value(), ReservationRequest::class.java)
             .also {
-                reservationWriteService.create(dto = with(receiver = it) {
+                reservationWriteService.createReservation(dto = with(receiver = it) {
                     ReservationCreateDto(type = type, memberId = memberId)
                 })
             }

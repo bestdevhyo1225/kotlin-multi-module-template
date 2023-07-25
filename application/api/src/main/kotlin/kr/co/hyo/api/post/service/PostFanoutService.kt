@@ -24,9 +24,9 @@ class PostFanoutService(
 ) {
 
     fun createPost(dto: PostCreateDto): PostDto {
-        val postDto: PostDto = postWriteService.create(dto = dto)
+        val postDto: PostDto = postWriteService.createPost(dto = dto)
         postCacheWriteService.create(dto = PostDomainDtoMapper.toPostCacheCreateDto(postDto = postDto))
-        if (memberReadService.isCanNotFanoutMaxLimit(memberId = postDto.memberId)) {
+        if (memberReadService.isCanNotMemberFanoutMaxLimit(memberId = postDto.memberId)) {
             return postDto
         }
         CoroutineScope(context = Dispatchers.IO).launch { sendPostFeedEvent(postDto = postDto) }

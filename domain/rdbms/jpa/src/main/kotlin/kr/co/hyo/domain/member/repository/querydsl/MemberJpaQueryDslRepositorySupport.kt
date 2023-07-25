@@ -14,7 +14,7 @@ class MemberJpaQueryDslRepositorySupport(
     private val queryFactory: JPAQueryFactory,
 ) : MemberJpaRepositorySupport {
 
-    override fun findById(id: Long): Member {
+    override fun find(id: Long): Member {
         return queryFactory
             .selectFrom(member)
             .where(
@@ -24,7 +24,7 @@ class MemberJpaQueryDslRepositorySupport(
             .fetchOne() ?: throw NoSuchElementException("회원이 존재하지 않습니다.")
     }
 
-    override fun findByLoginId(loginId: String): Member? {
+    override fun find(loginId: String): Member? {
         return queryFactory
             .selectFrom(member)
             .where(

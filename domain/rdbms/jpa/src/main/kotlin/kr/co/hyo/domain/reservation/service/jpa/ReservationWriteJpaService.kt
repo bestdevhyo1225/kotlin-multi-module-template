@@ -16,7 +16,7 @@ class ReservationWriteJpaService(
     private val reservationJpaRepository: ReservationJpaRepository,
 ) : ReservationWriteService {
 
-    override fun create(dto: ReservationCreateDto): ReservationDto {
+    override fun createReservation(dto: ReservationCreateDto): ReservationDto {
         val reservation: Reservation = ReservationEntityMapper.toEntity(dto = dto)
         reservationJpaRepository.save(reservation)
         return ReservationDtoMapper.toDto(reservation = reservation)
