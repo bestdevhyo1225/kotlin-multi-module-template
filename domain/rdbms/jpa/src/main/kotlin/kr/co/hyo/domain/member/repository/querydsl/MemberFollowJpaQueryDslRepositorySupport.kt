@@ -19,7 +19,7 @@ class MemberFollowJpaQueryDslRepositorySupport(
     private val queryFactory: JPAQueryFactory,
 ) : MemberFollowJpaRepositorySupport {
 
-    override fun findAllByFollowingId(followingId: Long, lastFollowerId: Long, limit: Long): List<MemberFollow> {
+    override fun findAll(followingId: Long, lastFollowerId: Long, limit: Long): List<MemberFollow> {
         return queryFactory
             .selectFrom(memberFollow)
             .where(
@@ -31,7 +31,7 @@ class MemberFollowJpaQueryDslRepositorySupport(
             .fetch()
     }
 
-    override fun findAllByFollowerId(followerId: Long, followCount: Long): List<MemberFollowDto> {
+    override fun findAll(followerId: Long, followCount: Long): List<MemberFollowDto> {
         return queryFactory
             .select(
                 Projections.constructor(

@@ -1,7 +1,7 @@
 package kr.co.hyo.domain.member.service.jpa
 
 import kr.co.hyo.domain.member.dto.MemberFollowDto
-import kr.co.hyo.domain.member.entity.Member
+import kr.co.hyo.domain.member.entity.Member.Companion.MEMBER_FANOUT_MAX_LIMIT
 import kr.co.hyo.domain.member.entity.MemberFollow
 import kr.co.hyo.domain.member.mapper.MemberFollowDtoMapper
 import kr.co.hyo.domain.member.repository.MemberFollowJpaRepositorySupport
@@ -17,7 +17,7 @@ class MemberFollowReadJpaService(
 
     override fun findFollowers(followingId: Long, lastFollowerId: Long): List<MemberFollowDto> {
         val limit: Long = 200
-        val memberFollows: List<MemberFollow> = memberFollowJpaRepositorySupport.findAllByFollowingId(
+        val memberFollows: List<MemberFollow> = memberFollowJpaRepositorySupport.findAll(
             followingId = followingId,
             lastFollowerId = lastFollowerId,
             limit = limit,
@@ -26,8 +26,5 @@ class MemberFollowReadJpaService(
     }
 
     override fun findFollowings(followerId: Long): List<MemberFollowDto> =
-        memberFollowJpaRepositorySupport.findAllByFollowerId(
-            followerId = followerId,
-            followCount = Member.MEMBER_FANOUT_MAX_LIMIT,
-        )
+        memberFollowJpaRepositorySupport.findAll(followerId = followerId, followCount = MEMBER_FANOUT_MAX_LIMIT)
 }

@@ -43,7 +43,7 @@ class MemberFollowJpaRepositorySupportTests {
         entityManager.clear()
 
         // when
-        val findMemberFollows: List<MemberFollow> = memberFollowJpaRepositorySupport.findAllByFollowingId(
+        val findMemberFollows: List<MemberFollow> = memberFollowJpaRepositorySupport.findAll(
             followingId = followingId,
             lastFollowerId = 0L,
             limit = 10L,
@@ -112,7 +112,7 @@ class MemberFollowJpaRepositorySupportTests {
 
         // when
         val memberFollowDtos: List<MemberFollowDto> =
-            memberFollowJpaRepositorySupport.findAllByFollowerId(followerId = followerMember.id!!, followCount = 0L)
+            memberFollowJpaRepositorySupport.findAll(followerId = followerMember.id!!, followCount = 0L)
 
         // then
         assertThat(memberFollowDtos).isNotEmpty
