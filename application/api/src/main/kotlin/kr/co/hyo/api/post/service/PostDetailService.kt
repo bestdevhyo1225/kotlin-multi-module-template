@@ -23,7 +23,7 @@ class PostDetailService(
         val postCacheDto: PostCacheDto = postCacheReadService.findPostCache(postId = postId)
             ?: let {
                 val postDto: PostDto = postReadService.findPost(postId = postId)
-                postCacheWriteService.create(dto = PostDomainDtoMapper.toPostCacheCreateDto(postDto = postDto))
+                postCacheWriteService.createPostCache(dto = PostDomainDtoMapper.toPostCacheCreateDto(postDto = postDto))
             }
         val postLikeCount: Long = postLikeReadService.count(postId = postId)
         val postViewCount: Long = postViewWriteService.increment(

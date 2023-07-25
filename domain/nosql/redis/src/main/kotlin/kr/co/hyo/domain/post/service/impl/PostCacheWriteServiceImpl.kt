@@ -12,7 +12,7 @@ class PostCacheWriteServiceImpl(
     private val postRedisTemplateRepository: PostRedisTemplateRepository,
 ) : PostCacheWriteService {
 
-    override fun create(dto: PostCacheCreateDto): PostCacheDto {
+    override fun createPostCache(dto: PostCacheCreateDto): PostCacheDto {
         val postCache = PostCache(postId = dto.postId)
         val postKey: String = postCache.getPostKey()
         val expirationTimeMs: Long = postCache.getExpirationTimeMs()

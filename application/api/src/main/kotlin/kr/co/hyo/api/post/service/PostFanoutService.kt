@@ -25,7 +25,7 @@ class PostFanoutService(
 
     fun createPost(dto: PostCreateDto): PostDto {
         val postDto: PostDto = postWriteService.createPost(dto = dto)
-        postCacheWriteService.create(dto = PostDomainDtoMapper.toPostCacheCreateDto(postDto = postDto))
+        postCacheWriteService.createPostCache(dto = PostDomainDtoMapper.toPostCacheCreateDto(postDto = postDto))
         if (memberReadService.isCanNotMemberFanoutMaxLimit(memberId = postDto.memberId)) {
             return postDto
         }
