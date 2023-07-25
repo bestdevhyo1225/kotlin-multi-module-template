@@ -59,8 +59,8 @@ class PostJpaQueryDslRepositorySupport(
                 postCreatedDatetimeGoe(createdDatetime = timelineUpdatedDatetime),
                 postIdGt(id = lastId),
             )
-            .limit(limit)
             .orderBy(postIdAsc())
+            .limit(limit)
             .fetch()
     }
 
