@@ -33,7 +33,7 @@ class PostTimelineService(
                 memberIds = memberFollowDtos.map { it.followingId },
                 timelineUpdatedDatetime = memberDto.timelineUpdatedDatetime,
                 lastPostId = lastPostId,
-                limit = limit
+                limit = limit,
             )
             if (postIds.isEmpty()) {
                 break

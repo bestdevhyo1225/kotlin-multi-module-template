@@ -95,6 +95,11 @@ spring:
       max-lifetime: 18000000 # 5 hour
       connection-timeout: 5000 # 5 second
 
+  jpa:
+    properties:
+      hibernate:
+        dialect: kr.co.hyo.config.MySQL8CustomDialect
+
   redis:
     mode: standalone
     nodes: localhost:26379

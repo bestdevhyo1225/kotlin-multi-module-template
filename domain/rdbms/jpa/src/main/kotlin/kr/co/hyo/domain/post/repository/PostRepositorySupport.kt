@@ -6,5 +6,6 @@ import java.time.LocalDateTime
 interface PostRepositorySupport {
     fun find(id: Long): Post
     fun findAll(ids: List<Long>): List<Post>
+    fun findAll(type: String, keyword: String, offset: Long, limit: Long): List<Post>
     fun findIds(memberIds: List<Long>, timelineUpdatedDatetime: LocalDateTime?, lastId: Long, limit: Long): List<Long>
 }

@@ -8,6 +8,7 @@ import jakarta.validation.Valid
 import kr.co.hyo.api.post.request.PostCreateRequest
 import kr.co.hyo.api.post.service.PostDetailService
 import kr.co.hyo.api.post.service.PostFanoutService
+import kr.co.hyo.api.post.service.PostSearchService
 import kr.co.hyo.api.post.service.PostTimelineService
 import kr.co.hyo.common.util.page.PageByPosition
 import kr.co.hyo.common.util.page.PageRequestByPosition
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import java.net.URI
@@ -33,13 +35,14 @@ class PostController(
     private val postDetailService: PostDetailService,
     private val postFanoutService: PostFanoutService,
     private val postLikeWriteService: PostLikeWriteService,
+    private val postSearchService: PostSearchService,
     private val postTimelineService: PostTimelineService,
 ) {
 
     @PostMapping
     @ResponseStatus(value = CREATED)
     @Operation(description = "게시글 등록")
-    fun posts(
+    fun postPosts(
         authentication: Authentication,
         @Valid @RequestBody request: PostCreateRequest,
     ): ResponseEntity<PostDto> {
@@ -52,7 +55,7 @@ class PostController(
 
     @PostMapping("/{id}/like")
     @Operation(description = "게시글 좋아요")
-    fun postsLike(
+    fun getPostsLike(
         authentication: Authentication,
         @PathVariable
         @Parameter(schema = Schema(description = "게시글 번호", example = "1"))
@@ -76,20 +79,37 @@ class PostController(
 
     @GetMapping("/timeline/refresh")
     @Operation(description = "게시글 타임라인 갱신")
-    fun postsMembersTimelineRefresh(authentication: Authentication) {
+    fun getPostsTimelineRefresh(authentication: Authentication) {
         val memberId: Long = authentication.name.toLong()
         postTimelineService.refreshPosts(memberId = memberId)
     }
 
     @GetMapping("/timeline")
     @Operation(description = "게시글 타임라인 조회")
-    fun postsMembersTimeline(
+    fun getPostsTimeline(
         authentication: Authentication,
         @Valid pageRequestByPosition: PageRequestByPosition,
     ): ResponseEntity<PageByPosition<PostDto>> {
         val memberId: Long = authentication.name.toLong()
         val pagePostDto: PageByPosition<PostDto> =
             postTimelineService.findPosts(memberId = memberId, pageRequestByPosition = pageRequestByPosition)
+        return ResponseEntity.ok(pagePostDto)
+    }
+
+    @GetMapping("/{type}/search")
+    @Operation(description = "게시글 검색")
+    fun getPostsSearch(
+        @PathVariable
+        @Parameter(schema = Schema(description = "게시글 검색 타입 (title, contents)", example = "title"))
+        type: String,
+        @RequestParam
+        @Parameter(schema = Schema(description = "게시글 검색 키워드", example = "테스트"))
+        keyword: String,
+        @Valid
+        pageRequestByPosition: PageRequestByPosition,
+    ): ResponseEntity<PageByPosition<PostDto>> {
+        val pagePostDto: PageByPosition<PostDto> =
+            postSearchService.search(type = type, keyword = keyword, pageRequestByPosition = pageRequestByPosition)
         return ResponseEntity.ok(pagePostDto)
     }
 

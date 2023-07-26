@@ -9,7 +9,7 @@ class PageByPosition<T>(
 )
 
 data class PageRequestByPosition(
-    @field:PositiveOrZero(message = "start는 0보다 같거나 큰 값을 입력하세요")
+    @field:PositiveOrZero(message = "start는 0과 같거나 큰 값을 입력하세요")
     val start: Long,
 
     @field:Positive(message = "size는 0보다 큰 값을 입력하세요")

@@ -22,11 +22,11 @@ class Post private constructor(
     var memberId: Long = memberId
         protected set
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     var title: String = title
         protected set
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     var contents: String = contents
         protected set
 
