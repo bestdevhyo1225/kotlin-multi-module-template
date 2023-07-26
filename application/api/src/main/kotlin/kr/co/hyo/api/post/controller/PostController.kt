@@ -3,6 +3,7 @@ package kr.co.hyo.api.post.controller
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.media.Schema
+import io.swagger.v3.oas.annotations.security.SecurityRequirements
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import kr.co.hyo.api.post.request.PostCreateRequest
@@ -96,20 +97,18 @@ class PostController(
         return ResponseEntity.ok(pagePostDto)
     }
 
-    @GetMapping("/{type}/search")
+    @GetMapping("/{keyword}/search")
     @Operation(description = "게시글 검색")
+    @SecurityRequirements
     fun getPostsSearch(
         @PathVariable
-        @Parameter(schema = Schema(description = "게시글 검색 타입 (title, contents)", example = "title"))
-        type: String,
-        @RequestParam
         @Parameter(schema = Schema(description = "게시글 검색 키워드", example = "테스트"))
         keyword: String,
         @Valid
         pageRequestByPosition: PageRequestByPosition,
     ): ResponseEntity<PageByPosition<PostDto>> {
         val pagePostDto: PageByPosition<PostDto> =
-            postSearchService.search(type = type, keyword = keyword, pageRequestByPosition = pageRequestByPosition)
+            postSearchService.search(keyword = keyword, pageRequestByPosition = pageRequestByPosition)
         return ResponseEntity.ok(pagePostDto)
     }
 

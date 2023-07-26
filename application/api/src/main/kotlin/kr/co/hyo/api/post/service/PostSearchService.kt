@@ -11,10 +11,9 @@ class PostSearchService(
     private val postReadService: PostReadService,
 ) {
 
-    fun search(type: String, keyword: String, pageRequestByPosition: PageRequestByPosition): PageByPosition<PostDto> {
+    fun search(keyword: String, pageRequestByPosition: PageRequestByPosition): PageByPosition<PostDto> {
         val (start: Long, size: Long) = pageRequestByPosition
-        val posts: List<PostDto> =
-            postReadService.findPosts(type = type, keyword = keyword, offset = start, limit = size)
+        val posts: List<PostDto> = postReadService.findPosts(keyword = keyword, offset = start, limit = size)
         return PageByPosition(
             items = posts,
             nextPageRequestByPosition = pageRequestByPosition.next(itemSize = posts.size),

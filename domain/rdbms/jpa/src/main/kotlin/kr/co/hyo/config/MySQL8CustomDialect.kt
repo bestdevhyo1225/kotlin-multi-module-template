@@ -17,7 +17,7 @@ class MySQL8CustomDialect : MySQLDialect(DatabaseVersion.make(8)) {
         val basicTypeRegistry: BasicTypeRegistry = typeConfiguration.basicTypeRegistry
         functionRegistry.registerPattern(
             "match_against",
-            "match(?1) against (?2 in boolean mode)",
+            "match(?1, ?2) against (?3 in boolean mode)",
             basicTypeRegistry.resolve(BIG_DECIMAL),
         )
     }

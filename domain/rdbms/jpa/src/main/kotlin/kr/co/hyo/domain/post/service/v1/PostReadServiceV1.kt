@@ -28,9 +28,8 @@ class PostReadServiceV1(
         return posts.map { PostDtoMapper.toDto(post = it) }
     }
 
-    override fun findPosts(type: String, keyword: String, offset: Long, limit: Long): List<PostDto> {
-        val posts: List<Post> =
-            postRepositorySupport.findAll(type = type, keyword = keyword, offset = offset, limit = limit)
+    override fun findPosts(keyword: String, offset: Long, limit: Long): List<PostDto> {
+        val posts: List<Post> = postRepositorySupport.findAll(keyword = keyword, offset = offset, limit = limit)
         return posts.map { PostDtoMapper.toDto(post = it) }
     }
 
