@@ -75,8 +75,8 @@ class PostRepositoryQueryDslSupport(
             .from(post)
             .where(
                 postMemberIdIn(memberIds = memberIds),
-                postDeletedDatetimeIsNull(),
                 postCreatedDatetimeGoe(createdDatetime = timelineUpdatedDatetime),
+                postDeletedDatetimeIsNull(),
                 postIdGt(id = lastId),
             )
             .orderBy(postIdAsc())
@@ -89,6 +89,7 @@ class PostRepositoryQueryDslSupport(
     private fun postIdGt(id: Long): BooleanExpression = post.id.gt(id)
 
     private fun postIdIn(ids: List<Long>): BooleanExpression = post.id.`in`(ids)
+
     private fun postKeywordMatchAgainstGtZero(keyword: String): BooleanExpression =
         postKeywordNumberTemplate(keyword = keyword).gt(0)
 
