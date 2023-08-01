@@ -22,7 +22,7 @@ class Post private constructor(
     var memberId: Long = memberId
         protected set
 
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(nullable = false, columnDefinition = "TINYTEXT")
     var title: String = title
         protected set
 
