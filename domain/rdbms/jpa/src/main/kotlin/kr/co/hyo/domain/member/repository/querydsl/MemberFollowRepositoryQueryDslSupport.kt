@@ -43,13 +43,12 @@ class MemberFollowRepositoryQueryDslSupport(
                 )
             )
             .from(memberFollow)
-            .innerJoin(member)
-            .on(
-                memberIdEq(memberId = memberFollow.followingId),
+            .innerJoin(member).on(memberIdEq(memberId = memberFollow.followingId))
+            .fetchJoin()
+            .where(
+                memberFollowFollowerIdIdEq(followerId = followerId),
                 memberFollowCountGt(followCount = followCount),
             )
-            .fetchJoin()
-            .where(memberFollowFollowerIdIdEq(followerId = followerId))
             .fetch()
     }
 
