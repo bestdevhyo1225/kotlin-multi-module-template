@@ -5,5 +5,5 @@ import kr.co.hyo.domain.member.entity.MemberFollow
 
 interface MemberFollowRepositorySupport {
     fun findAll(followingId: Long, lastFollowerId: Long, limit: Long): List<MemberFollow>
-    fun findAll(followerId: Long, followCount: Long): List<MemberFollowDto>
+    fun findAllWithInnerJoin(followerId: Long, followCount: Long, limit: Long): List<MemberFollowDto>
 }

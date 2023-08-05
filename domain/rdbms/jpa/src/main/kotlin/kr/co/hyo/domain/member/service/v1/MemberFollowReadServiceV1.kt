@@ -25,6 +25,10 @@ class MemberFollowReadServiceV1(
         return memberFollows.map { MemberFollowDtoMapper.toDto(memberFollow = it) }
     }
 
-    override fun findFollowings(followerId: Long): List<MemberFollowDto> =
-        memberFollowRepositorySupport.findAll(followerId = followerId, followCount = MEMBER_FANOUT_MAX_LIMIT)
+    override fun findFollowings(followerId: Long, limit: Long): List<MemberFollowDto> =
+        memberFollowRepositorySupport.findAllWithInnerJoin(
+            followerId = followerId,
+            followCount = MEMBER_FANOUT_MAX_LIMIT,
+            limit = limit,
+        )
 }

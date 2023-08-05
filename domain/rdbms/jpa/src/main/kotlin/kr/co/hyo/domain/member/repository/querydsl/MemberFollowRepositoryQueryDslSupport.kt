@@ -31,7 +31,7 @@ class MemberFollowRepositoryQueryDslSupport(
             .fetch()
     }
 
-    override fun findAll(followerId: Long, followCount: Long): List<MemberFollowDto> {
+    override fun findAllWithInnerJoin(followerId: Long, followCount: Long, limit: Long): List<MemberFollowDto> {
         return queryFactory
             .select(
                 Projections.constructor(
@@ -48,6 +48,7 @@ class MemberFollowRepositoryQueryDslSupport(
                 memberFollowFollowerIdEq(followerId = followerId),
                 memberFollowCountGt(followCount = followCount),
             )
+            .limit(limit)
             .fetch()
     }
 

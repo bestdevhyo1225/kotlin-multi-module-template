@@ -24,22 +24,24 @@ class PostTimelineService(
 ) {
 
     fun refreshPosts(memberId: Long) {
-        val memberFollowDtos: List<MemberFollowDto> = memberFollowReadService.findFollowings(followerId = memberId)
+        val memberFollowLimit: Long = 1_000
+        val memberFollowDtos: List<MemberFollowDto> =
+            memberFollowReadService.findFollowings(followerId = memberId, limit = memberFollowLimit)
         val memberDto: MemberDto = memberReadService.findMember(memberId = memberId)
-        var lastPostId: Long = 0
-        val limit: Long = 200
+        var postLastId: Long = 0
+        val postLimit: Long = 200
         while (true) {
             val postIds: List<Long> = postReadService.findPostIds(
                 memberIds = memberFollowDtos.map { it.followingId },
                 timelineUpdatedDatetime = memberDto.timelineUpdatedDatetime,
-                lastPostId = lastPostId,
-                limit = limit,
+                postLastId = postLastId,
+                limit = postLimit,
             )
             if (postIds.isEmpty()) {
                 break
             }
             postIds.forEach { postFeedWriteService.create(memberId = memberId, postId = it) }
-            lastPostId = postIds.last()
+            postLastId = postIds.last()
         }
         memberWriteService.changeMemberTimelineUpdatedDatetime(memberId = memberId)
     }

@@ -36,7 +36,7 @@ class PostReadServiceV1(
     override fun findPostIds(
         memberIds: List<Long>,
         timelineUpdatedDatetime: LocalDateTime?,
-        lastPostId: Long,
+        postLastId: Long,
         limit: Long,
     ): List<Long> {
         if (memberIds.isEmpty()) {
@@ -45,7 +45,7 @@ class PostReadServiceV1(
         return postRepositorySupport.findIds(
             memberIds = memberIds,
             timelineUpdatedDatetime = timelineUpdatedDatetime,
-            lastId = lastPostId,
+            lastId = postLastId,
             limit = limit,
         )
     }

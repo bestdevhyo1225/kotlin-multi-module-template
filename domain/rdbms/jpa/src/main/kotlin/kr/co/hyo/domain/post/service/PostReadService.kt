@@ -10,7 +10,7 @@ interface PostReadService {
     fun findPostIds(
         memberIds: List<Long>,
         timelineUpdatedDatetime: LocalDateTime?,
-        lastPostId: Long,
+        postLastId: Long,
         limit: Long,
     ): List<Long>
 }

@@ -111,8 +111,11 @@ class MemberFollowRepositorySupportTests {
         entityManager.clear()
 
         // when
-        val memberFollowDtos: List<MemberFollowDto> =
-            memberFollowRepositorySupport.findAll(followerId = followerMember.id!!, followCount = 0L)
+        val memberFollowDtos: List<MemberFollowDto> = memberFollowRepositorySupport.findAllWithInnerJoin(
+            followerId = followerMember.id!!,
+            followCount = 0L,
+            limit = 1_000L,
+        )
 
         // then
         assertThat(memberFollowDtos).isNotEmpty
