@@ -44,9 +44,8 @@ class MemberFollowRepositoryQueryDslSupport(
             )
             .from(memberFollow)
             .innerJoin(member).on(memberIdEq(memberId = memberFollow.followingId))
-            .fetchJoin()
             .where(
-                memberFollowFollowerIdIdEq(followerId = followerId),
+                memberFollowFollowerIdEq(followerId = followerId),
                 memberFollowCountGt(followCount = followCount),
             )
             .fetch()
@@ -55,7 +54,7 @@ class MemberFollowRepositoryQueryDslSupport(
     private fun memberFollowFollowingIdEq(followingId: Long): BooleanExpression =
         memberFollow.followingId.eq(followingId)
 
-    private fun memberFollowFollowerIdIdEq(followerId: Long): BooleanExpression =
+    private fun memberFollowFollowerIdEq(followerId: Long): BooleanExpression =
         memberFollow.followerId.eq(followerId)
 
     private fun memberFollowFollowerIdGt(followerId: Long): BooleanExpression =
