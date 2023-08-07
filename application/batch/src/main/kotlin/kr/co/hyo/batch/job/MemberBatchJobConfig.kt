@@ -27,7 +27,7 @@ import org.springframework.transaction.PlatformTransactionManager
 
 @Configuration
 class MemberBatchJobConfig(
-    @Value("\${spring.batch.chunk-size:200}")
+    @Value("\${member.chunk-size:200}")
     private val chunkSize: Int,
     private val jobRepository: JobRepository,
     private val platformTransactionManager: PlatformTransactionManager,

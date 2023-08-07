@@ -16,9 +16,9 @@ import org.springframework.transaction.annotation.Transactional
 @Component
 @StepScope
 class DummyTaskletRepeatCallback(
-    @Value("\${dummy.insert.total-size}")
+    @Value("\${dummy.tasklet.bulk-insert-total-size}")
     private val totalSize: Long,
-    @Value("\${dummy.insert.bulk-size}")
+    @Value("\${dummy.tasklet.bulk-insert-size}")
     private var bulkSize: Long,
     private val dummyJdbcRepository: DummyJdbcRepository,
 ) : RepeatCallback {
