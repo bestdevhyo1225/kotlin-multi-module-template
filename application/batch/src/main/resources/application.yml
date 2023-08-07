@@ -3,7 +3,6 @@ spring:
     active: prod
 
   batch:
-    chunk-size: 200 # MySQL의 eq_range_index_dive_limit 값과 동일하게 설정
     # program arguments로 job name이 넘어오면, 해당 값과 일치하는 job만 실행하겠다는 의미
     job:
       # job.name이 있으면, job.name 값을 할당하고, 없으면 NONE을 할당하겠다는 의미
@@ -29,13 +28,18 @@ spring:
     ansi:
       enabled: always
 
-task-executor:
-  pool-size: 5
-
 dummy:
-  insert:
-    total-size: 1000000 # 총 1,000,000건까지만 삽입
-    bulk-size: 1000 # 1,000건씩 데이터 삽입
+  chunk-size: 1000
+  tasklet:
+    bulk-insert-total-size: 1000000 # 총 1,000,000건까지만 삽입
+    bulk-insert-size: 1000 # 1,000건씩 데이터 삽입
+  task-executor:
+    pool-size: 20
+
+member:
+  chunk-size: 200 # MySQL의 eq_range_index_dive_limit 값과 동일하게 설정
+  task-executor:
+    pool-size: 5
 
 logging:
   level:
