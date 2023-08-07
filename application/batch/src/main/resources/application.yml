@@ -33,13 +33,13 @@ dummy:
   tasklet:
     bulk-insert-total-size: 1000000 # 총 1,000,000건까지만 삽입
     bulk-insert-size: 1000 # 1,000건씩 데이터 삽입
-  task-executor:
-    pool-size: 20
 
 member:
   chunk-size: 200 # MySQL의 eq_range_index_dive_limit 값과 동일하게 설정
-  task-executor:
-    pool-size: 5
+
+task-executor:
+  pool-size: 10 # Tn x (Cm - 1) + (Tn / 2) 에 따라 DB 커넥션 풀은 15개로 설정해야함
+  keep-alive-seconds: 10
 
 logging:
   level:
@@ -63,8 +63,8 @@ spring:
       driver-class-name: com.mysql.cj.jdbc.Driver
       # useSSL, allowPublicKeyRetrieval, characterEncoding, serverTimezone, rewriteBatchedStatements 옵션 설정
       jdbc-url: jdbc:mysql://hyo_api:hyo_api_password@localhost:23306/hyo?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&rewriteBatchedStatements=true
-      minimum-idle: 10
-      maximum-pool-size: 10
+      minimum-idle: 15 # Tn x (Cm - 1) + (Tn / 2) 에 따라 DB 커넥션 풀은 15개로 설정해야함
+      maximum-pool-size: 15 # Tn x (Cm - 1) + (Tn / 2) 에 따라 DB 커넥션 풀은 15개로 설정해야함
       max-lifetime: 18000000 # 5 hour
       connection-timeout: 5000 # 5 second
 

@@ -34,21 +34,18 @@ spring:
     ansi:
       enabled: always
 
-task-executor:
-  pool-size: 5
-
 dummy:
   chunk-size: 1000
   tasklet:
     bulk-insert-total-size: 1000000 # 총 1,000,000건까지만 삽입
     bulk-insert-size: 1000 # 1,000건씩 데이터 삽입
-  task-executor:
-    pool-size: 20
 
 member:
   chunk-size: 200 # MySQL의 eq_range_index_dive_limit 값과 동일하게 설정
-  task-executor:
-    pool-size: 5
+
+task-executor:
+  pool-size: 10
+  keep-alive-seconds: 10
 
 logging:
   level:
