@@ -11,7 +11,6 @@ import org.springframework.batch.repeat.RepeatStatus.CONTINUABLE
 import org.springframework.batch.repeat.RepeatStatus.FINISHED
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
-import org.springframework.transaction.annotation.Transactional
 
 @Component
 @StepScope
@@ -26,7 +25,6 @@ class DummyTaskletRepeatCallback(
     private val logger = KotlinLogging.logger {}
     private var accumulatedBulkSize: Long = 0
 
-    @Transactional
     override fun doInIteration(context: RepeatContext): RepeatStatus {
         if (accumulatedBulkSize == 0L && bulkSize > totalSize) {
             bulkSize = totalSize
