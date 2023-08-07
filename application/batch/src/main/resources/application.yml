@@ -32,6 +32,11 @@ spring:
 task-executor:
   pool-size: 5
 
+dummy:
+  insert:
+    total-size: 1000000 # 총 1,000,000건까지만 삽입
+    bulk-size: 1000 # 1,000건씩 데이터 삽입
+
 logging:
   level:
     #    com.zaxxer.hikari: trace
@@ -52,8 +57,8 @@ spring:
   datasource:
     hikari:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      # useSSL, allowPublicKeyRetrieval, characterEncoding, serverTimezone 옵션 설정
-      jdbc-url: jdbc:mysql://hyo_api:hyo_api_password@localhost:23306/hyo?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+      # useSSL, allowPublicKeyRetrieval, characterEncoding, serverTimezone, rewriteBatchedStatements 옵션 설정
+      jdbc-url: jdbc:mysql://hyo_api:hyo_api_password@localhost:23306/hyo?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&rewriteBatchedStatements=true
       minimum-idle: 10
       maximum-pool-size: 10
       max-lifetime: 18000000 # 5 hour
