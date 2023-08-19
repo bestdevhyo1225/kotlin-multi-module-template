@@ -42,4 +42,10 @@ class NettyTcpServerHandler : ChannelInboundHandlerAdapter() {
         val channelFuture: ChannelFuture = ctx.writeAndFlush(byteBuf)
         channelFuture.addListener(CLOSE)
     }
+
+    @Deprecated(message = "Deprecated in Java")
+    override fun exceptionCaught(ctx: ChannelHandlerContext?, cause: Throwable?) {
+        ctx?.close()
+        logger.error { cause }
+    }
 }
