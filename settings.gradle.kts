@@ -5,7 +5,7 @@ include(
     "application:batch",
     "application:kafka-consumer",
     "application:netty-tcp-server",
-    "application:netty-tcp-client",
+    "application:tcp-client",
     "client:kafka-publisher",
     "common",
     "domain:nosql:redis",

@@ -5,9 +5,8 @@ import java.io.InputStream
 import java.io.OutputStream
 import java.net.Socket
 import java.util.Arrays
-import kotlin.text.Charsets.UTF_8
 
-class NettyTcpClientSocket(
+class TcpClientSocket(
     private val socket: Socket,
 ) {
 

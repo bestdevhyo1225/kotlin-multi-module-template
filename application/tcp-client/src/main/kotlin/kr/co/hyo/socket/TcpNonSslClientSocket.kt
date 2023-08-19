@@ -4,7 +4,7 @@ import java.io.IOException
 import java.net.InetSocketAddress
 import java.net.Socket
 
-class NettyTcpNonSslClientSocket(
+class TcpNonSslClientSocket(
     private val host: String,
     private val port: Int,
 ) {
@@ -15,8 +15,8 @@ class NettyTcpNonSslClientSocket(
             val inetSocketAddress = InetSocketAddress(host, port)
             socket.connect(inetSocketAddress)
 
-            val nettyTcpClientSocket = NettyTcpClientSocket(socket = socket)
-            nettyTcpClientSocket.sendFixedLength(messageLength = messageLength)
+            val tcpClientSocket = TcpClientSocket(socket = socket)
+            tcpClientSocket.sendFixedLength(messageLength = messageLength)
         } catch (exception: IOException) {
             exception.printStackTrace()
         }

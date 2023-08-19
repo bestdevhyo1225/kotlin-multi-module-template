@@ -1,9 +1,9 @@
 package kr.co.hyo
 
-import kr.co.hyo.socket.NettyTcpNonSslClientSocket
+import kr.co.hyo.socket.TcpNonSslClientSocket
 import java.util.Scanner
 
-class NettyTcpClientApplication
+class TcpClientApplication
 
 fun main() {
     val host = "127.0.0.1"
@@ -12,8 +12,8 @@ fun main() {
         print("enter message length: ")
         val sc = Scanner(System.`in`)
         val messageLength: Int = sc.nextLine().toInt()
-        val nettyTcpNonSslClientSocket = NettyTcpNonSslClientSocket(host = host, port = port)
-        nettyTcpNonSslClientSocket.run(messageLength = messageLength)
+        val tcpNonSslClientSocket = TcpNonSslClientSocket(host = host, port = port)
+        tcpNonSslClientSocket.run(messageLength = messageLength)
     } catch (exception: Exception) {
         exception.printStackTrace()
     }
