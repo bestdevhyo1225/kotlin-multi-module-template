@@ -10,7 +10,6 @@ import kr.co.hyo.config.NettyTcpServerConstants.DATA_LENGTH
 import mu.KotlinLogging
 import org.springframework.stereotype.Component
 import java.net.SocketAddress
-import kotlin.text.Charsets.UTF_8
 
 @Component
 @Sharable
