@@ -2,7 +2,7 @@ server:
   host: localhost
   port: 9004
   netty:
-    boss-count: 1
+    boss-count: 2
     keep-alive: true
     backlog: 100
 
