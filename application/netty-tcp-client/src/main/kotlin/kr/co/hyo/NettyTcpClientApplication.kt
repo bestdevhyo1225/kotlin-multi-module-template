@@ -5,7 +5,7 @@ import java.util.Scanner
 
 class NettyTcpClientApplication
 
-fun main(args: Array<String>) {
+fun main() {
     val host = "127.0.0.1"
     val port = 9004
     try {
