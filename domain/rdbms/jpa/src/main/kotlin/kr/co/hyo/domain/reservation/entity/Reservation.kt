@@ -5,7 +5,6 @@ import jakarta.persistence.Entity
 import jakarta.persistence.Table
 import kr.co.hyo.domain.common.entity.BaseEntity
 import org.hibernate.annotations.DynamicUpdate
-import java.time.LocalDateTime
 
 @Entity
 @DynamicUpdate
@@ -27,9 +26,8 @@ class Reservation private constructor(
         protected set
 
     override fun toString(): String =
-        "Reservation(id=$id, type=$type, memberId=$memberId, createdDate=$createdDate, " +
-            "createdDatetime=$createdDatetime, memberId=$memberId, updatedDate=$updatedDate, " +
-            "updatedDatetime=$updatedDatetime, deletedDatetime=$deletedDatetime)"
+        "Reservation(id=$id, type=$type, memberId=$memberId, createdDate=$createdDate, createdDatetime=$createdDatetime, " +
+            "updatedDate=$updatedDate, updatedDatetime=$updatedDatetime, deletedDatetime=$deletedDatetime)"
 
     companion object {
         operator fun invoke(type: String, memberId: Long) = Reservation(type = type, memberId = memberId)

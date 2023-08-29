@@ -68,14 +68,14 @@ jwt:
 logging:
   level:
 #    com.zaxxer.hikari: trace
-    com.zaxxer.hikari.HikariConfig: debug
+#    com.zaxxer.hikari.HikariConfig: debug
     org:
       springframework:
         orm.jpa: debug
       hibernate:
         SQL: debug
 #        orm.jdbc.bind: trace # Spring Boot 3.x 이상 부터는 'orm.jdbc.bind' 를 사용해야 바인딩 된 쿼리 파라미터를 볼 수 있다.
-    io.lettuce.core.protocol.CommandHandler: debug
+#    io.lettuce.core.protocol.CommandHandler: debug
 
 ---
 spring:
