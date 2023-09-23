@@ -61,7 +61,8 @@ class PostRedisTemplateRepositoryTests {
     fun `게시물 캐시를 저장한다`() {
         // given
         val postId: Long = 1
-        val postCache = PostCache(postId = postId)
+        val memberId: Long = 1
+        val postCache = PostCache(postId = postId, memberId = memberId)
         val postKey: String = postCache.getPostKey()
         val expirationTimeMs: Long = postCache.getExpirationTimeMs()
         val value = PostCacheDto(

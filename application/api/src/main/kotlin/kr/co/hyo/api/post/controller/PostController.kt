@@ -111,16 +111,19 @@ class PostController(
         return ResponseEntity.ok(pagePostDto)
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}/members/{memberId}")
     @Operation(description = "게시글 상세 조회")
     fun postsId(
         authentication: Authentication,
         @PathVariable
         @Parameter(schema = Schema(description = "게시글 번호", example = "1"))
         id: Long,
+        @Parameter(schema = Schema(description = "회원 번호", example = "1"))
+        memberId: Long,
     ): ResponseEntity<PostDto> {
-        val memberId: Long = authentication.name.toLong()
-        val postDto: PostDto = postDetailService.findPost(postId = id, memberId = memberId)
+        val tokenMemberId: Long = authentication.name.toLong()
+        val postDto: PostDto =
+            postDetailService.findPost(postId = id, memberId = memberId, tokenMemberId = tokenMemberId)
         return ResponseEntity.ok(postDto)
     }
 }

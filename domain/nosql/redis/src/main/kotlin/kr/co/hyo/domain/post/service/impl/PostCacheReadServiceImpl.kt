@@ -11,8 +11,8 @@ class PostCacheReadServiceImpl(
     private val postRedisTemplateRepository: PostRedisTemplateRepository,
 ) : PostCacheReadService {
 
-    override fun findPostCache(postId: Long): PostCacheDto? {
-        val postCache = PostCache(postId = postId)
+    override fun findPostCache(postId: Long, memberId: Long): PostCacheDto? {
+        val postCache = PostCache(postId = postId, memberId = memberId)
         val key: String = postCache.getPostKey()
         return postRedisTemplateRepository.get(key = key, clazz = PostCacheDto::class.java)
     }

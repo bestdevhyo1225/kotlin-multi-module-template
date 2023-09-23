@@ -13,7 +13,7 @@ class PostCacheWriteServiceImpl(
 ) : PostCacheWriteService {
 
     override fun createPostCache(dto: PostCacheCreateDto): PostCacheDto {
-        val postCache = PostCache(postId = dto.postId)
+        val postCache = PostCache(postId = dto.postId, memberId = dto.memberId)
         val postKey: String = postCache.getPostKey()
         val expirationTimeMs: Long = postCache.getExpirationTimeMs()
         val postCacheDto: PostCacheDto = dto.toPostCacheDto()

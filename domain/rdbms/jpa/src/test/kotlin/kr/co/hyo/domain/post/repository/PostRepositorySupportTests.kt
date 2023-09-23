@@ -36,7 +36,7 @@ class PostRepositorySupportTests {
         entityManager.clear()
 
         // when
-        val findPost: Post = postRepositorySupport.find(id = post.id!!)
+        val findPost: Post = postRepositorySupport.find(id = post.id!!, memberId = post.memberId)
 
         // then
         assertThat(findPost).isEqualTo(post)

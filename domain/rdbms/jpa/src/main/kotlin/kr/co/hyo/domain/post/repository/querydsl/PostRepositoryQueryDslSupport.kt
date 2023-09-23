@@ -24,11 +24,12 @@ class PostRepositoryQueryDslSupport(
         const val MATCH_AGAINST = "function('match_against', {0}, {1}, {2})"
     }
 
-    override fun find(id: Long): Post {
+    override fun find(id: Long, memberId: Long): Post {
         return queryFactory
             .selectFrom(post)
             .where(
                 postIdEq(id = id),
+                postMemberIdEq(memberId = memberId),
                 postDeletedDatetimeIsNull(),
             )
             .fetchOne() ?: throw NoSuchElementException("게시글이 존재하지 않습니다.")
@@ -92,6 +93,8 @@ class PostRepositoryQueryDslSupport(
 
     private fun postKeywordMatchAgainstGtZero(keyword: String): BooleanExpression =
         postKeywordNumberTemplate(keyword = keyword).gt(0)
+
+    private fun postMemberIdEq(memberId: Long): BooleanExpression = post.memberId.eq(memberId)
 
     private fun postMemberIdIn(memberIds: List<Long>): BooleanExpression = post.memberId.`in`(memberIds)
 

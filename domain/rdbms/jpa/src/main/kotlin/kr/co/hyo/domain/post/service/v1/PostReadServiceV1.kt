@@ -15,8 +15,14 @@ class PostReadServiceV1(
     private val postRepositorySupport: PostRepositorySupport,
 ) : PostReadService {
 
-    override fun findPost(postId: Long): PostDto {
-        val post: Post = postRepositorySupport.find(id = postId)
+    override fun findPost(postId: Long, memberId: Long): PostDto {
+        val post: Post = postRepositorySupport.find(id = postId, memberId = memberId)
+        return PostDtoMapper.toDto(post = post)
+    }
+
+    @Transactional
+    override fun findPostFromPrimaryDB(postId: Long, memberId: Long): PostDto {
+        val post: Post = postRepositorySupport.find(id = postId, memberId = memberId)
         return PostDtoMapper.toDto(post = post)
     }
 
