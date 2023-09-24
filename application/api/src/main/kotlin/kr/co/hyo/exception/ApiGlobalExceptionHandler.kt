@@ -4,6 +4,7 @@ import kr.co.hyo.common.util.response.ErrorResponse
 import kr.co.hyo.common.util.response.FailResponse
 import jakarta.validation.ConstraintViolationException
 import mu.KotlinLogging
+import org.springframework.context.support.DefaultMessageSourceResolvable
 import org.springframework.http.HttpStatus.BAD_REQUEST
 import org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
 import org.springframework.http.HttpStatus.NOT_FOUND
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
+import java.util.stream.Collectors
 
 @RestControllerAdvice
 class ApiGlobalExceptionHandler {
@@ -27,10 +29,12 @@ class ApiGlobalExceptionHandler {
 
     @ExceptionHandler(value = [MethodArgumentNotValidException::class])
     fun handle(exception: MethodArgumentNotValidException): ResponseEntity<FailResponse> {
-        val message: String? = exception.bindingResult.allErrors[0].defaultMessage
-        val failMessage: String = message ?: "Bad Request"
-        kotlinLogger.error { failMessage }
-        return ResponseEntity(FailResponse(message = failMessage), BAD_REQUEST)
+        val message: String = exception.allErrors
+            .stream()
+            .map(DefaultMessageSourceResolvable::getDefaultMessage)
+            .collect(Collectors.joining(" | "))
+        kotlinLogger.error { message }
+        return ResponseEntity(FailResponse(message = message), BAD_REQUEST)
     }
 
     @ExceptionHandler(value = [IllegalArgumentException::class])
