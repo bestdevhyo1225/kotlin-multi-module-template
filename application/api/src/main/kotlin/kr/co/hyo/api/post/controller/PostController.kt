@@ -118,6 +118,7 @@ class PostController(
         @PathVariable
         @Parameter(schema = Schema(description = "게시글 번호", example = "1"))
         id: Long,
+        @PathVariable
         @Parameter(schema = Schema(description = "회원 번호", example = "1"))
         memberId: Long,
     ): ResponseEntity<PostDto> {

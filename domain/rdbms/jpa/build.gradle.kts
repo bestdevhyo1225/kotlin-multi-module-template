@@ -14,6 +14,7 @@ allOpen {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.data:spring-data-envers")
     implementation("com.querydsl:querydsl-jpa:5.0.0:jakarta")
     implementation("org.mindrot:jbcrypt:0.4")
 

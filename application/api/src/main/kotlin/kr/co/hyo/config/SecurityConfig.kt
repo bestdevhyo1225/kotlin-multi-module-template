@@ -38,6 +38,8 @@ class SecurityConfig(
                     .requestMatchers("/members/**").authenticated()
                     .requestMatchers("/posts/*/search").permitAll()
                     .requestMatchers("/posts/**").authenticated()
+                    .requestMatchers("/reservations/**").authenticated()
+                    .requestMatchers("/shops/**").authenticated()
                     .anyRequest().permitAll()
             }
             .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter::class.java)
