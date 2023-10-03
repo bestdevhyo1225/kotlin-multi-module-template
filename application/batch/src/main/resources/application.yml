@@ -22,6 +22,7 @@ spring:
           plan_cache_max_size: 1024 # 쿼리 계획 캐시의 최대 갯수 (Default 값은 2048)
           plan_parameter_metadata_max_size: 64 # Native Query ParameterMetadata 최대 갯수 (Default 값은 128)
           in_clause_parameter_padding: true # Where In절 Padding Cache 사용
+          fail_on_pagination_over_collection_fetch: true # 컬렉션 데이터를 메모리 상에서 페이징으로 가져오려고 할때 에러를 발생시킨다. (https://jojoldu.tistory.com/737)
     open-in-view: false
 
   output:
