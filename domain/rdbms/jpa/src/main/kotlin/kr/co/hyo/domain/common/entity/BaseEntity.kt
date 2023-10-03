@@ -39,7 +39,8 @@ abstract class BaseEntity {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         val otherBase: BaseEntity = (other as? BaseEntity) ?: return false
-        // - '스레드 == 트랜잭션 == 영속성 컨텍스트' 범위내에서는 id 값만 같아도 같은 엔티티 객체로 본다.
+        // [ 참고글: https://spoqa.github.io/2022/08/16/kotlin-jpa-entity.html ]
+        // - '스레드 == 트랜잭션 == 영속성 컨텍스트' 범위내에서는 id 값만 같아도 같은 엔티티 객체로 본다. (@Id 식별자로 동일성 판별)
         // - 영속성 컨텍스트는 REPEATABLE READ로 동작한다.
         return this.id == otherBase.id
     }
