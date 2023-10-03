@@ -10,4 +10,5 @@ data class PostCacheDto(
     val contents: String,
     val createdDate: LocalDate,
     val createdDatetime: LocalDateTime,
+    val updatedDatetime: LocalDateTime,
 )

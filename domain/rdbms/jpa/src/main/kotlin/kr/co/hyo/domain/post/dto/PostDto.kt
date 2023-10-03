@@ -12,4 +12,5 @@ data class PostDto(
     val viewCount: Long = 0,
     val createdDate: LocalDate,
     val createdDatetime: LocalDateTime,
+    val updatedDatetime: LocalDateTime,
 )

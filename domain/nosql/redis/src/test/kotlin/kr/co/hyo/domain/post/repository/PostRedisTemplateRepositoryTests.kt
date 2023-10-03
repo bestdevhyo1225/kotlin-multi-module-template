@@ -72,6 +72,7 @@ class PostRedisTemplateRepositoryTests {
             contents = "contents",
             createdDate = LocalDate.now(),
             createdDatetime = LocalDateTime.now(),
+            updatedDatetime = LocalDateTime.now(),
         )
 
         // when

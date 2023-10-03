@@ -15,6 +15,7 @@ object PostDomainDtoMapper {
                 contents = contents,
                 createdDate = createdDate,
                 createdDatetime = createdDatetime,
+                updatedDatetime = updatedDatetime,
             )
         }
 
@@ -29,6 +30,7 @@ object PostDomainDtoMapper {
                 viewCount = postViewCount,
                 createdDate = createdDate,
                 createdDatetime = createdDatetime,
+                updatedDatetime = updatedDatetime,
             )
         }
 }

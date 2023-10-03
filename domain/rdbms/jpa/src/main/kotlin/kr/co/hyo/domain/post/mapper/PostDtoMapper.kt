@@ -14,6 +14,7 @@ object PostDtoMapper {
                 contents = contents,
                 createdDate = createdDate,
                 createdDatetime = createdDatetime,
+                updatedDatetime = updatedDatetime,
             )
         }
 }

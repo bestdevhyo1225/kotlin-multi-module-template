@@ -15,9 +15,18 @@ class PostCacheWriteServiceImpl(
     override fun createPostCache(dto: PostCacheCreateDto): PostCacheDto {
         val postCache = PostCache(postId = dto.postId, memberId = dto.memberId)
         val postKey: String = postCache.getPostKey()
-        val expirationTimeMs: Long = postCache.getExpirationTimeMs()
+        val postExpirationTimeMs: Long = postCache.getExpirationTimeMs()
         val postCacheDto: PostCacheDto = dto.toPostCacheDto()
-        postRedisTemplateRepository.set(key = postKey, value = postCacheDto, expirationTimeMs = expirationTimeMs)
+        val postUpdateKey: String = postCache.getPostUpdateKey()
+        val postUpdateExpirationTimeMs: Long = postCache.getPostUpdateExpirationTimeMs()
+        // Post 캐시
+        postRedisTemplateRepository.set(key = postKey, value = postCacheDto, expirationTimeMs = postExpirationTimeMs)
+        // Post 수정 여부 캐시
+        postRedisTemplateRepository.set(
+            key = postUpdateKey,
+            value = true,
+            expirationTimeMs = postUpdateExpirationTimeMs,
+        )
         return postCacheDto
     }
 }

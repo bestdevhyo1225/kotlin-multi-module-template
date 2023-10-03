@@ -10,6 +10,7 @@ data class PostCacheCreateDto(
     val contents: String,
     val createdDate: LocalDate,
     val createdDatetime: LocalDateTime,
+    val updatedDatetime: LocalDateTime,
 ) {
 
     fun toPostCacheDto(): PostCacheDto =
@@ -20,5 +21,6 @@ data class PostCacheCreateDto(
             contents = contents,
             createdDate = createdDate,
             createdDatetime = createdDatetime,
+            updatedDatetime = updatedDatetime,
         )
 }
