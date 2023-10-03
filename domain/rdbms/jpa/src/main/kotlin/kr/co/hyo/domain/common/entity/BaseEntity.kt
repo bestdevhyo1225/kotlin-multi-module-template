@@ -34,6 +34,8 @@ abstract class BaseEntity {
     var deletedDatetime: LocalDateTime? = null
         protected set
 
+    // [ 참고글: https://jwkim96.tistory.com/256 ]
+    // - 영속성 컨텍스트와 hashcode(), equals() 메소드는 무관하게 동작한다.
     override fun hashCode(): Int = Objects.hash(id)
 
     override fun equals(other: Any?): Boolean {
