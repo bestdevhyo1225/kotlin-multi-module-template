@@ -26,9 +26,9 @@ class ShopAuditRepositoryQueryDslSupport(
             .limit(limit)
             .fetch()
 
-    private fun shopAuditIdEq(id: Long) = shopAudit.id.eq(id)
+    private fun shopAuditIdEq(id: Long) = shopAudit.shopId.id.eq(id)
 
-    private fun shopAuditServiceTypeEq(serviceType: ShopServiceType) = shopAudit.serviceType.eq(serviceType)
+    private fun shopAuditServiceTypeEq(serviceType: ShopServiceType) = shopAudit.shopId.serviceType.eq(serviceType)
 
     private fun shopAuditRevDesc(): OrderSpecifier<Long> = shopAudit.rev.desc()
 }

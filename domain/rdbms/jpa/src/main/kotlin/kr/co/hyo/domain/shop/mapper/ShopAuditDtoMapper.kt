@@ -8,8 +8,8 @@ object ShopAuditDtoMapper {
     fun toDto(shopAudit: ShopAudit): ShopAuditDto =
         with(receiver = shopAudit) {
             ShopAuditDto(
-                shopServiceType = serviceType.name,
-                shopId = id,
+                shopServiceType = shopId.serviceType.name,
+                shopId = shopId.id,
                 rev = rev,
                 name = name
             )
