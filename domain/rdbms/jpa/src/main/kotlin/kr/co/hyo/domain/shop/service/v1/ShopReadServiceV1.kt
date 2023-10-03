@@ -1,8 +1,6 @@
 package kr.co.hyo.domain.shop.service.v1
 
 import kr.co.hyo.domain.shop.dto.ShopAuditDto
-import kr.co.hyo.domain.shop.entity.ShopAudit
-import kr.co.hyo.domain.shop.entity.ShopId
 import kr.co.hyo.domain.shop.entity.ShopServiceType
 import kr.co.hyo.domain.shop.entity.v2.ShopAuditV2
 import kr.co.hyo.domain.shop.mapper.ShopAuditDtoMapper
@@ -24,16 +22,10 @@ class ShopReadServiceV1(
 
     override fun findShopAudits(id: Long, serviceType: String, limit: Long): List<ShopAuditDto> {
         val shopServiceType = ShopServiceType.convert(value = serviceType)
-        val shopAudits: List<ShopAudit> =
-            shopAuditRepositorySupport.findAllByShopIdAndLimit(id = id, serviceType = shopServiceType, limit = 5)
         val shopAuditV2s: List<ShopAuditV2> =
             shopAuditV2RepositorySupport.findAllByShopIdAndLimit(id = id, serviceType = shopServiceType, limit = 5)
-        shopAuditV2s.forEach {
-            logger.info { "shopAuditV2: $it" }
-        }
-        return shopAudits.map {
-            logger.info { "shopAudit: $it" }
-            ShopAuditDtoMapper.toDto(shopAudit = it)
+        return shopAuditV2s.map {
+            ShopAuditDtoMapper.toDto(shopAuditV2 = it)
         }
     }
 }
