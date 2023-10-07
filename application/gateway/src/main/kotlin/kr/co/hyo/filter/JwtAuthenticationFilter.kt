@@ -56,7 +56,7 @@ class JwtAuthenticationFilter(
             val accessToken: String = authorizationHeader.first().substring(startIndex = ACCESS_TOKEN_START_INDEX)
             try {
                 memberAuthenticateService.verifyAccessToken(accessToken = accessToken)
-            } catch (exception: RuntimeException) {
+            } catch (exception: IllegalArgumentException) {
                 return@GatewayFilter onError(
                     exchange = exchange,
                     errorMessage = exception.localizedMessage,

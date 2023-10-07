@@ -15,7 +15,7 @@ class MemberTokenReadRedisTemplateService(
         val key: String = memberToken.getBlackListTokenKey()
         val value: String = memberTokenRedisTemplateRepository.find(key = key) ?: ""
         if (value.isNotBlank() && value == accessToken) {
-            throw RuntimeException("BlackList 토큰입니다")
+            throw IllegalArgumentException("BlackList 토큰입니다")
         }
     }
 
@@ -23,9 +23,9 @@ class MemberTokenReadRedisTemplateService(
         val memberToken = MemberToken(memberId = memberId)
         val key: String = memberToken.getRefreshTokenKey()
         val value: String = memberTokenRedisTemplateRepository.find(key = key)
-            ?: throw RuntimeException("Refresh 토큰이 존재하지 않습니다")
+            ?: throw IllegalArgumentException("Refresh 토큰이 존재하지 않습니다")
         if (value != refreshToken) {
-            throw RuntimeException("Refresh 토큰이 일치하지 않습니다")
+            throw IllegalArgumentException("Refresh 토큰이 일치하지 않습니다")
         }
     }
 }
