@@ -9,4 +9,5 @@ dependencies {
     implementation("io.jsonwebtoken:jjwt-jackson:0.11.5")
     implementation("jakarta.validation:jakarta.validation-api:3.0.2")
     implementation("org.mindrot:jbcrypt:0.4")
+    implementation("org.bitbucket.b_c:jose4j:0.9.3")
 }
