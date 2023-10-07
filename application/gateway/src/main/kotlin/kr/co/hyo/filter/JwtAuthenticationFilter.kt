@@ -6,6 +6,7 @@ import org.springframework.cloud.gateway.filter.GatewayFilter
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory
 import org.springframework.http.HttpHeaders.AUTHORIZATION
 import org.springframework.http.HttpStatus
+import org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
 import org.springframework.http.HttpStatus.UNAUTHORIZED
 import org.springframework.http.server.reactive.ServerHttpRequest
 import org.springframework.http.server.reactive.ServerHttpResponse
@@ -55,11 +56,17 @@ class JwtAuthenticationFilter(
             val accessToken: String = authorizationHeader.first().substring(startIndex = ACCESS_TOKEN_START_INDEX)
             try {
                 memberAuthenticateService.verifyAccessToken(accessToken = accessToken)
-            } catch (exception: Exception) {
+            } catch (exception: RuntimeException) {
                 return@GatewayFilter onError(
                     exchange = exchange,
                     errorMessage = exception.localizedMessage,
                     httpStatus = UNAUTHORIZED,
+                )
+            } catch (exception: Exception) {
+                return@GatewayFilter onError(
+                    exchange = exchange,
+                    errorMessage = exception.localizedMessage,
+                    httpStatus = INTERNAL_SERVER_ERROR,
                 )
             }
 
@@ -74,6 +81,6 @@ class JwtAuthenticationFilter(
         logger.error(errorMessage)
         val response: ServerHttpResponse = exchange.response
         response.setStatusCode(httpStatus)
-        return response.setComplete() // Mono 데이터 return
+        return response.setComplete() // Mono Data
     }
 }
