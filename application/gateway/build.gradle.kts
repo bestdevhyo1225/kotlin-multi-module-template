@@ -7,7 +7,9 @@ tasks.getByName<BootJar>("bootJar") {
 
 dependencies {
     implementation(project(":common"))
+    implementation(project(":domain:nosql:redis"))
 
-//    implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.cloud:spring-cloud-starter-gateway:4.0.7")
+    implementation("org.yaml:snakeyaml:2.2")
+    implementation("io.projectreactor.tools:blockhound:1.0.8.RELEASE")
 }

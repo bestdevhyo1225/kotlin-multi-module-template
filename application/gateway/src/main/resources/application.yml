@@ -30,10 +30,21 @@ spring:
         - id: api
           uri: http://localhost:9001
           predicates:
+            - Path=/api/members/sign-up,/api/members/sign-in
+        - id: api
+          uri: http://localhost:9001
+          predicates:
             - Path=/api/**
           filters:
-            - GatewayAuthFilter
+            - JwtAuthenticationFilter
+
+  redis:
+    mode: standalone
+    nodes: localhost:26379
 
   output:
     ansi:
       enabled: always
+
+jwt:
+  secret-key: kotlinMultiModuleTemplateBackendJsonWebToken
