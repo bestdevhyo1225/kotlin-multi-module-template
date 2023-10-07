@@ -33,8 +33,8 @@ class JwtAuthenticationFilter(
         GatewayFilter { exchange, chain ->
             val request: ServerHttpRequest = exchange.request
 
-            logger.info { "----- [PRE] requestId: ${request.id} -----" }
-            logger.info { "${request.method} ${request.uri}" }
+            logger.info { "[PRE] requestId: ${request.id}" }
+            logger.info { "--> ${request.method} ${request.uri}" }
 
             if (!request.headers.containsKey(AUTHORIZATION)) {
                 return@GatewayFilter onError(
@@ -73,7 +73,8 @@ class JwtAuthenticationFilter(
             return@GatewayFilter chain
                 .filter(exchange)
                 .then(Mono.fromRunnable {
-                    logger.info { "----- [POST] requestId: ${request.id} -----" }
+                    logger.info { "[POST] requestId: ${request.id}" }
+                    logger.info { "<-- ${exchange.response.statusCode}" }
                 })
         }
 
