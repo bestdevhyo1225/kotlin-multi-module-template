@@ -11,13 +11,14 @@ import kr.co.hyo.api.post.service.PostDetailService
 import kr.co.hyo.api.post.service.PostFanoutService
 import kr.co.hyo.api.post.service.PostSearchService
 import kr.co.hyo.api.post.service.PostTimelineService
+import kr.co.hyo.common.util.auth.Auth
+import kr.co.hyo.common.util.auth.AuthInfo
 import kr.co.hyo.common.util.page.PageByPosition
 import kr.co.hyo.common.util.page.PageRequestByPosition
 import kr.co.hyo.domain.post.dto.PostDto
 import kr.co.hyo.domain.post.service.PostLikeWriteService
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.ResponseEntity
-import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -43,11 +44,10 @@ class PostController(
     @ResponseStatus(value = CREATED)
     @Operation(description = "게시글 등록")
     fun postPosts(
-        authentication: Authentication,
+        @Auth @Parameter(hidden = true) authInfo: AuthInfo,
         @Valid @RequestBody request: PostCreateRequest,
     ): ResponseEntity<PostDto> {
-        val memberId: Long = authentication.name.toLong()
-        val dto: PostDto = postFanoutService.createPost(dto = request.toDto(memberId = memberId))
+        val dto: PostDto = postFanoutService.createPost(dto = request.toDto(memberId = authInfo.memberId))
         return ResponseEntity
             .created(URI.create("/posts/" + dto.id))
             .body(dto)
@@ -56,43 +56,35 @@ class PostController(
     @PostMapping("/{id}/like")
     @Operation(description = "게시글 좋아요")
     fun getPostsLike(
-        authentication: Authentication,
-        @PathVariable
-        @Parameter(schema = Schema(description = "게시글 번호", example = "1"))
-        id: Long,
+        @Auth @Parameter(hidden = true) authInfo: AuthInfo,
+        @PathVariable @Parameter(schema = Schema(description = "게시글 번호", example = "1")) id: Long,
     ) {
-        val memberId: Long = authentication.name.toLong()
-        postLikeWriteService.likePost(postId = id, memberId = memberId)
+        postLikeWriteService.likePost(postId = id, memberId = authInfo.memberId)
     }
 
     @DeleteMapping("/{id}/like")
     @Operation(description = "게시글 좋아요 취소")
     fun deletePostsLike(
-        authentication: Authentication,
-        @PathVariable
-        @Parameter(schema = Schema(description = "게시글 번호", example = "1"))
-        id: Long,
+        @Auth @Parameter(hidden = true) authInfo: AuthInfo,
+        @PathVariable @Parameter(schema = Schema(description = "게시글 번호", example = "1")) id: Long,
     ) {
-        val memberId: Long = authentication.name.toLong()
-        postLikeWriteService.deleteLikePost(postId = id, memberId = memberId)
+        postLikeWriteService.deleteLikePost(postId = id, memberId = authInfo.memberId)
     }
 
     @GetMapping("/timeline/refresh")
     @Operation(description = "게시글 타임라인 갱신")
-    fun getPostsTimelineRefresh(authentication: Authentication) {
-        val memberId: Long = authentication.name.toLong()
-        postTimelineService.refreshPosts(memberId = memberId)
+    fun getPostsTimelineRefresh(@Auth @Parameter(hidden = true) authInfo: AuthInfo) {
+        postTimelineService.refreshPosts(memberId = authInfo.memberId)
     }
 
     @GetMapping("/timeline")
     @Operation(description = "게시글 타임라인 조회")
     fun getPostsTimeline(
-        authentication: Authentication,
+        @Auth @Parameter(hidden = true) authInfo: AuthInfo,
         @Valid pageRequestByPosition: PageRequestByPosition,
     ): ResponseEntity<PageByPosition<PostDto>> {
-        val memberId: Long = authentication.name.toLong()
         val pagePostDto: PageByPosition<PostDto> =
-            postTimelineService.findPosts(memberId = memberId, pageRequestByPosition = pageRequestByPosition)
+            postTimelineService.findPosts(memberId = authInfo.memberId, pageRequestByPosition = pageRequestByPosition)
         return ResponseEntity.ok(pagePostDto)
     }
 
@@ -114,17 +106,12 @@ class PostController(
     @GetMapping("/{id}/members/{memberId}")
     @Operation(description = "게시글 상세 조회")
     fun postsId(
-        authentication: Authentication,
-        @PathVariable
-        @Parameter(schema = Schema(description = "게시글 번호", example = "1"))
-        id: Long,
-        @PathVariable
-        @Parameter(schema = Schema(description = "회원 번호", example = "1"))
-        memberId: Long,
+        @Auth @Parameter(hidden = true) authInfo: AuthInfo,
+        @PathVariable @Parameter(schema = Schema(description = "게시글 번호", example = "1")) id: Long,
+        @PathVariable @Parameter(schema = Schema(description = "회원 번호", example = "1")) memberId: Long,
     ): ResponseEntity<PostDto> {
-        val tokenMemberId: Long = authentication.name.toLong()
         val postDto: PostDto =
-            postDetailService.findPost(postId = id, memberId = memberId, tokenMemberId = tokenMemberId)
+            postDetailService.findPost(postId = id, memberId = memberId, tokenMemberId = authInfo.memberId)
         return ResponseEntity.ok(postDto)
     }
 }

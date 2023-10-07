@@ -7,12 +7,13 @@ import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import kr.co.hyo.api.shop.request.ShopChangeNameRequest
 import kr.co.hyo.api.shop.request.ShopCreateRequest
+import kr.co.hyo.common.util.auth.Auth
+import kr.co.hyo.common.util.auth.AuthInfo
 import kr.co.hyo.domain.shop.dto.ShopAuditDto
 import kr.co.hyo.domain.shop.service.ShopReadService
 import kr.co.hyo.domain.shop.service.ShopWriteService
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.ResponseEntity
-import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -34,7 +35,7 @@ class ShopController(
     @ResponseStatus(value = CREATED)
     @Operation(description = "매장 등록")
     fun postShops(
-        authentication: Authentication,
+        @Auth @Parameter(hidden = true) authInfo: AuthInfo,
         @Valid @RequestBody request: ShopCreateRequest,
     ) {
         shopWriteService.create(dto = request.toSeviceDto())
@@ -43,7 +44,7 @@ class ShopController(
     @PatchMapping("/name")
     @Operation(description = "매장 이름 변경")
     fun patchShopsName(
-        authentication: Authentication,
+        @Auth @Parameter(hidden = true) authInfo: AuthInfo,
         @Valid @RequestBody request: ShopChangeNameRequest,
     ) {
         shopWriteService.updateName(dto = request.toSeviceDto())
@@ -51,7 +52,9 @@ class ShopController(
 
     @GetMapping("/audits")
     fun getShopsAudits(
-        authentication: Authentication,
+        @Auth
+        @Parameter(hidden = true)
+        authInfo: AuthInfo,
         @RequestParam("serviceType", defaultValue = "SERVICE_A")
         @Parameter(schema = Schema(description = "서비스 타입", example = "SERVICE_A"))
         serviceType: String,
