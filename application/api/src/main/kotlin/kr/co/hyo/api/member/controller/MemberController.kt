@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController
 import java.net.URI
 
 @RestController
-@RequestMapping("/members")
+@RequestMapping("/api/members")
 @Tag(name = "회원", description = "API Document")
 class MemberController(
     private val memberReadService: MemberReadService,

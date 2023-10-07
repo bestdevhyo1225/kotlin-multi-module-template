@@ -21,7 +21,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 @SpringBootTest(classes = [ApiApplication::class])
 @DirtiesContext
 @AutoConfigureMockMvc
-@DisplayName("PATCH /members/password 테스트")
+@DisplayName("PATCH /api/members/password 테스트")
 class MemberPatchPasswordTests {
 
     @Autowired
@@ -40,7 +40,7 @@ class MemberPatchPasswordTests {
 
         mockMvc
             .perform(
-                post("/members/sign-up")
+                post("/api/members/sign-up")
                     .contentType(APPLICATION_JSON)
                     .content(jacksonObjectMapper().writeValueAsString(memberSignUpRequest))
             )
@@ -57,7 +57,7 @@ class MemberPatchPasswordTests {
         // when, then
         mockMvc
             .perform(
-                patch("/members/password")
+                patch("/api/members/password")
                     .contentType(APPLICATION_JSON)
                     .content(jacksonObjectMapper().writeValueAsString(memberChangePasswordRequest))
             )
@@ -75,7 +75,7 @@ class MemberPatchPasswordTests {
         // when, then
         mockMvc
             .perform(
-                patch("/members/password")
+                patch("/api/members/password")
                     .contentType(APPLICATION_JSON)
                     .content(jacksonObjectMapper().writeValueAsString(memberChangePasswordRequest))
             )
@@ -94,7 +94,7 @@ class MemberPatchPasswordTests {
         // when, then
         mockMvc
             .perform(
-                patch("/members/password")
+                patch("/api/members/password")
                     .contentType(APPLICATION_JSON)
                     .content(jacksonObjectMapper().writeValueAsString(memberChangePasswordRequest))
             )
@@ -113,7 +113,7 @@ class MemberPatchPasswordTests {
         // when, then
         mockMvc
             .perform(
-                patch("/members/password")
+                patch("/api/members/password")
                     .contentType(APPLICATION_JSON)
                     .content(jacksonObjectMapper().writeValueAsString(memberChangePasswordRequest))
             )
@@ -132,7 +132,7 @@ class MemberPatchPasswordTests {
         // when, then
         mockMvc
             .perform(
-                patch("/members/password")
+                patch("/api/members/password")
                     .contentType(APPLICATION_JSON)
                     .content(jacksonObjectMapper().writeValueAsString(memberChangePasswordRequest))
             )
@@ -151,7 +151,7 @@ class MemberPatchPasswordTests {
         // when, then
         mockMvc
             .perform(
-                patch("/members/password")
+                patch("/api/members/password")
                     .contentType(APPLICATION_JSON)
                     .content(jacksonObjectMapper().writeValueAsString(memberChangePasswordRequest))
             )

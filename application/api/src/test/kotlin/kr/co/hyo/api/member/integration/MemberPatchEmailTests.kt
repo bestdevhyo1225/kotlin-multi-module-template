@@ -21,7 +21,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 @SpringBootTest(classes = [ApiApplication::class])
 @DirtiesContext
 @AutoConfigureMockMvc
-@DisplayName("PATCH /members/email 테스트")
+@DisplayName("PATCH /api/members/email 테스트")
 class MemberPatchEmailTests {
 
     @Autowired
@@ -40,7 +40,7 @@ class MemberPatchEmailTests {
 
         mockMvc
             .perform(
-                post("/members/sign-up")
+                post("/api/members/sign-up")
                     .contentType(APPLICATION_JSON)
                     .content(jacksonObjectMapper().writeValueAsString(memberSignUpRequest))
             )
@@ -54,7 +54,7 @@ class MemberPatchEmailTests {
         // when, then
         mockMvc
             .perform(
-                patch("/members/email")
+                patch("/api/members/email")
                     .contentType(APPLICATION_JSON)
                     .content(jacksonObjectMapper().writeValueAsString(memberChangeEmailRequest))
             )
@@ -69,7 +69,7 @@ class MemberPatchEmailTests {
         // when, then
         mockMvc
             .perform(
-                patch("/members/email")
+                patch("/api/members/email")
                     .contentType(APPLICATION_JSON)
                     .content(jacksonObjectMapper().writeValueAsString(memberChangeEmailRequest))
             )
@@ -85,7 +85,7 @@ class MemberPatchEmailTests {
         // when, then
         mockMvc
             .perform(
-                patch("/members/email")
+                patch("/api/members/email")
                     .contentType(APPLICATION_JSON)
                     .content(jacksonObjectMapper().writeValueAsString(memberChangeEmailRequest))
             )

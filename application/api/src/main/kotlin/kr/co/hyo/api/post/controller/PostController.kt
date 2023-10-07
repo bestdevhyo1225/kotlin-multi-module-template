@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController
 import java.net.URI
 
 @RestController
-@RequestMapping("/posts")
+@RequestMapping("/api/posts")
 @Tag(name = "게시글", description = "API Document")
 class PostController(
     private val postDetailService: PostDetailService,

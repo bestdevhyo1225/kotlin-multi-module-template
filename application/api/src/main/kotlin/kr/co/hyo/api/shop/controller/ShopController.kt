@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/shops")
+@RequestMapping("/api/shops")
 @Tag(name = "매장", description = "API Document")
 class ShopController(
     private val shopReadService: ShopReadService,

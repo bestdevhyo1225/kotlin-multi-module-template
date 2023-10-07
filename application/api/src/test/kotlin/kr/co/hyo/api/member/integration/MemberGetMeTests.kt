@@ -20,7 +20,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 @SpringBootTest(classes = [ApiApplication::class])
 @DirtiesContext
 @AutoConfigureMockMvc
-@DisplayName("GET /members/me 통합 테스트")
+@DisplayName("GET /api/members/me 통합 테스트")
 class MemberGetMeTests {
 
     @Autowired
@@ -39,7 +39,7 @@ class MemberGetMeTests {
 
         mockMvc
             .perform(
-                post("/members/sign-up")
+                post("/api/members/sign-up")
                     .contentType(APPLICATION_JSON)
                     .content(jacksonObjectMapper().writeValueAsString(memberSignUpRequest))
             )
@@ -51,7 +51,7 @@ class MemberGetMeTests {
         // when, then
         mockMvc
             .perform(
-                get("/members/me")
+                get("/api/members/me")
                     .contentType(APPLICATION_JSON)
             )
             .andExpect(status().isOk)
@@ -64,7 +64,7 @@ class MemberGetMeTests {
     fun `AccessToken이 없으면, 상태코드 401을 응답한다`() {
         mockMvc
             .perform(
-                get("/members/me")
+                get("/api/members/me")
                     .contentType(APPLICATION_JSON)
             )
             .andExpect(status().isUnauthorized)

@@ -19,7 +19,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 @SpringBootTest(classes = [ApiApplication::class])
 @DirtiesContext
 @AutoConfigureMockMvc
-@DisplayName("POST /members/sign-in 테스트")
+@DisplayName("POST /api/members/sign-in 테스트")
 class MemberPostSignInTests {
 
     @Autowired
@@ -37,7 +37,7 @@ class MemberPostSignInTests {
 
         mockMvc
             .perform(
-                post("/members/sign-up")
+                post("/api/members/sign-up")
                     .contentType(APPLICATION_JSON)
                     .content(jacksonObjectMapper().writeValueAsString(memberSignUpRequest))
             )
@@ -51,7 +51,7 @@ class MemberPostSignInTests {
         // when, then
         mockMvc
             .perform(
-                post("/members/sign-in")
+                post("/api/members/sign-in")
                     .contentType(APPLICATION_JSON)
                     .content(jacksonObjectMapper().writeValueAsString(memberSignInRequest))
             )
@@ -67,7 +67,7 @@ class MemberPostSignInTests {
         // when, then
         mockMvc
             .perform(
-                post("/members/sign-in")
+                post("/api/members/sign-in")
                     .contentType(APPLICATION_JSON)
                     .content(jacksonObjectMapper().writeValueAsString(memberSignInRequest))
             )
@@ -82,7 +82,7 @@ class MemberPostSignInTests {
         // when, then
         mockMvc
             .perform(
-                post("/members/sign-in")
+                post("/api/members/sign-in")
                     .contentType(APPLICATION_JSON)
                     .content(jacksonObjectMapper().writeValueAsString(memberSignInRequest))
             )
@@ -97,7 +97,7 @@ class MemberPostSignInTests {
         // when, then
         mockMvc
             .perform(
-                post("/members/sign-in")
+                post("/api/members/sign-in")
                     .contentType(APPLICATION_JSON)
                     .content(jacksonObjectMapper().writeValueAsString(memberSignInRequest))
             )

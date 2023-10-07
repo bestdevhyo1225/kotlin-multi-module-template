@@ -33,13 +33,13 @@ class SecurityConfig(
             .httpBasic { it.disable() }
             .logout { it.disable() }
             .authorizeHttpRequests {
-                it.requestMatchers("/static/**").permitAll()
-                    .requestMatchers("/members/sign-up", "/members/sign-in").permitAll()
-                    .requestMatchers("/members/**").authenticated()
-                    .requestMatchers("/posts/*/search").permitAll()
-                    .requestMatchers("/posts/**").authenticated()
-                    .requestMatchers("/reservations/**").authenticated()
-                    .requestMatchers("/shops/**").authenticated()
+                it.requestMatchers("/api/static/**").permitAll()
+                    .requestMatchers("/api/members/sign-up", "/api/members/sign-in").permitAll()
+                    .requestMatchers("/api/members/**").authenticated()
+                    .requestMatchers("/api/posts/*/search").permitAll()
+                    .requestMatchers("/api/posts/**").authenticated()
+                    .requestMatchers("/api/reservations/**").authenticated()
+                    .requestMatchers("/api/shops/**").authenticated()
                     .anyRequest().permitAll()
             }
             .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter::class.java)

@@ -12,7 +12,7 @@ dependencies {
     implementation(project(":domain:rdbms:jpa"))
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0") {
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0") {
         exclude("org.yaml", "snakeyaml")
     }
     implementation("org.springframework.boot:spring-boot-starter-actuator")

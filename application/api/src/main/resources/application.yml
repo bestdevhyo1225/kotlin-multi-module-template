@@ -51,6 +51,13 @@ spring:
     ansi:
       enabled: always
 
+open-api:
+  service:
+    gateway:
+      url: http://localhost:9999
+    api:
+      url: http://localhost:9001
+
 management:
   endpoint:
     health:

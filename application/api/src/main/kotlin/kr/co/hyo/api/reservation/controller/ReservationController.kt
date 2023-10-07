@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/reservations")
+@RequestMapping("/api/reservations")
 @Tag(name = "예약", description = "API Document")
 class ReservationController(
     private val reservationRequestService: ReservationRequestService,

@@ -18,7 +18,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 @SpringBootTest(classes = [ApiApplication::class])
 @DirtiesContext
 @AutoConfigureMockMvc
-@DisplayName("POST /members/sign-up 테스트")
+@DisplayName("POST /api/members/sign-up 테스트")
 class MemberPostSignUpTests {
 
     @Autowired
@@ -37,7 +37,7 @@ class MemberPostSignUpTests {
         // when, then
         mockMvc
             .perform(
-                post("/members/sign-up")
+                post("/api/members/sign-up")
                     .contentType(APPLICATION_JSON)
                     .content(jacksonObjectMapper().writeValueAsString(memberSignUpRequest))
             )
@@ -60,7 +60,7 @@ class MemberPostSignUpTests {
         // when, then
         mockMvc
             .perform(
-                post("/members/sign-up")
+                post("/api/members/sign-up")
                     .contentType(APPLICATION_JSON)
                     .content(jacksonObjectMapper().writeValueAsString(memberSignUpRequest))
             )
@@ -80,7 +80,7 @@ class MemberPostSignUpTests {
         // when, then
         mockMvc
             .perform(
-                post("/members/sign-up")
+                post("/api/members/sign-up")
                     .contentType(APPLICATION_JSON)
                     .content(jacksonObjectMapper().writeValueAsString(memberSignUpRequest))
             )
@@ -100,7 +100,7 @@ class MemberPostSignUpTests {
         // when, then
         mockMvc
             .perform(
-                post("/members/sign-up")
+                post("/api/members/sign-up")
                     .contentType(APPLICATION_JSON)
                     .content(jacksonObjectMapper().writeValueAsString(memberSignUpRequest))
             )
@@ -120,7 +120,7 @@ class MemberPostSignUpTests {
         // when, then
         mockMvc
             .perform(
-                post("/members/sign-up")
+                post("/api/members/sign-up")
                     .contentType(APPLICATION_JSON)
                     .content(jacksonObjectMapper().writeValueAsString(memberSignUpRequest))
             )
@@ -140,7 +140,7 @@ class MemberPostSignUpTests {
         // when, then
         mockMvc
             .perform(
-                post("/members/sign-up")
+                post("/api/members/sign-up")
                     .contentType(APPLICATION_JSON)
                     .content(jacksonObjectMapper().writeValueAsString(memberSignUpRequest))
             )

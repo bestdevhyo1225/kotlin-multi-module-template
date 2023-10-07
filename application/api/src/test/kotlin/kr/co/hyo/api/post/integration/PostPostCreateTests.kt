@@ -20,7 +20,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 @SpringBootTest(classes = [ApiApplication::class])
 @DirtiesContext
 @AutoConfigureMockMvc
-@DisplayName("POST /posts 테스트")
+@DisplayName("POST /api/posts 테스트")
 class PostPostCreateTests {
 
     @Autowired
@@ -39,7 +39,7 @@ class PostPostCreateTests {
 
         mockMvc
             .perform(
-                post("/members/sign-up")
+                post("/api/members/sign-up")
                     .contentType(APPLICATION_JSON)
                     .content(jacksonObjectMapper().writeValueAsString(memberSignUpRequest))
             )
@@ -53,7 +53,7 @@ class PostPostCreateTests {
         // when, then
         mockMvc
             .perform(
-                post("/posts")
+                post("/api/posts")
                     .contentType(APPLICATION_JSON)
                     .content(jacksonObjectMapper().writeValueAsString(postCreateRequest))
             )
