@@ -1,0 +1,39 @@
+server:
+  port: 9999
+
+spring:
+  profiles:
+    active: prod
+
+  application: gateway
+  main:
+    web-application-type: reactive
+
+  cloud:
+    gateway:
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedHeaders: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - PATCH
+              - DELETE
+              - OPTIONS
+
+      routes:
+        - id: api
+          uri: http://localhost:9001
+          predicates:
+            - Path=/api/**
+          filters:
+            - GatewayAuthFilter
+
+  output:
+    ansi:
+      enabled: always
