@@ -1,6 +1,7 @@
 package kr.co.hyo.filter
 
-import kr.co.hyo.service.member.MemberAuthenticateService
+import kr.co.hyo.common.util.jwt.JwtParseHelper
+import kr.co.hyo.domain.member.service.MemberTokenReadService
 import mu.KotlinLogging
 import org.springframework.cloud.gateway.filter.GatewayFilter
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory
@@ -17,7 +18,8 @@ import reactor.core.publisher.Mono
 
 @Component
 class JwtAuthenticationFilter(
-    private val memberAuthenticateService: MemberAuthenticateService,
+    private val jwtParseHelper: JwtParseHelper,
+    private val memberTokenReadService: MemberTokenReadService,
 ) : AbstractGatewayFilterFactory<JwtAuthenticationFilter.Config>(Config::class.java) {
 
     class Config
@@ -27,6 +29,7 @@ class JwtAuthenticationFilter(
     companion object {
         private const val BEARER_PREFIX = "Bearer "
         private const val ACCESS_TOKEN_START_INDEX: Int = 7
+        private const val MEMBER_ID = "memberId"
     }
 
     override fun apply(config: Config): GatewayFilter =
@@ -55,7 +58,11 @@ class JwtAuthenticationFilter(
 
             val accessToken: String = authorizationHeader.first().substring(startIndex = ACCESS_TOKEN_START_INDEX)
             try {
-                memberAuthenticateService.verifyAccessToken(accessToken = accessToken)
+                jwtParseHelper.verify(accessToken = accessToken)
+                memberTokenReadService.verifyBlackListToken(
+                    memberId = jwtParseHelper.getValue(accessToken = accessToken, key = MEMBER_ID).toLong(),
+                    accessToken = accessToken,
+                )
             } catch (exception: IllegalArgumentException) {
                 return@GatewayFilter onError(
                     exchange = exchange,
