@@ -10,7 +10,7 @@ import reactor.blockhound.integration.BlockHoundIntegration
 class GatewayApplication
 
 fun main(args: Array<String>) {
-    // BlockHound
+    // BlockHound를 실행하려면, '-XX:+AllowRedefinitionToAddDeleteMethods' 을 설정해서 실행해야 에러가 발생하지 않는다.
     BlockHound.install(
         BlockHoundIntegration { builder: BlockHound.Builder ->
             builder.allowBlockingCallsInside(JwtParseHelper::class.qualifiedName, "getClaims")
