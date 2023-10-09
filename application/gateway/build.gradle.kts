@@ -12,4 +12,6 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-gateway:4.0.7")
     implementation("org.yaml:snakeyaml:2.2")
     implementation("io.projectreactor.tools:blockhound:1.0.8.RELEASE")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+    implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
 }

@@ -21,9 +21,9 @@ class JwtParseHelper(
         val isValid: Boolean = try {
             currentDate.before(expirationDate)
         } catch (exception: NullPointerException) {
-            throw IllegalArgumentException("UNAUTHORIZED (Access Token Expiration Date is null)")
+            throw IllegalArgumentException("유효하지 않은 엑세스 토큰")
         }
-        require(isValid) { "UNAUTHORIZED (Access Token has expired)" }
+        require(isValid) { "유효하지 않은 엑세스 토큰" }
     }
 
     fun getValue(accessToken: String, key: String): String {
@@ -44,15 +44,15 @@ class JwtParseHelper(
         return try {
             jwtParser.parseClaimsJws(accessToken).body
         } catch (exception: UnsupportedJwtException) {
-            throw IllegalArgumentException("UNAUTHORIZED (${exception.localizedMessage})")
+            throw IllegalArgumentException(exception.localizedMessage)
         } catch (exception: MalformedJwtException) {
-            throw IllegalArgumentException("UNAUTHORIZED (${exception.localizedMessage})")
+            throw IllegalArgumentException(exception.localizedMessage)
         } catch (exception: SignatureException) {
-            throw IllegalArgumentException("UNAUTHORIZED (${exception.localizedMessage})")
+            throw IllegalArgumentException(exception.localizedMessage)
         } catch (exception: IllegalArgumentException) {
-            throw IllegalArgumentException("UNAUTHORIZED (${exception.localizedMessage})")
+            throw IllegalArgumentException(exception.localizedMessage)
         } catch (exception: ExpiredJwtException) {
-            throw IllegalArgumentException("UNAUTHORIZED (${exception.localizedMessage})")
+            throw IllegalArgumentException(exception.localizedMessage)
         }
     }
 }
