@@ -30,27 +30,25 @@ class GlobalExceptionHandler(
         logger.error { ex.message }
 
         val errorResponse = when (ex) {
-            is NoSuchElementException, is IllegalArgumentException, is ConstraintViolationException,
-            is MethodArgumentNotValidException, is InvalidJwtTokenException,
-            -> {
-                ErrorResponse(message = ex.localizedMessage)
-            }
+            is IllegalArgumentException, is ConstraintViolationException, is MethodArgumentNotValidException,
+            is InvalidJwtTokenException, is NoSuchElementException,
+            -> ErrorResponse(message = ex.localizedMessage)
 
             else -> ErrorResponse(message = "Internal Server Error")
         }
 
         with(receiver = exchange.response) {
+            // Set Response Header
             headers.contentType = MediaType.APPLICATION_JSON
 
-            when (ex) {
+            // Set Response Status
+            statusCode = when (ex) {
                 is IllegalArgumentException, is ConstraintViolationException, is MethodArgumentNotValidException,
-                -> {
-                    BAD_REQUEST.also { statusCode = it }
-                }
+                -> BAD_REQUEST
 
-                is InvalidJwtTokenException -> UNAUTHORIZED.also { statusCode = it }
-                is NoSuchElementException -> NOT_FOUND.also { statusCode = it }
-                else -> INTERNAL_SERVER_ERROR.also { statusCode = it }
+                is InvalidJwtTokenException -> UNAUTHORIZED
+                is NoSuchElementException -> NOT_FOUND
+                else -> INTERNAL_SERVER_ERROR
             }
 
             val dataBuffer = bufferFactory().wrap(objectMapper.writeValueAsBytes(errorResponse))
