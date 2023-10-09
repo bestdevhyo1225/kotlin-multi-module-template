@@ -27,10 +27,11 @@ spring:
               - OPTIONS
 
       routes:
+        ####### Api #######
         - id: api
           uri: http://localhost:9001
           predicates:
-            - Path=/api/members/sign-up,/api/members/sign-in
+            - Path=/api/members/sign-up,/api/members/sign-in,/api/posts/{keyword}/search
         - id: api
           uri: http://localhost:9001
           predicates:
