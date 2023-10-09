@@ -1,6 +1,5 @@
 package kr.co.hyo.config
 
-import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.data.redis.connection.ReactiveRedisConnectionFactory
@@ -14,10 +13,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer
 class RedisTemplateConfig {
 
     @Bean
-    fun redisTemplate(
-        @Qualifier(value = "redisConnectionFactory")
-        redisConnectionFactory: RedisConnectionFactory,
-    ): RedisTemplate<String, String> {
+    fun redisTemplate(redisConnectionFactory: RedisConnectionFactory): RedisTemplate<String, String> {
         val stringRedisSerializer = StringRedisSerializer()
         val redisTemplate = RedisTemplate<String, String>()
         redisTemplate.connectionFactory = redisConnectionFactory
@@ -30,7 +26,6 @@ class RedisTemplateConfig {
 
     @Bean
     fun reactiveRedisTemplate(
-        @Qualifier(value = "reactiveRedisConnectionFactory")
         reactiveRedisConnectionFactory: ReactiveRedisConnectionFactory,
     ): ReactiveRedisTemplate<String, String> {
         val stringRedisSerializer = StringRedisSerializer()
