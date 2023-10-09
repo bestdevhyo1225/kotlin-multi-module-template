@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 import java.util.stream.Collectors
 
 @RestControllerAdvice
-class ApiGlobalExceptionHandler {
+class GlobalExceptionHandler {
 
     private val kotlinLogger = KotlinLogging.logger {}
 
