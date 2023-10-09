@@ -9,9 +9,7 @@ class GatewayApplication
 
 fun main(args: Array<String>) {
     // BlockHound
-    BlockHound
-        .builder()
-        .install()
+    BlockHound.install()
 
     // Run Application
     runApplication<GatewayApplication>(*args)
