@@ -9,7 +9,10 @@ dependencies {
     implementation(project(":common"))
     implementation(project(":domain:nosql:redis"))
 
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("org.springframework.boot:spring-boot-starter-aop")
     implementation("org.springframework.cloud:spring-cloud-starter-gateway:4.0.7")
+    implementation("org.springframework.cloud:spring-cloud-starter-circuitbreaker-reactor-resilience4j:3.0.3")
     implementation("org.yaml:snakeyaml:2.2")
     implementation("io.projectreactor.tools:blockhound:1.0.8.RELEASE")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")

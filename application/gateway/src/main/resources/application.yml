@@ -10,6 +10,9 @@ spring:
     web-application-type: reactive
 
   cloud:
+    circuitbreaker:
+      resilience4j:
+        enabled: true
     gateway:
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
@@ -32,12 +35,23 @@ spring:
           uri: http://localhost:9001
           predicates:
             - Path=/api/members/sign-up,/api/members/sign-in,/api/posts/{keyword}/search
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: api
+                statusCodes:
+                  - "INTERNAL_SERVER_ERROR"
         - id: api
           uri: http://localhost:9001
           predicates:
             - Path=/api/**
           filters:
-            - JwtAuthenticationFilter
+            - name: JwtAuthenticationFilter
+            - name: CircuitBreaker
+              args:
+                name: api
+                statusCodes:
+                  - "INTERNAL_SERVER_ERROR"
 
   redis:
     mode: standalone
@@ -49,3 +63,31 @@ spring:
 
 jwt:
   secret-key: kotlinMultiModuleTemplateBackendJsonWebToken
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      api:
+        # 최소요청 횟수 5회 이후, 통계 건수 최근 10건을 평가했을때 실패율 50% 이상이 되면,
+        # Circuit Breaker가 Open되고, Circuit Breaker 지속시간은 10초동안 유지된다.
+        slidingWindowType: COUNT_BASED # 통계 건수로 측정 (TIME_BASED -> 시간 통계로 측정)
+        slidingWindowSize: 10 # 가장 최근의 통계 건수
+        minimumNumberOfCalls: 5 # 최소 요청 횟수
+        failureRateThreshold: 50 # 실패율
+        waitDurationInOpenState: 10000 # Circuit Breaker 지속 시간(밀리초) - 지속 시간동안 Backend Service를 호출하지 않는다.
+        permittedNumberOfCallsInHalfOpenState: 5 # 회로가 Half-Open 상태일 때, 받아들일 요청 개수를 지정한다.
+        registerHealthIndicator: true # actuator를 통해 circuitbraker 상태를 확인하기 위해 설정
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    shutdown:
+      enabled: true
+    health:
+      show-details: always # actuator에서 디테일한 정보들을 확인하기 위해 설정
+  health:
+    circuitbreakers:
+      enabled: true # actuator를 통해 circuitbraker 상태를 확인하기 위해 설정
