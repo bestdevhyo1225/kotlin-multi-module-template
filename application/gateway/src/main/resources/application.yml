@@ -39,6 +39,7 @@ spring:
             - name: CircuitBreaker
               args:
                 name: api
+                fallbackUri: forward:/fallback
                 statusCodes:
                   - "INTERNAL_SERVER_ERROR"
         - id: api
@@ -50,6 +51,7 @@ spring:
             - name: CircuitBreaker
               args:
                 name: api
+                fallbackUri: forward:/fallback
                 statusCodes:
                   - "INTERNAL_SERVER_ERROR"
 

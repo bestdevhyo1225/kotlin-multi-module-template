@@ -2,7 +2,7 @@ package kr.co.hyo.filter
 
 import kr.co.hyo.common.util.jwt.JwtParseHelper
 import kr.co.hyo.domain.member.service.MemberTokenReadService
-import kr.co.hyo.exception.InvalidJwtTokenException
+import kr.co.hyo.exception.ServiceJwtTokenException
 import mu.KotlinLogging
 import org.springframework.cloud.gateway.filter.GatewayFilter
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory
@@ -36,19 +36,19 @@ class JwtAuthenticationFilter(
             logger.info { "--> ${request.method} ${request.uri}" }
 
             if (!request.headers.containsKey(AUTHORIZATION)) {
-                throw InvalidJwtTokenException(message = "헤더 인증 정보 미입력")
+                throw ServiceJwtTokenException(message = "헤더 인증 정보 미입력")
             }
 
             val authorizationHeader: List<String>? = request.headers[AUTHORIZATION]
             if (authorizationHeader.isNullOrEmpty() || !authorizationHeader.first().startsWith(BEARER_PREFIX)) {
-                throw InvalidJwtTokenException(message = "액세스 토큰 미입력")
+                throw ServiceJwtTokenException(message = "액세스 토큰 미입력")
             }
 
             val accessToken: String = authorizationHeader.first().substring(startIndex = ACCESS_TOKEN_START_INDEX)
             try {
                 jwtParseHelper.verify(accessToken = accessToken)
             } catch (exception: IllegalArgumentException) {
-                throw InvalidJwtTokenException(message = exception.localizedMessage)
+                throw ServiceJwtTokenException(message = exception.localizedMessage)
             }
 
             return@GatewayFilter memberTokenReadService

@@ -8,9 +8,12 @@ import kr.co.hyo.common.util.response.ErrorResponse
 import mu.KotlinLogging
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpStatus.BAD_GATEWAY
 import org.springframework.http.HttpStatus.BAD_REQUEST
+import org.springframework.http.HttpStatus.GATEWAY_TIMEOUT
 import org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
 import org.springframework.http.HttpStatus.NOT_FOUND
+import org.springframework.http.HttpStatus.SERVICE_UNAVAILABLE
 import org.springframework.http.HttpStatus.UNAUTHORIZED
 import org.springframework.http.MediaType
 import org.springframework.web.bind.MethodArgumentNotValidException
@@ -31,7 +34,8 @@ class GlobalExceptionHandler(
 
         val errorResponse = when (ex) {
             is IllegalArgumentException, is ConstraintViolationException, is MethodArgumentNotValidException,
-            is InvalidJwtTokenException, is NoSuchElementException,
+            is ServiceJwtTokenException, is NoSuchElementException, is ServiceConnectException,
+            is ServiceCallNotPermittedException, is ServiceTimeoutException,
             -> ErrorResponse(message = ex.localizedMessage)
 
             else -> ErrorResponse(message = "Internal Server Error")
@@ -46,8 +50,11 @@ class GlobalExceptionHandler(
                 is IllegalArgumentException, is ConstraintViolationException, is MethodArgumentNotValidException,
                 -> BAD_REQUEST
 
-                is InvalidJwtTokenException -> UNAUTHORIZED
+                is ServiceJwtTokenException -> UNAUTHORIZED
                 is NoSuchElementException -> NOT_FOUND
+                is ServiceConnectException -> BAD_GATEWAY
+                is ServiceCallNotPermittedException -> SERVICE_UNAVAILABLE
+                is ServiceTimeoutException -> GATEWAY_TIMEOUT
                 else -> INTERNAL_SERVER_ERROR
             }
 
