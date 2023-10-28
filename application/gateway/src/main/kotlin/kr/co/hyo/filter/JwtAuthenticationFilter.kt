@@ -32,6 +32,7 @@ class JwtAuthenticationFilter(
         GatewayFilter { exchange, chain ->
             val request: ServerHttpRequest = exchange.request
 
+            logger.info { "------------------------------------" }
             logger.info { "[PRE] requestId: ${request.id}" }
             logger.info { "--> ${request.method} ${request.uri}" }
 
@@ -60,6 +61,7 @@ class JwtAuthenticationFilter(
                 .then(Mono.fromRunnable {
                     logger.info { "[POST] requestId: ${request.id}" }
                     logger.info { "<-- ${exchange.response.statusCode}" }
+                    logger.info { "------------------------------------" }
                 })
         }
 }
