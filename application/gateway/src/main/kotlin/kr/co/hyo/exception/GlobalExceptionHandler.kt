@@ -38,7 +38,7 @@ class GlobalExceptionHandler(
             is ServiceCallNotPermittedException, is ServiceTimeoutException,
             -> ErrorResponse(message = ex.localizedMessage)
 
-            else -> ErrorResponse(message = "Internal Server Error")
+            else -> ErrorResponse(message = INTERNAL_SERVER_ERROR.name)
         }
 
         with(receiver = exchange.response) {

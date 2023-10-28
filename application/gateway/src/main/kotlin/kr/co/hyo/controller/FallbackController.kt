@@ -6,23 +6,51 @@ import kr.co.hyo.exception.ServiceConnectException
 import kr.co.hyo.exception.ServiceTimeoutException
 import mu.KotlinLogging
 import org.springframework.cloud.gateway.support.ServerWebExchangeUtils
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.server.ServerWebExchange
 import java.net.ConnectException
 import java.util.concurrent.TimeoutException
 
 @RestController
+@RequestMapping("/fallback")
 class FallbackController {
 
     private val logger = KotlinLogging.logger {}
 
-    @GetMapping("/fallback")
-    fun fallback(exchange: ServerWebExchange) {
+    @GetMapping
+    fun getFallback(exchange: ServerWebExchange) {
+        handleException(exchange)
+    }
+
+    @PostMapping
+    fun postFallback(exchange: ServerWebExchange) {
+        handleException(exchange)
+    }
+
+    @PutMapping
+    fun putFallback(exchange: ServerWebExchange) {
+        handleException(exchange)
+    }
+
+    @PatchMapping
+    fun patchFallback(exchange: ServerWebExchange) {
+        handleException(exchange)
+    }
+
+    @DeleteMapping
+    fun deleteFallback(exchange: ServerWebExchange) {
+        handleException(exchange)
+    }
+
+    private fun handleException(exchange: ServerWebExchange) {
         val exception: Throwable? =
             exchange.getAttribute(ServerWebExchangeUtils.CIRCUITBREAKER_EXECUTION_EXCEPTION_ATTR)
-
-        logger.error { exception?.localizedMessage ?: "INTERNAL_SERVER_ERROR" }
 
         when (exception) {
             // 서비스 연결 예외 발생
@@ -37,8 +65,8 @@ class FallbackController {
             is TimeoutException -> {
                 throw ServiceTimeoutException(message = "서비스를 요청하는데, 타임아웃이 발생했습니다.")
             }
-
-            else -> throw Exception(exception?.localizedMessage ?: "INTERNAL_SERVER_ERROR")
+            // 그외 나머지 예외 발생
+            else -> throw Exception(exception?.localizedMessage ?: "")
         }
     }
 }
