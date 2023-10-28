@@ -34,7 +34,7 @@ class GlobalExceptionHandler(
 
         val errorResponse = when (ex) {
             is IllegalArgumentException, is ConstraintViolationException, is MethodArgumentNotValidException,
-            is ServiceJwtTokenException, is NoSuchElementException, is ServiceConnectException,
+            is ServiceJwtException, is NoSuchElementException, is ServiceConnectException,
             is ServiceCallNotPermittedException, is ServiceTimeoutException,
             -> ErrorResponse(message = ex.localizedMessage)
 
@@ -50,7 +50,7 @@ class GlobalExceptionHandler(
                 is IllegalArgumentException, is ConstraintViolationException, is MethodArgumentNotValidException,
                 -> BAD_REQUEST
 
-                is ServiceJwtTokenException -> UNAUTHORIZED
+                is ServiceJwtException -> UNAUTHORIZED
                 is NoSuchElementException -> NOT_FOUND
                 is ServiceConnectException -> BAD_GATEWAY
                 is ServiceCallNotPermittedException -> SERVICE_UNAVAILABLE
