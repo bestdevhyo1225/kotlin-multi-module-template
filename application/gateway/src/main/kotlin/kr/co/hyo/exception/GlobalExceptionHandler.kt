@@ -33,49 +33,56 @@ class GlobalExceptionHandler(
     companion object {
         private const val CONNECTION_EX_MESSAGE = "서비스 연결에 문제가 있어 응답을 반환할 수 없습니다."
         private const val CALL_NOT_PERMITTED_EX_MESSAGE = "서비스를 일시적으로 이용할 수 없습니다. 잠시만 기다려 주세요."
-        private const val TIMEOUT_EX_MESSAGE = "서비스를 요청하는데, 타임아웃이 발생했습니다."
+        private const val TIMEOUT_EX_MESSAGE = "서비스 요청에 대한 타임아웃이 발생하여 응답을 반환할 수 없습니다."
     }
 
     override fun handle(exchange: ServerWebExchange, ex: Throwable): Mono<Void> = mono {
         // 코루틴 코드를 작성할 수 있다.
         logger.error { ex.message }
 
-        val errorResponse = when (ex) {
-            // 4xx
-            is IllegalArgumentException, is ConstraintViolationException, is MethodArgumentNotValidException,
-            is ServiceJwtException, is NoSuchElementException,
-            -> ErrorResponse(message = ex.localizedMessage)
-            // 502
-            is ConnectException -> ErrorResponse(message = CONNECTION_EX_MESSAGE)
-            // 503
-            is ServiceCallNotPermittedException -> ErrorResponse(message = CALL_NOT_PERMITTED_EX_MESSAGE)
-            // 504
-            is TimeoutException -> ErrorResponse(message = TIMEOUT_EX_MESSAGE)
-            // 500
-            else -> ErrorResponse(message = INTERNAL_SERVER_ERROR.name)
-        }
-
         with(receiver = exchange.response) {
             // Set Response Header
             headers.contentType = MediaType.APPLICATION_JSON
 
-            // Set Response Status
-            statusCode = when (ex) {
+            // Set StatusCode & ErrorResponse
+            val errorResponse: ErrorResponse
+            when (ex) {
                 // 400
                 is IllegalArgumentException, is ConstraintViolationException, is MethodArgumentNotValidException,
-                -> BAD_REQUEST
+                -> {
+                    statusCode = BAD_REQUEST
+                    errorResponse = ErrorResponse(message = ex.localizedMessage)
+                }
                 // 401
-                is ServiceJwtException -> UNAUTHORIZED
+                is ServiceJwtException -> {
+                    statusCode = UNAUTHORIZED
+                    errorResponse = ErrorResponse(message = ex.localizedMessage)
+                }
                 // 404
-                is NoSuchElementException -> NOT_FOUND
+                is NoSuchElementException -> {
+                    statusCode = NOT_FOUND
+                    errorResponse = ErrorResponse(message = ex.localizedMessage)
+                }
                 // 502
-                is ConnectException -> BAD_GATEWAY
+                is ConnectException -> {
+                    statusCode = BAD_GATEWAY
+                    errorResponse = ErrorResponse(message = CONNECTION_EX_MESSAGE)
+                }
                 // 503
-                is ServiceCallNotPermittedException -> SERVICE_UNAVAILABLE
+                is ServiceCallNotPermittedException -> {
+                    statusCode = SERVICE_UNAVAILABLE
+                    errorResponse = ErrorResponse(message = CALL_NOT_PERMITTED_EX_MESSAGE)
+                }
                 // 504
-                is TimeoutException -> GATEWAY_TIMEOUT
+                is TimeoutException -> {
+                    statusCode = GATEWAY_TIMEOUT
+                    errorResponse = ErrorResponse(message = TIMEOUT_EX_MESSAGE)
+                }
                 // 500
-                else -> INTERNAL_SERVER_ERROR
+                else -> {
+                    statusCode = INTERNAL_SERVER_ERROR
+                    errorResponse = ErrorResponse(message = INTERNAL_SERVER_ERROR.name)
+                }
             }
 
             val dataBuffer = bufferFactory().wrap(objectMapper.writeValueAsBytes(errorResponse))
