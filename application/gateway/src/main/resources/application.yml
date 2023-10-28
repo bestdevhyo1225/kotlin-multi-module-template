@@ -27,8 +27,6 @@ spring:
               - PUT
               - PATCH
               - DELETE
-              - OPTIONS
-
       routes:
         ####### Api #######
         - id: api
