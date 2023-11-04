@@ -17,17 +17,25 @@
 
 - `batch` : 배치를 수행하는 스케줄러 로직들이 포함되어 있습니다.
 
+> **gateway 모듈**
+
+- `gateway` : 컨트롤러 로직이 포함되어 있습니다.
+    - `controller` : fallback 처리를 위한 용도입니다.
+- `exception` : 예외 클래스들을 관리합니다.
+- `config` : 설정 클래스들을 관리합니다.
+- `filter` : 필터 클래스들을 관리합니다.
+
 > **kafka-consumer 모듈**
 
 - `consumer` : Kafka 브로커로부터 메시지를 수신합니다.
 
-> **tcp-client 모듈**
-
-- TCP Client 모듈입니다.
-
 > **netty-tcp-server 모듈**
 
 - Netty 기반의 TCP Server 모듈이며, 비동기 I/O 기반으로 동작합니다.
+
+> **tcp-client 모듈**
+
+- TCP Client 모듈입니다.
 
 ### client 모듈
 
