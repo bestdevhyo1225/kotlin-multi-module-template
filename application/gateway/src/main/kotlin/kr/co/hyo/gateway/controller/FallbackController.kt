@@ -1,4 +1,4 @@
-package kr.co.hyo.controller
+package kr.co.hyo.gateway.controller
 
 import io.github.resilience4j.circuitbreaker.CallNotPermittedException
 import kr.co.hyo.exception.ServiceCallNotPermittedException
