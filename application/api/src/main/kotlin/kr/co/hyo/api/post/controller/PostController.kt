@@ -49,7 +49,7 @@ class PostController(
     ): ResponseEntity<PostDto> {
         val dto: PostDto = postFanoutService.createPost(dto = request.toDto(memberId = authInfo.memberId))
         return ResponseEntity
-            .created(URI.create("/posts/" + dto.id))
+            .created(URI.create("/api/posts/" + dto.id))
             .body(dto)
     }
 
