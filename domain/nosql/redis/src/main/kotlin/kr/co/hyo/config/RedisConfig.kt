@@ -37,7 +37,12 @@ class RedisConfig(
 
     @Bean
     @Primary
-    fun redisConnectionFactory(): RedisConnectionFactory {
+    fun redisConnectionFactory(): RedisConnectionFactory = createLettuceConnectionFactory()
+
+    @Bean
+    fun reactiveRedisConnectionFactory(): ReactiveRedisConnectionFactory = createLettuceConnectionFactory()
+
+    private fun createLettuceConnectionFactory(): LettuceConnectionFactory {
         val lettuceConnectionFactory: LettuceConnectionFactory = when (mode) {
             Standalone -> {
                 logger.info { "redis standalone mode" }
@@ -57,38 +62,6 @@ class RedisConfig(
 
             Cluster -> {
                 logger.info { "redis cluster mode" }
-
-                LettuceConnectionFactory(RedisClusterConfiguration(nodes), lettuceClusterClientConfig())
-            }
-        }
-
-        return lettuceConnectionFactory.apply {
-            // RedisClient.connect 에서 블록킹이 발생하는데, EagerInitialization 를 true로 처리하여 해결할 수 있다.
-            eagerInitialization = true
-        }
-    }
-
-    @Bean
-    fun reactiveRedisConnectionFactory(): ReactiveRedisConnectionFactory {
-        val lettuceConnectionFactory: LettuceConnectionFactory = when (mode) {
-            Standalone -> {
-                logger.info { "reactive redis standalone mode" }
-
-                val (host: String, port: Int) = getHostAndPort()
-                LettuceConnectionFactory(RedisStandaloneConfiguration(host, port), lettuceStandaloneClientconfig())
-            }
-
-            Replication -> {
-                logger.info { "reactive redis primary-replica mode" }
-
-                val (host: String, port: Int) = getHostAndPort()
-                val staticMasterReplicaConfiguration = RedisStaticMasterReplicaConfiguration(host, port)
-                setReplicaNodes(staticMasterReplicaConfiguration = staticMasterReplicaConfiguration)
-                LettuceConnectionFactory(staticMasterReplicaConfiguration, lettuceClusterClientConfig())
-            }
-
-            Cluster -> {
-                logger.info { "reactive redis cluster mode" }
 
                 LettuceConnectionFactory(RedisClusterConfiguration(nodes), lettuceClusterClientConfig())
             }
