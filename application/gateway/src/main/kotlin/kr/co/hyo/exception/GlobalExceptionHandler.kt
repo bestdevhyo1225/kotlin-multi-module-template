@@ -21,6 +21,8 @@ import org.springframework.web.server.ServerWebExchange
 import reactor.core.publisher.Mono
 import reactor.kotlin.core.publisher.toMono
 import java.net.ConnectException
+import java.net.SocketTimeoutException
+import java.util.concurrent.ExecutionException
 import java.util.concurrent.TimeoutException
 
 @Configuration
@@ -74,7 +76,7 @@ class GlobalExceptionHandler(
                     errorResponse = ErrorResponse(message = CALL_NOT_PERMITTED_EX_MESSAGE)
                 }
                 // 504
-                is TimeoutException -> {
+                is TimeoutException, is ExecutionException -> {
                     statusCode = GATEWAY_TIMEOUT
                     errorResponse = ErrorResponse(message = TIMEOUT_EX_MESSAGE)
                 }

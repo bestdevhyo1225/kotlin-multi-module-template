@@ -4,7 +4,6 @@ import kr.co.hyo.httpclient5.ClientBasedOnHttpClient5
 import kr.co.hyo.resttemplate.ClientBasedOnRestTemplate
 import kr.co.hyo.webclient.ClientBasedOnWebClient
 import mu.KotlinLogging
-import org.apache.hc.client5.http.async.methods.SimpleHttpResponse
 import org.springframework.cloud.gateway.filter.GatewayFilter
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory
 import org.springframework.http.server.reactive.ServerHttpRequest
@@ -27,22 +26,13 @@ class ExternalApiCallFilter(
             val request: ServerHttpRequest = exchange.request
 
 //            // Blocking Call Code (RestTemplate)
-//            logger.info { "------------------------------------" }
-//
-//            val response: String? = clientBasedOnRestTemplate
+//            clientBasedOnRestTemplate
 //                .get(url = "http://localhost:9191/block/${request.id}", clazz = String::class.java)
-//
-//            logger.info { "external api response: $response" }
-//            logger.info { "------------------------------------" }
 //
 //            return@GatewayFilter chain.filter(exchange)
 
 //            // Blocking Call Code (CloseableHttpAsyncClient)
-//            val simpleHttpResponse: SimpleHttpResponse = clientBasedOnHttpClient5
-//                .get(uri = "http://localhost:9191/block/${request.id}")
-//
-//            logger.info { "external api response: ${simpleHttpResponse.bodyText}" }
-//            logger.info { "------------------------------------" }
+//            clientBasedOnHttpClient5.get(uri = "http://localhost:9191/block/${request.id}")
 //
 //            return@GatewayFilter chain.filter(exchange)
 

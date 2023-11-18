@@ -1,5 +1,7 @@
 package kr.co.hyo.config
 
+import kr.co.hyo.webclient.ClientBasedOnWebClient
+import kr.co.hyo.webclient.ClientBasedOnWebClientImpl
 import mu.KotlinLogging
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -14,10 +16,15 @@ class WebClientConfig {
     private val logger = KotlinLogging.logger {}
 
     @Bean
-    fun webClient(): WebClient = WebClient.builder()
-        .filter(requestLog())
-        .filter(responseLog())
-        .build()
+    fun webClient(): WebClient =
+        WebClient.builder()
+            .codecs { clientCodecConfigurer ->
+                clientCodecConfigurer.defaultCodecs()
+                    .maxInMemorySize(500 * 1024 * 1024) // 500M
+            }
+            .filter(requestLog())
+            .filter(responseLog())
+            .build()
 
     private fun requestLog(): ExchangeFilterFunction =
         ExchangeFilterFunction.ofRequestProcessor { clientRequest ->
@@ -36,4 +43,7 @@ class WebClientConfig {
             logger.info { "========== Response ==========" }
             Mono.just(clientResponse)
         }
+
+    @Bean
+    fun clientBasedOnWebClient(): ClientBasedOnWebClient = ClientBasedOnWebClientImpl(webclient = webClient())
 }

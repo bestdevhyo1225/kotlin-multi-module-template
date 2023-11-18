@@ -1,5 +1,7 @@
 package kr.co.hyo.httpclient5
 
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import mu.KotlinLogging
 import org.apache.hc.client5.http.async.methods.SimpleHttpRequest
 import org.apache.hc.client5.http.async.methods.SimpleHttpResponse
@@ -14,9 +16,11 @@ class ClientBasedOnHttpClient5Impl(
 ) : ClientBasedOnHttpClient5 {
 
     private val logger = KotlinLogging.logger {}
+    private val jacksonObjectMapper = jacksonObjectMapper()
+        .registerModule(JavaTimeModule())
 
-    override fun get(uri: String): SimpleHttpResponse {
-        return CompletableFuture
+    override fun get(uri: String): String {
+        val responseBody: String = CompletableFuture
             .supplyAsync {
                 val simpleHttpRequest: SimpleHttpRequest = SimpleRequestBuilder
                     .get()
@@ -34,12 +38,15 @@ class ClientBasedOnHttpClient5Impl(
                 logger.info { "========== Response ==========" }
                 val simpleHttpResponse: SimpleHttpResponse = futureSimpleHttpResponse.get(20, SECONDS)
                 logger.info { "Response status: ${simpleHttpResponse.code}" }
+                logger.info { "Response body: ${simpleHttpResponse.bodyText}" }
                 logger.info { "========== Response ==========" }
 
 //                closeableHttpAsyncClient.close()
 
-                simpleHttpResponse
+                simpleHttpResponse.bodyText
             }
             .get()
+
+        return responseBody
     }
 }
