@@ -6,7 +6,9 @@ import io.lettuce.core.cluster.ClusterTopologyRefreshOptions
 import kr.co.hyo.config.RedisMode.Cluster
 import kr.co.hyo.config.RedisMode.Replication
 import kr.co.hyo.config.RedisMode.Standalone
+import kr.co.hyo.domain.chatting.listener.ChattingRoomMessageListener
 import mu.KotlinLogging
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.cache.annotation.EnableCaching
 import org.springframework.context.annotation.Bean
@@ -20,6 +22,9 @@ import org.springframework.data.redis.connection.RedisStandaloneConfiguration
 import org.springframework.data.redis.connection.RedisStaticMasterReplicaConfiguration
 import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory
+import org.springframework.data.redis.listener.ChannelTopic
+import org.springframework.data.redis.listener.RedisMessageListenerContainer
+import org.springframework.data.redis.listener.adapter.MessageListenerAdapter
 import java.time.Duration
 
 @Configuration
@@ -31,6 +36,8 @@ class RedisConfig(
 
     @Value("\${spring.redis.nodes}")
     private val nodes: List<String>,
+
+    private val chattingRoomMessageListener: ChattingRoomMessageListener,
 ) {
 
     private val logger = KotlinLogging.logger {}
@@ -71,6 +78,20 @@ class RedisConfig(
             // RedisClient.connect 에서 블록킹이 발생하는데, EagerInitialization 를 true로 처리하여 해결할 수 있다.
             eagerInitialization = true
         }
+    }
+    @Bean
+    fun messageListenerAdapter(): MessageListenerAdapter =
+        MessageListenerAdapter(chattingRoomMessageListener, "onMessage")
+
+    @Bean
+    fun channelTopic(): ChannelTopic = ChannelTopic("chatting-room")
+
+    @Bean
+    fun redisMessageListenerContainer(): RedisMessageListenerContainer {
+        val redisMessageListenerContainer = RedisMessageListenerContainer()
+        redisMessageListenerContainer.setConnectionFactory(redisConnectionFactory())
+        redisMessageListenerContainer.addMessageListener(messageListenerAdapter(), channelTopic())
+        return redisMessageListenerContainer
     }
 
     private fun setReplicaNodes(staticMasterReplicaConfiguration: RedisStaticMasterReplicaConfiguration) {

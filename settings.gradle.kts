@@ -7,6 +7,7 @@ include(
     "application:kafka-consumer",
     "application:netty-tcp-server",
     "application:tcp-client",
+    "application:web-socket",
     "client:kafka-publisher",
     "common",
     "domain:nosql:redis",

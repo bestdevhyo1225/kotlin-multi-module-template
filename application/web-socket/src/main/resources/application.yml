@@ -1,0 +1,46 @@
+server:
+  port: 9003
+
+spring:
+  profiles:
+    active: prod
+
+  output:
+    ansi:
+      enabled: always
+
+management:
+  endpoint:
+    health:
+      show-details: always # 상세하게 보고 싶을때
+  #      show-components: always # UP, DOWN 상태만 보고 싶을때
+  endpoints:
+    web:
+      exposure:
+        include: health,prometheus
+
+logging:
+  level:
+#    com.zaxxer.hikari: trace
+#    com.zaxxer.hikari.HikariConfig: debug
+    io.lettuce.core.protocol.CommandHandler: debug
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  redis:
+    mode: standalone
+    nodes: localhost:26379
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  redis:
+    mode: standalone
+    nodes: localhost:26379
