@@ -1,0 +1,14 @@
+server:
+  port: 9191
+  tomcat:
+    threads:
+      min-spare: 50
+      max: 150
+
+spring:
+  profiles:
+    active: prod
+
+  output:
+    ansi:
+      enabled: always
