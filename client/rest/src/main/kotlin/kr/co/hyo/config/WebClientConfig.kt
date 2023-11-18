@@ -49,11 +49,11 @@ class WebClientConfig {
         return HttpClient
             .create(connectionProvider)
             .option(CONNECT_TIMEOUT_MILLIS, ofSeconds(5).toMillis().toInt())
-            .responseTimeout(ofSeconds(5))
+            .responseTimeout(ofSeconds(20))
             .compress(true)
             .doOnConnected { connection ->
-                connection.addHandlerLast(ReadTimeoutHandler(ofSeconds(5).toSeconds().toInt()))
-                connection.addHandlerLast(WriteTimeoutHandler(ofSeconds(5).toSeconds().toInt()))
+                connection.addHandlerLast(ReadTimeoutHandler(ofSeconds(20).toSeconds().toInt()))
+                connection.addHandlerLast(WriteTimeoutHandler(ofSeconds(20).toSeconds().toInt()))
             }
     }
 
