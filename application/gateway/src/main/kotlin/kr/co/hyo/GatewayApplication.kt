@@ -17,6 +17,9 @@ fun main(args: Array<String>) {
         }
     )
 
+//    // Event Loop Thread 1개만 사용
+//    System.setProperty("reactor.netty.ioWorkerCount", "1")
+
     // Run Application
     runApplication<GatewayApplication>(*args)
 }

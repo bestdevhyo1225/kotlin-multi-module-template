@@ -43,6 +43,7 @@ spring:
           predicates:
             - Path=/api/**
           filters:
+#            - name: ExternalApiCallFilter
             - name: JwtAuthenticationFilter
             - name: CircuitBreaker
               args:

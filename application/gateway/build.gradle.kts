@@ -6,6 +6,7 @@ tasks.getByName<BootJar>("bootJar") {
 }
 
 dependencies {
+    implementation(project(":client:rest"))
     implementation(project(":common"))
     implementation(project(":domain:nosql:redis"))
 
@@ -17,4 +18,9 @@ dependencies {
     implementation("io.projectreactor.tools:blockhound:1.0.8.RELEASE")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
+    implementation("org.apache.httpcomponents.core5:httpcore5:5.1.4")
+    implementation("org.apache.httpcomponents.core5:httpcore5-h2:5.1.4")
+    implementation("org.apache.httpcomponents.core5:httpcore5-reactive:5.1.4")
+    implementation("org.apache.httpcomponents.client5:httpclient5:5.1.4")
+    implementation("org.apache.httpcomponents.client5:httpclient5-cache:5.1.4")
 }
