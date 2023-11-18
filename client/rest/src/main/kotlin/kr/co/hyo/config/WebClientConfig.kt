@@ -48,7 +48,7 @@ class WebClientConfig {
 
         return HttpClient
             .create(connectionProvider)
-            .option(CONNECT_TIMEOUT_MILLIS, ofSeconds(5).toMillis().toInt())
+            .option(CONNECT_TIMEOUT_MILLIS, ofSeconds(10).toMillis().toInt())
             .responseTimeout(ofSeconds(20))
             .compress(true)
             .doOnConnected { connection ->
