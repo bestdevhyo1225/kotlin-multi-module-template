@@ -1,6 +1,7 @@
 package kr.co.hyo.exception
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.sun.jdi.connect.spi.ClosedConnectionException
 import jakarta.validation.ConstraintViolationException
 import kotlinx.coroutines.reactor.awaitSingle
 import kotlinx.coroutines.reactor.mono
@@ -17,6 +18,7 @@ import org.springframework.http.HttpStatus.SERVICE_UNAVAILABLE
 import org.springframework.http.HttpStatus.UNAUTHORIZED
 import org.springframework.http.MediaType
 import org.springframework.web.bind.MethodArgumentNotValidException
+import org.springframework.web.reactive.function.client.WebClientRequestException
 import org.springframework.web.server.ServerWebExchange
 import reactor.core.publisher.Mono
 import reactor.kotlin.core.publisher.toMono
@@ -65,7 +67,7 @@ class GlobalExceptionHandler(
                     errorResponse = ErrorResponse(message = ex.localizedMessage)
                 }
                 // 502
-                is ConnectException -> {
+                is ConnectException, is ClosedConnectionException, is WebClientRequestException -> {
                     statusCode = BAD_GATEWAY
                     errorResponse = ErrorResponse(message = CONNECTION_EX_MESSAGE)
                 }
