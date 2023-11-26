@@ -13,6 +13,7 @@ import kr.co.hyo.api.post.service.PostSearchService
 import kr.co.hyo.api.post.service.PostTimelineService
 import kr.co.hyo.common.util.auth.Auth
 import kr.co.hyo.common.util.auth.AuthInfo
+import kr.co.hyo.common.util.limiter.RequestLimiter
 import kr.co.hyo.common.util.page.PageByPosition
 import kr.co.hyo.common.util.page.PageRequestByPosition
 import kr.co.hyo.domain.post.dto.PostDto
@@ -43,6 +44,7 @@ class PostController(
     @PostMapping
     @ResponseStatus(value = CREATED)
     @Operation(description = "게시글 등록")
+    @RequestLimiter(count = 100)
     fun postPosts(
         @Auth @Parameter(hidden = true) authInfo: AuthInfo,
         @Valid @RequestBody request: PostCreateRequest,
